@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>AppealMod</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source Sans Pro">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Roboto"
+    }
+
+    body {
+      font-family: "Source Sans Pro"
+    }
+
+    body {
+      font-family: "Source Sans Pro";
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #EA5724, #FCFCFC, #4BD090) !important;
+    }
+
+    .header {
+      white-space: nowrap;
+      margin-top: 88px;
+      margin-left: 65px;
+    }
+
+    .header a{
+      text-decoration: none;
+    }
+
+    .how-it-works-btn {
+      margin-top: 20px;
+      margin-right: 20px;
+      /* Adjusted margin for spacing */
+      border: 2px solid #000;
+    }
+
+    .golden-yellow {
+      background-color: #ffd700 !important;
+      /* Added !important to override other styles */
+    }
+
+    .collapsible {
+      background-color: white;
+      color: #333;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+      transition: 0.4s;
+      position: relative;
+    }
+
+    .arrow-down {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .active,
+    .collapsible:hover {
+      background-color: #ddd;
+    }
+
+    .content {
+      padding: 0 18px;
+      display: none;
+      overflow: hidden;
+      background-color: white;
+    }
+
+    .image-container {
+      display: flex;
+      max-width: 100vw;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-container img {
+      max-width: 48%;
+      height: 100%;
+      display: block;
+      margin-right: 2%;
+      align-items: center;
+    }
+
+    .inline {
+      display: inline;
+    }
+
+    .contain {
+      display: flex;
+    }
+  </style>
+</head>
+
+<body class="w3-light-white w3-margin">
+
+  <!-- Navigation bar with links -->
+  <div class="header w3-text-black contain">
+    <!-- <h4 class="w3-left " style="margin-top:50px;">AppealMod</h4> -->
+    <div class="inline" style="margin-right: 520px;">
+      <img src="resources/appealMod logo.png" width="229px" height="56px">
+    </div>
+    <!-- <div id="header_menu" class="inline">
+      <a href="#HowItWorks"  style="margin-right:39px;">How it works</a>
+      <a href="#SignUpSection" class="w3-hide-small w3-bar-item w3-button w3-mobile w3-medium w3-right w3-black w3-round padding-right: 100px;" >Sign Up</a>
+      <a href="#FAQs" class="w3-hide-small w3-bar-item w3-button w3-mobile w3-medium w3-right" style="margin-right:39px;">FAQs</a>
+      <a href="#About" class="w3-hide-small w3-bar-item w3-button w3-mobile w3-medium w3-right" style="margin-right:39px;">About</a>
+      <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-medium w3-hide-large" style="margin-right:39px;" onclick="myFunction()">&#9776;</a>
+    </div> -->
+    <div id="header_menu" class="contain">
+      <a href="#HowItWorks" style="margin-right:39px;">How it works</a>
+      <a href="#About" style="margin-right:39px;">About</a>
+      <a href="#FAQs" style="margin-right:39px;">FAQs</a>
+      <a href="#SignUpSection" style="background-color: #000;color: white; width: 100px; height: 25px; text-align: center;">Sign Up</a>
+      <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-medium w3-hide-large" style="margin-right:39px;" onclick="myFunction()">&#9776;</a>
+    </div>
+  </div>
+
+
+
+  <!-- w3-content defines a container for fixed size centered content,
+and is wrapped around the whole page content, except for the footer in this example -->
+  <div class="w3-content" style="max-width:1600px">
+
+    <!-- Grid / Trainers section -->
+    <div class="w3-row-padding" id="Trainers">
+      <div class="w3-center w3-padding-32 ">
+        <h1 class="w3-wide w3-center">
+          AppealMod is here to reduce Reddit<br> moderators' appeal workload and<br> hide toxic appeals.
+          <br>
+          <a href="#SignUpSection" class="w3-hide-small w3-bar-item w3-button w3-mobile w3-medium w3-right w3-blank w3-round padding-right: 100px;" style="margin-top:20px ; margin-right:350px; background-color: #000; color: white; border: 2px solid #000;">Sign Up for free</a>&nbsp;
+          <a href="#HowItWorks" class="w3-hide-small w3-bar-item w3-button w3-mobile w3-medium w3-right w3-blank w3-round how-it-works-btn" style="margin-top:20px ; border: 2px solid #000; ">How it works</a>
+          <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-medium w3-hide-large" style="margin-top:30px;" onclick="myFunction()">&#9776;</a>
+        </h1>
+        <br>
+      </div>
+      <div id="HowItWorks">
+        <div class="image-container">
+          <img src="resources/flow 1.png">
+          <img src="resources/reddit ui 2.png">
+        </div>
+        <div class="image-container">
+          <img src="resources/reddit ui 1.png">
+          <img src="resources/flow 2.png">
+        </div>
+        <div class="image-container">
+          <img src="resources/flow 3.png">
+          <img src="resources/reddit ui 3.png">
+        </div>
+      </div>
+
+      <!-- Footer. This section contains an ad for W3Schools Spaces. You can leave it to support us. -->
+      <footer class="w3-container golden-yellow w3-center w3-margin-top">
+        <p id="About"><b>About Us</b> </p>
+        <p class="w3-medium">AppealMod was designed by researchers at the <a href="https://www.si.umich.edu/programs/master-science-information" target="_blank">University of Michigan School of<br>
+          Information</a> in collaboration with Reddit moderators. AppealMod is the result of an elaborate<br>
+           design process involving multiple moderators of different subreddits, as well as a real-world <br>
+           evaluation in r/pics over four months. Please read our <a href="https://arxiv.org/pdf/2301.07163.pdf" target="_blank">research paper</a>  to learn more about <br>
+           AppealMod's design process.</p>
+        <p class="w3-medium">This <a href="https://www.libbyh.com/moderation-research" target="_blank">research project</a> is funded by the <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1928434&HistoricalAwards=false" target="_blank">National Science Foundation</a>,<br>
+          The expansion of AppealMod on Reddit is supported by the <a href="https://csmr.umich.edu/" target="_blank">Center for Social Media<br> 
+          Responsibility</a>.</p>
+        <a href="https://www.nsf.gov/" target="_blank" class="fa w3-hover-opacity" title="National Science Foundation">
+          <img src="resources/nsf logo.png" height="79px" width="auto">
+        </a>
+        <a href="https://csmr.umich.edu/" target="_blank" class="fa w3-hover-opacity" title="master-science-information">
+          <img src="resources/csmr logo.png" height="79px" width="auto">
+        </a>
+        <a href="https://www.si.umich.edu/programs/master-science-information" target="_blank" class="fa w3-hover-opacity" title="master-science-information">
+          <img src="resources/umsi logo.png" height="79px" width="auto">
+        </a>
+
+        <!-- End footer -->
+      </footer>
+
+      <!-- FAQ section -->
+      <div class="w3-content" style="max-width:600px ">
+        <div class="w3-row-padding" id="FAQs">
+          <div class="w3-center w3-padding-32">
+            <h3 class="w3-wide">Frequently Asked Questions</h3>
+          </div>
+
+          <div class="w3-container w3-round w3-margin-bottom" style="margin: auto;">
+
+            <table class="w3-table-all">
+              <tr>
+                <td>
+                  <button class="collapsible w3-text-blue">
+                    <span class="arrow-down">&#9660;</span>
+                   &nbsp;&nbsp; How do you identify which modmail messages constitute ban appeals?
+                  </button>
+                  <div class="content">
+                    <p>The first modmail message from a user after they're banned is automatically considered as their ban appeal, same as how Reddit labels ban appeals within the modmail interface.</p>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="background-color: white;">
+                  <button class="collapsible w3-text-blue">
+                    <span class="arrow-down">&#9660;</span>
+                    &nbsp;&nbsp;What happens if a user doesn't complete the AppealMod form?
+                  </button>
+                  <div class="content">
+                    <p>Their messages are archived and hidden from your modmail inbox.</p>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button class="collapsible w3-text-blue">
+                    <span class="arrow-down">&#9660;</span>
+                    &nbsp; &nbsp;Can I still see which appeals were hidden?
+                  </button>
+                  <div class="content">
+                    <p>You can always find hidden appeals under the archived label in your modmail inbox.</p>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="background-color: white;">
+                  <button class="collapsible w3-text-blue">
+                    <span class="arrow-down">&#9660;</span>
+                    &nbsp;&nbsp;Can I use a different set of questions for my community's AppealMod form?
+                  </button>
+                  <div class="content">
+                    <p>We would be happy to explore the possibility of customized questions for your AppealMod process. Please get in touch with us using this webpage. If you've already been in touch with us, please continue the conversation by letting us know about your interest in customized questions.</p>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button class="collapsible w3-text-blue">
+                    <span class="arrow-down">&#9660;</span>
+                    &nbsp;&nbsp;Is AppealMod AI-based?
+                  </button>
+                  <div class="content">
+                    <p>Not at this point. It simply shares users' responses with the mods so they can take the final decision.</p>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="background-color: white;">
+                  <button class="collapsible w3-text-blue">
+                    <span class="arrow-down">&#9660;</span>
+                    &nbsp;&nbsp;How do you know that AppealMod works?
+                  </button>
+                  <div class="content">
+                    <p>Our experiments on Reddit show that up to 7 out of 10 appealing users do not follow through with the full appeals process through AppealMod, even though it only takes 2 -3 minutes to complete. This suggests that a smaller percentage of appealing users are serious enough to fully commit to the appeals process. In the case of appealing users who used toxic language, 9 out of 10 did not follow through with the full appeals process through AppealMod. Only those appealing users who have followed the full appeals process through AppealMod will have the opportunity to have their bans reversed. For more details, please read our peer-reviewed research paper.</p>
+                  </div>
+                </td>
+              </tr>
+              <!-- Add more rows as needed -->
+            </table>
+          </div>
+
+          <!-- Add more questions and answers as needed -->
+
+        </div>
+      </div>
+      <!-- Sign up section -->
+      <div id="SignUpSection" class="w3-content" style="max-width: 800px; margin: auto; margin-top: 200px;">
+
+        <div class="w3-center">
+          <h3 class="w3-wide" style="font-family: Calibri;">Sign up for AppealMod (for free!)</h3>
+          <p>If you are interested in trying AppealMod in a subreddit that you moderate, please fill out the fields below to let us know of your interest. After we receive your information, a member of the AppealMod team will be in touch with you shortly.</p>
+        </div>
+
+        <!-- Sign up form -->
+        <form action="#" method="post" class="w3-container w3-round w3-margin-bottom">
+          <div class="w3-row-padding">
+            <div class="w3-half">
+              <label for="fname"></label>
+              <input type="text" id="fname" name="fname" class="w3-input w3-border" placeholder="Name" required>
+            </div>
+            <div class="w3-half">
+              <label for="lname"></label>
+              <input type="text" id="lname" name="lname" class="w3-input w3-border" placeholder="Email" required>
+            </div>
+          </div>
+
+          <div class="w3-row-padding">
+            <div class="w3-half">
+              <label for="reddit-username">&nbsp;</label>
+              <input type="text" id="reddit-username" name="reddit-username" class="w3-input w3-border" placeholder="Reddit Username" required>
+            </div>
+            <div class="w3-half">
+              <label for="subreddit-url">&nbsp;</label>
+              <input type="url" id="subreddit-url" name="subreddit-url" class="w3-input w3-border" placeholder="Subreddit URL" required>
+            </div>
+          </div>
+
+          <div class="w3-center">
+            <input type="submit" value="Sign Up" class="w3-button w3-black w3-round w3-margin-top">
+          </div>
+        </form>
+</div>
+        <hr style="margin-top: 75px; border-color: black;">
+
+        <!-- Copyright notice -->
+        <div class="w3-right " style="margin-top: 30px;">
+          <p style="font-size: 14px;">Copyright © 2023 AppealMod. All rights reserved.</p>
+        </div>
+        <div class="w3-left" style="margin-top: 30px;">
+          <p style="font-size: 14px;"><b>AppealMod</b></p>
+        </div>
+      
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          var coll = document.getElementsByClassName("collapsible");
+          var i;
+
+          for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+              this.classList.toggle("active");
+              var content = this.nextElementSibling;
+              if (content.style.display === "block") {
+                content.style.display = "none";
+              } else {
+                content.style.display = "block";
+              }
+            });
+          }
+        });
+      </script>
+    </body>
+
+    </html>
