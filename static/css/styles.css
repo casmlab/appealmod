@@ -121,6 +121,19 @@ h1 {
     justify-content: center;
 }
 
+.block-info-2 {
+    font-size: 20px;
+    color: #333333;
+    font-weight: 700;
+    border-radius: 20px;
+    border: 5px solid #6CC0FE;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    padding: 20px;
+    text-align: center;
+    margin: 0 auto;
+}
+
 .content {
     padding: 0 18px;
     display: none;
