@@ -84,6 +84,32 @@ h1 {
     background-color: #ddd;
 }
 
+.block-info-1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px 30px;
+    background-color: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+.block-info-1-text {
+    flex: 1 1 300px;
+    padding-right: 30px;
+}
+
+.block-info-1-images {
+    flex: 1 1 300px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
 .content {
     padding: 0 18px;
     display: none;
