@@ -49,9 +49,9 @@ h1 {
 }
 
 .first_header {
-    max-width: 1000px; /* Adjust this value to your desired maximum width */
-    margin: 0 auto; /* This centers the div horizontally */
-    text-align: center; /* This centers the text inside the div */
+    max-width: 1000px;
+    margin: 0 auto;      /* centers the div horizontally */
+    text-align: center;  /* centers the text inside the div */
 }
 
 .signup_button {
@@ -139,6 +139,156 @@ h1 {
     display: none;
     overflow: hidden;
     background-color: white;
+}
+
+.images {
+    position: relative;
+    width: 800px;
+    height: 1400px;
+    /*background-color: #eee;*/
+    padding-top: 50px;
+    /* top 850  left 200 */
+}
+
+.pos-absolute {
+    position: absolute;
+}
+
+.img-emoji-group-2 {
+    top: 20px;
+    left: 150px;
+    width: 500px;
+    z-index: -1;
+}
+
+.img-emoji-group-1 {
+    top: 0;
+    left: 220px;
+    width: 350px;
+    z-index: -1;
+}
+
+.img-banned {
+    top: 100px;
+    left: 300px;
+    width: 200px;
+    z-index: -1;
+}
+
+.img-funnel {
+    top: 170px;
+    left: 100px;
+    width: 600px;
+    z-index: -1;
+}
+
+.div-appeal-mod-form {
+    top: 550px;
+    left: 225px;
+    width: 350px;
+    padding: 15px;
+
+    font-size: 20px;
+    font-weight: 700;
+    color: #333333;
+    background-color: white;
+    border-radius: 15px;
+}
+
+.div-appeal-mod-form::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    bottom: -6px;
+    left: -6px;
+    right: -6px;
+    background: linear-gradient(to bottom, #0D99FF, #01FF85);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    z-index: -1;
+    border-radius: 20px;
+}
+
+.img-form-icon {
+    width: 50px;
+}
+
+.img-appeal-mod-black {
+    margin-left: 10px;
+    width: 50px;
+}
+
+.img-red-arrow {
+    top: 585px;
+    left: 570px;
+    width: 175px;
+    z-index: -1;
+}
+
+.img-green-arrow {
+    top: 600px;
+    left: 373px;
+    width: 60px;
+    z-index: -1;
+}
+
+.div-genuine-fill-it-out {
+    top: 715px;
+    left: 277px;
+    width: 250px;
+    padding: 15px;
+
+    font-size: 20px;
+    font-weight: 700;
+    color: #4BD090;
+    background-color: white;
+
+    border-radius: 20px;
+    border: 5px solid #4BD090;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.img-genuine-fill-it-out {
+    width: 200px;
+}
+
+.div-ragers-dont-bother {
+    top: 715px;
+    left: 580px;
+    width: 270px;
+    padding: 15px;
+
+    font-size: 20px;
+    font-weight: 700;
+    color: #FF0000;
+    background-color: white;
+
+    border-radius: 20px;
+    border: 5px solid #FF0000;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.img-ragers-dont-bother {
+    width: 200px;
+}
+
+.div-who-complete-form {
+    top: 1095px;
+    left: 240px;
+    width: 325px;
+    padding: 15px;
+
+    font-size: 20px;
+    font-weight: 700;
+    color: #4BD090;
+    background-color: white;
+
+    border-radius: 20px;
+    border: 5px solid #4BD090;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.img-who-complete-form {
+    width: 100px;
 }
 
 .image-container {
