@@ -1,2 +1,2 @@
-# appealmod-webpage
-Code for the appealMod signup website 
+# appealmod
+Code for Appealmod bot and its signup website 
