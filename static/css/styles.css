@@ -139,7 +139,7 @@ h1 {
 .images {
     position: relative;
     width: 800px;
-    height: 1400px;
+    height: 1350px;
     /*background-color: #eee;*/
     padding-top: 50px;
     /* top 850  left 200 */
@@ -284,6 +284,17 @@ h1 {
 
 .img-who-complete-form {
     width: 100px;
+}
+
+.block-info-3 {
+    background-color: rgba(108, 192, 254, 0.4);
+    font-size: 16px;
+    border-radius: 20px;
+    padding: 10px 10px 40px 10px;
+}
+
+.header-about {
+    font-size: 24px;
 }
 
 .inline {
