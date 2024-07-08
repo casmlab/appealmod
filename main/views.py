@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, CreateView, FormView
 
 from main.forms import SignUpForm, BanAppealMainForm, BanAppealAuthForm
@@ -26,6 +26,12 @@ class SignUpSuccessView(TemplateView):
 class BanAppealAuthFormView(FormView):
     template_name = "ban-appeal/auth.html"
     form_class = BanAppealAuthForm
+
+    def form_valid(self, form):
+        url = reverse_lazy('ban-appeal-form') + \
+            '?reddit_username=' + form.cleaned_data['reddit_username'] + \
+            '&subreddit=' + form.cleaned_data['subreddit']
+        return redirect(url)
 
 
 class BanAppealMainFormView(CreateView):
