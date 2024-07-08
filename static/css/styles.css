@@ -304,3 +304,13 @@ h1 {
 .contain {
     display: flex;
 }
+
+.validation-errors ul {
+    color: red;
+    margin-top: 10px;
+}
+
+.validation-errors li {
+    list-style: none;
+    margin-left: -40px;
+}
