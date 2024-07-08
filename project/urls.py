@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),
     path('sign-up/', SignUpView.as_view(), name='sign-up'),
-]# todo: + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+# todo: + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
