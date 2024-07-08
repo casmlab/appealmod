@@ -17,11 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from main.views import IndexView, SignUpView
+from main.views import IndexView, SignUpView, SignUpSuccessView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),
     path('sign-up/', SignUpView.as_view(), name='sign-up'),
+    path('sign-up-success/', SignUpSuccessView.as_view(), name='sign-up-success'),
 ]
 # todo: + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
