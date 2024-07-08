@@ -3,7 +3,23 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Continue</button>
+        <div class="validation-errors">
+            {{ form.non_field_errors }}
+        </div>
+        <div class="form-group">
+            <label for="id_reddit_username">{{ form.reddit_username.label }}:</label>
+            {{ form.reddit_username }}
+            <div class="validation-errors">
+                {{ form.reddit_username.errors }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="id_subreddit">{{ form.subreddit.label }}:</label>
+            {{ form.subreddit }}
+            <div class="validation-errors">
+                {{ form.subreddit.errors }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Continue</button>
     </form>
 {% endblock %}
