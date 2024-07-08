@@ -10,8 +10,18 @@ class SignUpForm(forms.ModelForm):
 
 
 class BanAppealAuthForm(forms.Form):
-    reddit_username = forms.CharField(max_length=254)
-    subreddit = forms.CharField(max_length=254)
+    reddit_username = \
+        forms.CharField(max_length=254,
+                        widget=forms.TextInput(attrs={
+                            'class': 'form-control',
+                            'placeholder': 'Enter your Reddit username'
+                        }))
+    subreddit = \
+        forms.CharField(max_length=254,
+                        widget=forms.TextInput(attrs={
+                            'class': 'form-control',
+                            'placeholder': 'Enter Subreddit'
+                        }))
 
 
 class BanAppealMainForm(forms.ModelForm):
