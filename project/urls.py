@@ -17,12 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from main.views import IndexView, SignUpView, SignUpSuccessView
+from main.views import IndexView, SignUpView, SignUpSuccessView, BanAppealAuthFormView, BanAppealMainFormView, \
+    BanAppealThanksView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),
+
     path('sign-up/', SignUpView.as_view(), name='sign-up'),
     path('sign-up-success/', SignUpSuccessView.as_view(), name='sign-up-success'),
+
+    path('ban-appeal/auth/', BanAppealAuthFormView.as_view(), name='ban-appeal-auth'),
+    path('ban-appeal/form/', BanAppealMainFormView.as_view(), name='ban-appeal-form'),
+    path('ban-appeal/thanks/', BanAppealThanksView.as_view(), name='ban-appeal-thanks'),
 ]
 # todo: + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
