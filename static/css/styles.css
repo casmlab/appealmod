@@ -42,6 +42,10 @@ h1 {
     font-family: 'Inter', sans-serif;
 }
 
+h4 {
+    margin-bottom: 20px;
+}
+
 .center {
     display: flex;
     justify-content: center;
@@ -313,4 +317,8 @@ h1 {
 .validation-errors li {
     list-style: none;
     margin-left: -40px;
+}
+
+.submit {
+    margin-top: 15px;
 }
