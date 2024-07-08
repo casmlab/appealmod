@@ -9,7 +9,8 @@
     </div>
 
     <!-- Sign up form -->
-    <form action="#" method="post" class="w3-container w3-round w3-margin-bottom">
+    <form action="{% url 'sign-up' %}" method="post" class="w3-container w3-round w3-margin-bottom">
+        {% csrf_token %}
         <div class="w3-row-padding">
             <div class="w3-half">
                 <label for="name"></label>
