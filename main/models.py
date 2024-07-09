@@ -34,14 +34,45 @@ class BanAppealData(models.Model):
     reddit_username = models.CharField(max_length=254)
     subreddit = models.CharField(max_length=254)
 
-    why_banned = models.TextField(null=True)
-    why_appealing = models.TextField(null=True)
-    describe_rule = models.TextField(null=True)
-    describe_actions = models.TextField(null=True)
-    wrong_actions = models.BooleanField(null=True)
-    will_not_repeat = models.BooleanField(null=True)
-    what_steps = models.TextField(null=True)
-    allowed_comments = models.TextField(null=True)
+    why_banned = models.TextField(
+        verbose_name='Find and copy/paste here the note from mods on '
+                     'why you were banned',
+        null=True,
+    )
+    why_appealing = models.TextField(
+        verbose_name='Why are you appealing your ban?',
+        null=True,
+    )
+    describe_rule = models.TextField(
+        verbose_name='Can you describe the rule in your own words?',
+        null=True,
+    )
+    describe_actions = models.TextField(
+        verbose_name='Can you describe your actions that led to the ban '
+                     'and the circumstances that made you act that way?',
+        null=True,
+    )
+    wrong_actions = models.BooleanField(
+        verbose_name='Do you think your actions were wrong?',
+        null=True,
+    )
+    will_not_repeat = models.BooleanField(
+        verbose_name='Are you willing to pledge that you will not repeat '
+                     'such actions in the future?<br/> '
+                     'Repeated violations will lead to your profile '
+                     'being reported to Reddit administrators',
+        null=True,
+    )
+    what_steps = models.TextField(
+        verbose_name="What steps will you take to ensure "
+                     "that you don't do this again?",
+        null=True,
+    )
+    allowed_comments = models.TextField(
+        verbose_name='Which of the following comment(s) do you think '
+                     'should be allowed in our community?',
+        null=True,
+    )
 
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
