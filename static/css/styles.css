@@ -309,7 +309,7 @@ h4 {
     display: flex;
 }
 
-.validation-errors ul {
+.validation-errors {
     color: red;
     margin-top: 10px;
 }
