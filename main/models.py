@@ -20,14 +20,14 @@ class BanAppealData(models.Model):
     reddit_username = models.CharField(max_length=254)
     subreddit = models.CharField(max_length=254)
 
-    why_banned = models.TextField()
-    why_appealing = models.TextField()
-    describe_rule = models.TextField()
-    describe_actions = models.TextField()
-    wrong_actions = models.BooleanField()
-    will_not_repeat = models.BooleanField()
-    what_steps = models.TextField()
-    allowed_comments = models.TextField()
+    why_banned = models.TextField(null=True)
+    why_appealing = models.TextField(null=True)
+    describe_rule = models.TextField(null=True)
+    describe_actions = models.TextField(null=True)
+    wrong_actions = models.BooleanField(null=True)
+    will_not_repeat = models.BooleanField(null=True)
+    what_steps = models.TextField(null=True)
+    allowed_comments = models.TextField(null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
