@@ -41,5 +41,19 @@ class BanAppealMainFormView(CreateView):
     success_url = reverse_lazy('ban-appeal-thanks')
 
 
+class BanAppealErrorView(TemplateView):
+    template_name = "ban-appeal/error.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reddit_username = self.request.GET.get('reddit_username')
+        subreddit = self.request.GET.get('subreddit')
+        context.update({
+            'reddit_username': reddit_username,
+            'subreddit': subreddit,
+        })
+        return context
+
+
 class BanAppealThanksView(TemplateView):
     template_name = "ban-appeal/thanks.html"
