@@ -16,6 +16,20 @@ class SignUpData(models.Model):
         return self.email
 
 
+class BanAppealDataManager(models.Manager):
+    def create(self, reddit_username, subreddit):
+        return super().create(reddit_username=reddit_username.lower(),
+                              subreddit=subreddit.lower())
+
+    def auth(self, reddit_username, subreddit):
+        if reddit_username:
+            reddit_username = reddit_username.lower()
+        if subreddit:
+            subreddit = subreddit.lower()
+        return self.filter(reddit_username=reddit_username,
+                           subreddit=subreddit).exists()
+
+
 class BanAppealData(models.Model):
     reddit_username = models.CharField(max_length=254)
     subreddit = models.CharField(max_length=254)
@@ -31,6 +45,8 @@ class BanAppealData(models.Model):
 
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = BanAppealDataManager()
 
     class Meta:
         db_table = 'main_ban_appeal_data'
