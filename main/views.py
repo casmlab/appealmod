@@ -28,9 +28,10 @@ class BanAppealAuthFormView(FormView):
     form_class = BanAppealAuthForm
 
     def form_valid(self, form):
+        reddit_username = form.cleaned_data['reddit_username']
+        subreddit = form.cleaned_data['subreddit']
         url = reverse_lazy('ban-appeal-form') + \
-            '?reddit_username=' + form.cleaned_data['reddit_username'] + \
-            '&subreddit=' + form.cleaned_data['subreddit']
+            f'?reddit_username={reddit_username}&subreddit={subreddit}'
         return redirect(url)
 
 
