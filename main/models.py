@@ -29,6 +29,7 @@ class BanAppealData(models.Model):
     what_steps = models.TextField(null=True)
     allowed_comments = models.TextField(null=True)
 
+    updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
