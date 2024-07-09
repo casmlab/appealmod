@@ -23,6 +23,13 @@ class BanAppealAuthForm(forms.Form):
                             'placeholder': 'Enter Subreddit'
                         }))
 
+    def clean(self):
+        reddit_username = self.cleaned_data['reddit_username']
+        subreddit = self.cleaned_data['subreddit']
+        if not BanAppealData.objects.auth(reddit_username, subreddit):
+            raise forms.ValidationError('Invalid Reddit username or Subreddit')
+        return self.cleaned_data
+
 
 class BanAppealMainForm(forms.ModelForm):
     class Meta:
