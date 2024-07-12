@@ -39,8 +39,17 @@ class BanAppealData(models.Model):
                      'why you were banned',
         null=True,
     )
-    why_appealing = models.TextField(
+    why_appealing = models.CharField(
         verbose_name='Why are you appealing your ban?',
+        max_length=254,
+        choices=[
+            ('disagree', "I don't agree with the rule"),
+            ('not-apply', "I don't think the rule applies to my behavior"),
+            ('regret', "I regret my behavior"),
+            ('other', "Other (please specify below)"),
+        ],
+        blank=False,
+        default=None,
         null=True,
     )
     describe_rule = models.TextField(
@@ -52,15 +61,27 @@ class BanAppealData(models.Model):
                      'and the circumstances that made you act that way?',
         null=True,
     )
-    wrong_actions = models.BooleanField(
+    wrong_actions = models.CharField(
         verbose_name='Do you think your actions were wrong?',
+        max_length=10,
+        choices=[
+            ('no', "No"),
+            ('yes', "Yes"),
+        ],
+        blank=False,
+        default=None,
         null=True,
     )
-    will_not_repeat = models.BooleanField(
+    will_not_repeat = models.CharField(
         verbose_name='Are you willing to pledge that you will not repeat '
-                     'such actions in the future?<br/> '
-                     'Repeated violations will lead to your profile '
-                     'being reported to Reddit administrators',
+                     'such actions in the future?',
+        max_length=10,
+        choices=[
+            ('no', "No"),
+            ('yes', "Yes"),
+        ],
+        blank=False,
+        default=None,
         null=True,
     )
     what_steps = models.TextField(
