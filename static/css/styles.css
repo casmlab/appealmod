@@ -347,6 +347,10 @@ h4 {
     display: flex;
 }
 
+.form-group > label {
+    font-weight: 700;
+}
+
 .validation-errors {
     color: red;
     margin-top: 10px;

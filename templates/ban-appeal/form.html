@@ -3,7 +3,89 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
+
+        <h4 class="mb-5">
+            Please fill the following fields
+        </h4>
+
+        <div class="validation-errors">
+            {{ form.non_field_errors }}
+        </div>
+
+        <div class="form-group mb-5">
+            <label for="id_reddit_username">{{ form.why_banned.label }}</label>
+            {{ form.why_banned }}
+            <div class="validation-errors">
+                {{ form.why_banned.errors }}
+            </div>
+        </div>
+
+        <div class="form-group mb-5">
+            <label for="id_reddit_username">{{ form.why_appealing.label }}</label>
+            {{ form.why_appealing }}
+            {{ form.why_appealing_other }}
+            <div class="validation-errors">
+                {{ form.why_appealing.errors }}
+            </div>
+        </div>
+
+        <div class="form-group mb-5">
+            <label for="id_reddit_username">{{ form.describe_rule.label }}</label>
+            <div class="mb-2">
+                You may find more details about the rules here:
+                <a href="https://new.reddit.com/r/{{ subreddit }}/wiki/index">https://new.reddit.com/r/{{ subreddit }}/wiki/index</a>
+            </div>
+            {{ form.describe_rule }}
+            <div class="validation-errors">
+                {{ form.describe_rule.errors }}
+            </div>
+        </div>
+
+        <div class="form-group mb-5">
+            <label for="id_reddit_username">{{ form.describe_actions.label }}</label>
+            {{ form.describe_actions }}
+            <div class="validation-errors">
+                {{ form.describe_actions.errors }}
+            </div>
+        </div>
+
+        <div class="form-group mb-5">
+            <label for="id_reddit_username">{{ form.wrong_actions.label }}</label>
+            {{ form.wrong_actions }}
+            <div class="validation-errors">
+                {{ form.wrong_actions.errors }}
+            </div>
+        </div>
+
+        <div class="form-group mb-5">
+            <label for="id_reddit_username">{{ form.will_not_repeat.label|safe }}</label>
+            <div class="mb-2">
+                Repeated violations will lead to your profile being reported to Reddit administrators
+            </div>
+            {{ form.will_not_repeat }}
+            <div class="validation-errors">
+                {{ form.will_not_repeat.errors }}
+            </div>
+        </div>
+
+        <div class="form-group mb-5">
+            <label for="id_reddit_username">{{ form.what_steps.label }}</label>
+            {{ form.what_steps }}
+            <div class="validation-errors">
+                {{ form.what_steps.errors }}
+            </div>
+        </div>
+
+        <div class="form-group mb-5">
+            <label for="id_reddit_username">{{ form.allowed_comments.label }}</label>
+            {{ form.allowed_comments }}
+            <div class="validation-errors">
+                {{ form.allowed_comments.errors }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary submit mb-5">
+            Submit your responses
+        </button>
     </form>
 {% endblock %}
