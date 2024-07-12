@@ -52,6 +52,10 @@ class BanAppealData(models.Model):
         default=None,
         null=True,
     )
+    why_appealing_other = models.TextField(
+        blank=True,
+        null=True,
+    )
     describe_rule = models.TextField(
         verbose_name='Can you describe the rule in your own words?',
         null=True,

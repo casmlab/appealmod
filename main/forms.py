@@ -35,7 +35,7 @@ class BanAppealMainForm(forms.ModelForm):
     class Meta:
         model = BanAppealData
         fields = [
-            'why_banned', 'why_appealing',
+            'why_banned', 'why_appealing', 'why_appealing_other',
             'describe_rule', 'describe_actions',
             'wrong_actions', 'will_not_repeat',
             'what_steps', 'allowed_comments',
