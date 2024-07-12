@@ -68,6 +68,10 @@ h4 {
     font-size: 20px;
 }
 
+.faq-table tr {
+    border: 2px solid black;
+}
+
 .collapsible {
     background-color: white;
     color: #333;
@@ -77,9 +81,11 @@ h4 {
     border: none;
     text-align: left;
     outline: none;
-    font-size: 15px;
+    font-size: 20px;
+    font-weight: 700;
     transition: 0.4s;
     position: relative;
+    display: flex;
 }
 
 .arrow-down {
@@ -91,7 +97,18 @@ h4 {
 
 .active,
 .collapsible:hover {
-    background-color: #ddd;
+    background-color: rgba(108, 192, 254, 0.2);
+}
+
+.faq-caption {
+    padding-left: 25px;
+    flex: 1;
+}
+
+.faq-table .content {
+    padding-left: 43px;
+    font-size: 20px;
+    color: #333333;
 }
 
 .block-info-1 {
