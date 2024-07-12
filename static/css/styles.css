@@ -301,6 +301,26 @@ h4 {
     font-size: 24px;
 }
 
+.signup-header {
+    font-size: 30px;
+    font-weight: 700;
+    margin-top: 80px;
+}
+
+.signup-text {
+    font-size: 22px;
+    color: #333333;
+}
+
+.signup-form {
+    margin-top: 30px;
+    font-size: 20px;
+}
+
+.w3-input {
+    border: 2px solid black;
+}
+
 .inline {
     display: inline;
 }

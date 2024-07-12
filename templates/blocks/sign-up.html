@@ -1,42 +1,42 @@
 <!-- Sign up section -->
-<div id="SignUpSection" class="w3-content" style="max-width: 800px; margin: auto; margin-top: 200px;">
+<div id="SignUpSection" class="w3-content">
 
     <div class="w3-center">
-        <h3 class="w3-wide" style="font-family: Calibri;">Sign up for AppealMod (for free!)</h3>
-        <p>If you are interested in trying AppealMod in a subreddit that you moderate, please fill out the
+        <h3 class="signup-header">
+            Sign up for AppealMod or contact us with more questions
+        </h3>
+        <p class="signup-text">
+            If you are interested in trying AppealMod in a subreddit that you moderate, please fill out the
             fields below to let us know of your interest. After we receive your information, a member of the
-            AppealMod team will be in touch with you shortly.</p>
+            AppealMod team will be in touch with you shortly.
+        </p>
     </div>
 
     <!-- Sign up form -->
-    <form action="{% url 'sign-up' %}" method="post" class="w3-container w3-round w3-margin-bottom">
+    <form action="{% url 'sign-up' %}" method="post" class="w3-container w3-round w3-margin-bottom signup-form">
         {% csrf_token %}
         <div class="w3-row-padding">
             <div class="w3-half">
-                <label for="name"></label>
-                <input type="text" id="name" name="name" class="w3-input w3-border" placeholder="Name" required>
+                <input type="text" id="name" name="name" class="w3-input" placeholder="Name" required>
             </div>
             <div class="w3-half">
-                <label for="email"></label>
-                <input type="email" id="email" name="email" class="w3-input w3-border" placeholder="Email" required>
+                <input type="email" id="email" name="email" class="w3-input" placeholder="Email" required>
             </div>
         </div>
 
-        <div class="w3-row-padding">
+        <div class="w3-row-padding" style="padding-top: 20px;">
             <div class="w3-half">
-                <label for="reddit-username">&nbsp;</label>
-                <input type="text" id="reddit-username" name="reddit_username" class="w3-input w3-border"
+                <input type="text" id="reddit-username" name="reddit_username" class="w3-input"
                        placeholder="Reddit Username" required>
             </div>
             <div class="w3-half">
-                <label for="subreddit-url">&nbsp;</label>
-                <input type="url" id="subreddit-url" name="subreddit_url" class="w3-input w3-border"
+                <input type="url" id="subreddit-url" name="subreddit_url" class="w3-input"
                        placeholder="Subreddit URL" required>
             </div>
         </div>
 
-        <div class="w3-center">
-            <input type="submit" value="Sign Up" class="w3-button w3-black w3-round w3-margin-top">
+        <div class="w3-center" style="padding-top: 18px;">
+            <input type="submit" value="Sign up your subreddit" class="w3-button w3-black w3-round w3-margin-top">
         </div>
     </form>
 </div>
