@@ -6,7 +6,7 @@ body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #FCFCFC;
+    background: linear-gradient(to bottom, #FCFCFC 80%, rgba(108, 192, 254, 0.6) 100%);
 }
 
 body::before {
