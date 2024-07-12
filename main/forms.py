@@ -40,3 +40,31 @@ class BanAppealMainForm(forms.ModelForm):
             'wrong_actions', 'will_not_repeat',
             'what_steps', 'allowed_comments',
         ]
+        widgets = {
+            'why_banned': forms.Textarea({
+                'class': 'form-control',
+                'rows': 2,
+            }),
+            'why_appealing': forms.RadioSelect(),
+            'why_appealing_other': forms.TextInput({
+                'class': 'form-control',
+            }),
+            'describe_rule': forms.Textarea({
+                'class': 'form-control',
+                'rows': 2,
+            }),
+            'describe_actions': forms.Textarea({
+                'class': 'form-control',
+                'rows': 2,
+            }),
+            'wrong_actions': forms.RadioSelect(),
+            'will_not_repeat': forms.RadioSelect(),
+            'what_steps': forms.Textarea({
+                'class': 'form-control',
+                'rows': 2,
+            }),
+            'allowed_comments': forms.Textarea({
+                'class': 'form-control',
+                'rows': 2,
+            }),
+        }
