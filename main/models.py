@@ -5,7 +5,7 @@ class SignUpData(models.Model):
     name = models.CharField(max_length=254)
     email = models.EmailField()
     reddit_username = models.CharField(max_length=254)
-    subreddit_url = models.CharField(max_length=254)
+    subreddit_url = models.URLField(max_length=254)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
