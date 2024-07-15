@@ -4,7 +4,9 @@
 <div class="header w3-text-black contain">
     <!-- <h4 class="w3-left " style="margin-top:50px;">AppealMod</h4> -->
     <div class="inline">
-        <img src="{% static 'img/logo/logo_AppealMod.png' %}" width="229px" height="56px">
+        <a href="{% url 'index' %}">
+            <img src="{% static 'img/logo/logo_AppealMod.png' %}" width="229px" height="56px">
+        </a>
     </div>
     <div class="header_menu contain">
         {% if not hide_menu %}
