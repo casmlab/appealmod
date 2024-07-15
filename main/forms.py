@@ -7,6 +7,24 @@ class SignUpForm(forms.ModelForm):
     class Meta:
         model = SignUpData
         fields = ['name', 'email', 'reddit_username', 'subreddit_url']
+        widgets = {
+            'name': forms.TextInput({
+                'class': 'w3-input',
+                'placeholder': 'Name',
+            }),
+            'email': forms.EmailInput({
+                'class': 'w3-input',
+                'placeholder': 'Email',
+            }),
+            'reddit_username': forms.TextInput({
+                'class': 'w3-input',
+                'placeholder': 'Reddit Username',
+            }),
+            'subreddit_url': forms.URLInput({
+                'class': 'w3-input',
+                'placeholder': 'Subreddit URL',
+            })
+        }
 
 
 class BanAppealAuthForm(forms.Form):
