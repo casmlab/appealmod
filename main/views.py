@@ -8,11 +8,10 @@ from django.urls import reverse_lazy
 from main.models import BanAppealData
 
 
-class IndexView(TemplateView):
+class IndexView(CreateView):
     template_name = "index.html"
-
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+    form_class = SignUpForm
+    success_url = reverse_lazy('sign-up-success')
 
 
 class SignUpView(CreateView):
