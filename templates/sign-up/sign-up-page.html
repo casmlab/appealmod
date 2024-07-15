@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block nav %}
+    {% include 'blocks/nav.html' with hide_menu=True %}
+{% endblock %}
+
 {% block content %}
     {% include 'blocks/sign-up.html' %}
 {% endblock %}
