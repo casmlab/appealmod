@@ -15,23 +15,38 @@
     <!-- Sign up form -->
     <form action="{% url 'sign-up' %}" method="post" class="w3-container w3-round w3-margin-bottom signup-form">
         {% csrf_token %}
+
+        <div class="validation-errors">
+            {{ form.non_field_errors }}
+        </div>
+
         <div class="w3-row-padding">
             <div class="w3-half">
-                <input type="text" id="name" name="name" class="w3-input" placeholder="Name" required>
+                {{ form.name }}
+                <div class="validation-errors">
+                    {{ form.name.errors }}
+                </div>
             </div>
             <div class="w3-half">
-                <input type="email" id="email" name="email" class="w3-input" placeholder="Email" required>
+                {{ form.email }}
+                <div class="validation-errors">
+                    {{ form.email.errors }}
+                </div>
             </div>
         </div>
 
-        <div class="w3-row-padding" style="padding-top: 20px;">
+        <div class="w3-row-padding form-group" style="padding-top: 20px;">
             <div class="w3-half">
-                <input type="text" id="reddit-username" name="reddit_username" class="w3-input"
-                       placeholder="Reddit Username" required>
+                {{ form.reddit_username }}
+                <div class="validation-errors">
+                    {{ form.reddit_username.errors }}
+                </div>
             </div>
             <div class="w3-half">
-                <input type="url" id="subreddit-url" name="subreddit_url" class="w3-input"
-                       placeholder="Subreddit URL" required>
+                {{ form.subreddit_url }}
+                <div class="validation-errors">
+                    {{ form.subreddit_url.errors }}
+                </div>
             </div>
         </div>
 
