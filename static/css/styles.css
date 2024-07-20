@@ -137,6 +137,17 @@ h4 {
     justify-content: center;
 }
 
+@media (max-width: 600px) {
+    .block-info-1-images {
+        display: block;
+        text-align: center;
+    }
+
+    .info-logo {
+        display: block;
+    }
+}
+
 .block-info-2 {
     font-size: 20px;
     color: #333333;
@@ -319,6 +330,11 @@ h4 {
 
 .block-info-3-text {
     max-width: 725px;
+}
+
+.logo-info-image {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .sub-header {
