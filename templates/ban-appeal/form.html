@@ -78,7 +78,11 @@
 
         <div class="form-group mb-5">
             <label for="id_reddit_username">{{ form.allowed_comments.label }}</label>
-            {{ form.allowed_comments }}
+            {% for checkbox in form.allowed_comments %}
+                <div>
+                    <label>{{ checkbox.tag }} {{ checkbox.choice_label }}</label>
+                </div>
+            {% endfor %}
             <div class="validation-errors">
                 {{ form.allowed_comments.errors }}
             </div>
