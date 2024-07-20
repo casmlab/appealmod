@@ -312,6 +312,13 @@ h4 {
     font-size: 16px;
     border-radius: 20px;
     padding: 10px 10px 40px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.block-info-3-text {
+    max-width: 725px;
 }
 
 .sub-header {
