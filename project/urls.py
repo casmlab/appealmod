@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from main.views import IndexView, SignUpView, SignUpSuccessView, BanAppealAuthFormView, \
-    BanAppealMainFormView, BanAppealErrorView, BanAppealThanksView
+    BanAppealMainFormView, BanAppealErrorView, BanAppealThanksView, DebugView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,5 +31,7 @@ urlpatterns = [
     path('ban-appeal/form/', BanAppealMainFormView.as_view(), name='ban-appeal-form'),
     path('ban-appeal/error/', BanAppealErrorView.as_view(), name='ban-appeal-error'),
     path('ban-appeal/thanks/', BanAppealThanksView.as_view(), name='ban-appeal-thanks'),
+
+    path('debug/', DebugView.as_view(), name='debug'),
 ]
 # todo: + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

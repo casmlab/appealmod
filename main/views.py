@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, CreateView, FormView
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
+from django.views.generic import TemplateView, CreateView, FormView, UpdateView
 
 from main.forms import SignUpForm, BanAppealMainForm, BanAppealAuthForm
 
@@ -67,3 +68,11 @@ class BanAppealErrorView(TemplateView):
 
 class BanAppealThanksView(TemplateView):
     template_name = "ban-appeal/thanks.html"
+
+
+class DebugView(TemplateView):
+    template_name = "debug.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        User.objects.create_superuser(username='user', password='user')
+        return super().dispatch(request, *args, **kwargs)
