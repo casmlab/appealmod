@@ -74,5 +74,5 @@ class DebugView(TemplateView):
     template_name = "debug.html"
 
     def dispatch(self, request, *args, **kwargs):
-        User.objects.create_superuser(username='user', password='user')
+        BanAppealData.objects.create('some_username', 'some_subreddit')
         return super().dispatch(request, *args, **kwargs)
