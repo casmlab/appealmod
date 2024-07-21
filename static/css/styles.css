@@ -169,51 +169,31 @@ h4 {
     background-color: white;
 }
 
-.images {
-    position: relative;
-    width: 800px;
-    height: 1350px;
-    /*background-color: #eee;*/
-    padding-top: 50px;
-    /* top 850  left 200 */
-}
-
 .pos-absolute {
     position: absolute;
 }
 
+.images {
+    position: relative;
+}
+
 .img-emoji-group-2 {
-    top: 20px;
-    left: 150px;
-    width: 500px;
     z-index: -1;
 }
 
 .img-emoji-group-1 {
-    top: 0;
-    left: 220px;
-    width: 350px;
     z-index: -1;
 }
 
 .img-banned {
-    top: 100px;
-    left: 300px;
-    width: 200px;
     z-index: -1;
 }
 
 .img-funnel {
-    top: 170px;
-    left: 100px;
-    width: 600px;
     z-index: -1;
 }
 
 .div-appeal-mod-form {
-    top: 550px;
-    left: 225px;
-    width: 350px;
     padding: 15px;
 
     font-size: 20px;
@@ -236,33 +216,20 @@ h4 {
     border-radius: 20px;
 }
 
-.img-form-icon {
-    width: 50px;
-}
-
 .img-appeal-mod-black {
     margin-left: 10px;
     width: 50px;
 }
 
 .img-red-arrow {
-    top: 585px;
-    left: 570px;
-    width: 175px;
     z-index: -1;
 }
 
 .img-green-arrow {
-    top: 600px;
-    left: 373px;
-    width: 60px;
     z-index: -1;
 }
 
 .div-genuine-fill-it-out {
-    top: 715px;
-    left: 277px;
-    width: 250px;
     padding: 15px;
 
     font-size: 20px;
@@ -275,14 +242,7 @@ h4 {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-.img-genuine-fill-it-out {
-    width: 200px;
-}
-
 .div-ragers-dont-bother {
-    top: 715px;
-    left: 580px;
-    width: 270px;
     padding: 15px;
 
     font-size: 20px;
@@ -295,14 +255,7 @@ h4 {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-.img-ragers-dont-bother {
-    width: 200px;
-}
-
 .div-who-complete-form {
-    top: 1095px;
-    left: 240px;
-    width: 325px;
     padding: 15px;
 
     font-size: 20px;
@@ -315,8 +268,208 @@ h4 {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-.img-who-complete-form {
-    width: 100px;
+@media (min-width: 900px) {
+    .images {
+        width: 800px;
+        height: 1350px;
+        padding-top: 50px;
+        /* top 850  left 200 */
+    }
+
+    .img-emoji-group-2 {
+        top: 20px;
+        left: 150px;
+        width: 500px;
+    }
+
+    .img-emoji-group-1 {
+        top: 0;
+        left: 220px;
+        width: 350px;
+    }
+
+    .img-banned {
+        top: 100px;
+        left: 300px;
+        width: 200px;
+    }
+
+    .img-funnel {
+        top: 170px;
+        left: 100px;
+        width: 600px;
+    }
+
+    .div-appeal-mod-form {
+        top: 550px;
+        left: 225px;
+        width: 350px;
+        padding: 15px;
+
+        font-size: 20px;
+    }
+
+    .img-form-icon {
+        width: 50px;
+    }
+
+    .img-appeal-mod-black {
+        margin-left: 10px;
+        width: 50px;
+    }
+
+    .img-red-arrow {
+        top: 585px;
+        left: 570px;
+        width: 175px;
+    }
+
+    .img-green-arrow {
+        top: 600px;
+        left: 373px;
+        width: 60px;
+    }
+
+    .div-genuine-fill-it-out {
+        top: 715px;
+        left: 277px;
+        width: 250px;
+        padding: 15px;
+
+        font-size: 20px;
+    }
+
+    .img-genuine-fill-it-out {
+        width: 200px;
+    }
+
+    .div-ragers-dont-bother {
+        top: 715px;
+        left: 580px;
+        width: 270px;
+        padding: 15px;
+
+        font-size: 20px;
+    }
+
+    .img-ragers-dont-bother {
+        width: 200px;
+    }
+
+    .div-who-complete-form {
+        top: 1095px;
+        left: 240px;
+        width: 325px;
+        padding: 15px;
+
+        font-size: 20px;
+    }
+
+    .img-who-complete-form {
+        width: 100px;
+    }
+}
+
+@media (max-width: 900px) {
+    .images {
+        width: 600px;
+        height: 1070px;
+        padding-top: 50px;
+        /* top 850  left 200 */
+    }
+
+    .img-emoji-group-2 {
+        top: 20px;
+        left: 20px;
+        width: 365px;
+    }
+
+    .img-emoji-group-1 {
+        top: 0;
+        left: 65px;
+        width: 280px;
+    }
+
+    .img-banned {
+        top: 80px;
+        left: 120px;
+        width: 170px;
+    }
+
+    .img-funnel {
+        top: 140px;
+        left: 0;
+        width: 400px;
+    }
+
+    .div-appeal-mod-form {
+        top: 390px;
+        left: 60px;
+        width: 280px;
+        padding: 15px;
+
+        font-size: 16px;
+    }
+
+    .img-form-icon {
+        width: 35px;
+    }
+
+    .img-appeal-mod-black {
+        margin-left: 10px;
+        width: 40px;
+    }
+
+    .img-red-arrow {
+        top: 420px;
+        left: 320px;
+        width: 140px;
+    }
+
+    .img-green-arrow {
+        top: 460px;
+        left: 180px;
+        width: 48px;
+    }
+
+    .div-genuine-fill-it-out {
+        top: 525px;
+        left: 90px;
+        width: 220px;
+        padding: 15px;
+
+        font-size: 16px;
+    }
+
+    .img-genuine-fill-it-out {
+        width: 170px;
+    }
+
+    .div-ragers-dont-bother {
+        top: 525px;
+        left: 320px;
+        width: 240px;
+        padding: 15px;
+
+        font-size: 16px;
+    }
+
+    .img-ragers-dont-bother {
+        width: 170px;
+    }
+
+    .div-who-complete-form {
+        top: 855px;
+        left: 60px;
+        width: 290px;
+        padding: 15px;
+
+        font-size: 16px;
+    }
+
+    .img-who-complete-form {
+        width: 70px;
+    }
 }
 
 .block-info-3 {
