@@ -472,6 +472,108 @@ h4 {
     }
 }
 
+@media (max-width: 600px) {
+    .images {
+        width: 350px;
+        height: 780px;
+        padding-top: 50px;
+        /* top 850  left 200 */
+    }
+
+    .img-emoji-group-2 {
+        top: 10px;
+        left: 10px;
+        width: 250px;
+    }
+
+    .img-emoji-group-1 {
+        top: 0;
+        left: 30px;
+        width: 200px;
+    }
+
+    .img-banned {
+        top: 60px;
+        left: 70px;
+        width: 120px;
+    }
+
+    .img-funnel {
+        top: 110px;
+        left: 0;
+        width: 250px;
+    }
+
+    .div-appeal-mod-form {
+        top: 280px;
+        left: 15px;
+        width: 220px;
+        padding: 15px;
+
+        font-size: 13px;
+    }
+
+    .img-form-icon {
+        width: 25px;
+    }
+
+    .img-appeal-mod-black {
+        margin-left: 10px;
+        width: 30px;
+    }
+
+    .img-red-arrow {
+        top: 300px;
+        left: 215px;
+        width: 90px;
+    }
+
+    .img-green-arrow {
+        top: 340px;
+        left: 110px;
+        width: 32px;
+    }
+
+    .div-genuine-fill-it-out {
+        top: 360px;
+        left: 45px;
+        width: 160px;
+        padding: 15px;
+
+        font-size: 13px;
+    }
+
+    .img-genuine-fill-it-out {
+        width: 120px;
+    }
+
+    .div-ragers-dont-bother {
+        top: 365px;
+        left: 215px;
+        width: 150px;
+        padding: 10px;
+
+        font-size: 13px;
+    }
+
+    .img-ragers-dont-bother {
+        width: 120px;
+    }
+
+    .div-who-complete-form {
+        top: 602px;
+        left: 15px;
+        width: 220px;
+        padding: 15px;
+
+        font-size: 13px;
+    }
+
+    .img-who-complete-form {
+        width: 50px;
+    }
+}
+
 .block-info-3 {
     background-color: rgba(108, 192, 254, 0.4);
     font-size: 16px;
