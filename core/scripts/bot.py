@@ -149,3 +149,8 @@ class Bot:
             if message.author.name == config.REDDIT_USERNAME:
                 return message.date
         return None
+
+    def get_conversations(self):
+        return self.reddit.subreddit(self.subreddits[0]).mod.stream.\
+            modmail_conversations(sort="recent",
+                                  other_subreddits=self.subreddits[1:])

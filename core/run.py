@@ -46,8 +46,8 @@ def main():
             if exception_flag:
                 log('*****Starting again after the exception*****')
                 exception_flag = False
-            
-            for modmail_conversation in bot.reddit.subreddit(bot.subreddits[0]).mod.stream.modmail_conversations(sort="recent", other_subreddits=bot.subreddits[1:]):
+
+            for modmail_conversation in bot.get_conversations():
                 current_subreddit = str(modmail_conversation.owner)
                 log(f'Received new modmail conversation: {modmail_conversation.id}',
                     conversation_id=modmail_conversation.id)
