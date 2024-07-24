@@ -37,6 +37,20 @@ class BanAppealAuthFormView(FormView):
         return redirect(url)
 
 
+class BanAppealAuthErrorView(TemplateView):
+    template_name = "ban-appeal/auth-error.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reddit_username = self.request.GET.get('reddit_username')
+        subreddit = self.request.GET.get('subreddit')
+        context.update({
+            'reddit_username': reddit_username,
+            'subreddit': subreddit,
+        })
+        return context
+
+
 class BanAppealMainFormView(CreateView):
     template_name = "ban-appeal/form.html"
     form_class = BanAppealMainForm
@@ -50,21 +64,6 @@ class BanAppealMainFormView(CreateView):
                   f'?reddit_username={reddit_username}&subreddit={subreddit}'
             return redirect(url)
         return super().get(request, *args, **kwargs)
-
-
-
-class BanAppealAuthErrorView(TemplateView):
-    template_name = "ban-appeal/auth-error.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        reddit_username = self.request.GET.get('reddit_username')
-        subreddit = self.request.GET.get('subreddit')
-        context.update({
-            'reddit_username': reddit_username,
-            'subreddit': subreddit,
-        })
-        return context
 
 
 class BanAppealThanksView(TemplateView):

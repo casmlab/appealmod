@@ -28,8 +28,8 @@ urlpatterns = [
     path('sign-up-success/', SignUpSuccessView.as_view(), name='sign-up-success'),
 
     path('form/auth/', BanAppealAuthFormView.as_view(), name='form-auth'),
-    path('form/', BanAppealMainFormView.as_view(), name='form'),
     path('form/auth/error/', BanAppealAuthErrorView.as_view(), name='form-auth-error'),
+    path('form/', BanAppealMainFormView.as_view(), name='form'),
     path('form/thanks/', BanAppealThanksView.as_view(), name='form-thanks'),
 
     path('debug/', DebugView.as_view(), name='debug'),
