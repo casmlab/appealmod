@@ -1,11 +1,15 @@
 {% extends 'ban-appeal/_base.html' %}
 
 {% block content %}
-    <div class="mb-3 validation-errors">
+    <h3 class="mb-3 validation-errors">
         Invalid Reddit username or Subreddit
-    </div>
+    </h3>
     <div>
-        You inputted: <strong>"{{ reddit_username }}"</strong> and <strong>"{{ subreddit }}"</strong>,
-        but we don't have that combination in our database.
+        Your input was:
+        <ul>
+            <li> Username: <strong>"{{ reddit_username }}"</strong></li>
+            <li> Subreddit: <strong>"{{ subreddit }}"</strong></li>
+        </ul>
+        But we don't have that combination in our database
     </div>
 {% endblock %}
