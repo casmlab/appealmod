@@ -17,12 +17,12 @@ def get_user_model(modmail_conversation, treatment_fraction=config.TREATMENT_FRA
     user_model = check_user_model(modmail_conversation.participant.name)  # to check if this is a repeat user.
 
     if user_model is not None:  # this is repeat user
-        # update conv ids if this is a new conversation 
+        # update conv ids if this is a new conversation
         update_conv_ids(modmail_conversation, user_model)
         return user_model
     else:
         group = binomial(1, treatment_fraction)  # assign a new random group. 1 denotes treatment. 0 denotes control
-        # we log user data here. 
+        # we log user data here.
         user_model = log_user_data(modmail_conversation, group)
         return user_model
 
@@ -37,10 +37,10 @@ def main():
     exception_flag = False
     # NOTE: Any conversation-specific logic should NOT be a part of this driver class
     # NOTE: Peripheral things such as logging the conversation should be a part of the driver class
-    
+
     log('***********Starting bot*****************')
     log(f'Beginning driver loop')
-    # consider all msgs not just appeals... 
+    # consider all msgs not just appeals...
     while True:
         try:
             if exception_flag:
@@ -66,7 +66,7 @@ def main():
                             conversation_id=modmail_conversation.id)
                         dialogue.run(modmail_conversation, user_model)
 
-                    else: # control condition
+                    else:  # control condition
                         log(f'Conversation {modmail_conversation.id} is assigned to the control group',
                             conversation_id=modmail_conversation.id)
                         # log_user_data(modmail_conversation, group)

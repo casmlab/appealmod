@@ -32,11 +32,11 @@ def should_trigger_reply(bot, conversation, subreddit):
 
     for author in conversation.authors:
         # print(author)
-        try: 
+        try:
             if bot.is_user_banned_from_subreddit(author, subreddit):
 
                 if 'temporarily banned' in conversation.subject:
-                    # ignore temp bans... 
+                    # ignore temp bans...
                     log(f'The conv {conversation.id} is a temp ban, will be ignored',
                         conversation_id=conversation.id)
                     return False
@@ -46,7 +46,7 @@ def should_trigger_reply(bot, conversation, subreddit):
                     log(f"A human mod has been involved in this conversation {conversation.id}, will be ignored by our bot",
                         conversation_id=conversation.id)
                     return False
-                
+
                 elif not contains_reason(conversation):
                     log(f"For conversation {conversation.id}, the ban contains no reason, will be ignored.",
                         conversation_id=conversation.id)
@@ -56,9 +56,10 @@ def should_trigger_reply(bot, conversation, subreddit):
                         response = 'Hi mods, it seems that the reason for ban is not available for this user so I will not engage with them.'
                         bot.reply_to_mod_mail_conversation(conversation, response,
                                                            mod_note=True, update=False)
-                    return False 
+                    return False
 
                 else:
+
                     return True
 
         except Forbidden:

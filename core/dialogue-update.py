@@ -33,18 +33,18 @@ def status_updates(user, conv):
         return False
 
     else:
-        keys = ['last_conv_update','appeal_accept']
+        keys = ['last_conv_update', 'appeal_accept']
         last_update_time = conv.last_updated
-        
+
         if len(conv.mod_actions) > 0:
             last_action_time = sorted(conv.mod_actions, key=lambda x: x.date)[-1].date
             last_update_time = max(last_update_time, last_action_time)
-       
+
         values = [last_update_time]
 
         if not bot.is_user_banned_from_subreddit(user['username'], subreddits[0]):
             values.append(True)
-        else: 
+        else:
             values.append(False)
 
         update_user_data(conv, keys, values)
@@ -56,7 +56,7 @@ def dialogue_update_loop():
     while True:
         time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
         cursor = user_logs_collection.find({}, batch_size=30)
-        try: 
+        try:
             for j, user in enumerate(cursor):
                 conversation_id = user["conv_id"]
                 try:
@@ -70,13 +70,13 @@ def dialogue_update_loop():
 
                     updated_conversation = bot.reddit.subreddit(subreddits[0]).modmail(conversation_id)
                     update_flag = status_updates(user, updated_conversation)
-                    
+
                     if user['group'] == 1 and update_flag:
                         log("Dialogue updates for conversation id: " + conversation_id,
                             conversation_id=conversation_id)
                         updated_conversation = bot.reddit.subreddit(subreddits[0]).modmail(conversation_id)
                         dialogue.run(updated_conversation, user)
-                
+
                 except Exception as e:
                     # traceback.print_exc()                
                     error_message = traceback.format_exc()

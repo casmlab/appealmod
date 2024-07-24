@@ -10,7 +10,6 @@ from core.config import Config as config
 
 EST = pytz.timezone('US/Eastern')
 
-
 # mongoConnectionString = r"mongodb+srv://admin:u8U9VKugQO6EFmrG@cluster0.hxwup.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 mongo_driver = pymongo.MongoClient(config.DB_CONNECTION_STRING)
 mongo_database = mongo_driver["main-cluster"]
@@ -103,9 +102,8 @@ def log_conversation(praw_conversation, bot):
 
 def update_conv_ids(modmail_conversation, user_model):
     # get all conv user has initiated so far -- the main conv id + any other conv ids present
-    # check if the current conv is part of it. 
+    # check if the current conv is part of it.
     # if not, then update the user data with a new conv id list which is current list + current conv
-
     if 'other_conv_ids' in user_model.keys():
         other_conv_ids = user_model['other_conv_ids']
     else:
@@ -128,14 +126,14 @@ def update_user_data(modmail_conversation, key, value, username=None):
     else:
         key = [key]
         value = [value]
-    
+
     if len(key) == len(value):
         update_dict = dict(zip(key, value))
     else:
         log(f'Key and value list size mismatch while updating the user data')
         log(f'Key is {key} and value is {value}')
         update_dict = {}
-    
+
     if username is None:
         username = modmail_conversation.participant.name
     log(f'Updating user DB with dict {update_dict}')
@@ -174,7 +172,7 @@ def check_user_model(username):
     if mydict:  # user exists already
         log(f'{username} is a repeat user, retrieving previously assigned group')
         return mydict
-    else: 
+    else:
         return None
 
 

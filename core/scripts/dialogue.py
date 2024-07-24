@@ -13,12 +13,12 @@ class Dialogue:
         self.bot = bot
         self.db = Database()
 
-    def run(self,conversation, user_model):
+    def run(self, conversation, user_model):
         # subreddit_name = 'r/'+str(conversation.owner)
         reddit_username = conversation.participant.name
         responses = self.db.get_responses(str(conversation.owner))
 
-        # this logic has moved to the trigger class. so we only get triggered if no human mod is involved. 
+        # this logic has moved to the trigger class. so we only get triggered if no human mod is involved.
         if self.bot.has_mod_been_involved(conversation):
             # mod has been involved so ignore this conversation
             log(f"A human mod has been involved in this conversation {conversation.id}, will be ignored by our bot",
@@ -26,7 +26,7 @@ class Dialogue:
             update_user_data(conversation, 'mod_involved', True)
         else:
             if not self.bot.have_we_replied(conversation):
-                # we have not replied, so create a new contact and share form link 
+                # we have not replied, so create a new contact and share form link
                 update_contacts_list(reddit_username)
                 # provide the first response, and share the form link
                 log(f'Sharing the form link with the user',
@@ -42,7 +42,7 @@ class Dialogue:
                 if user_model['note_shared']:
                     log(f'User responses have already been shared with the mods')
                     return
-            
+
                 log(f'Trying to retrieve any exising form responses from the user {reddit_username}',
                     conversation_id=conversation.id)
                 user_response = \
@@ -55,7 +55,7 @@ class Dialogue:
                     self.create_mod_note(conversation, "I'm having trouble accessing user responses from Qualtrics.",
                                          error=True)
                     user_response = {}
-                
+
                 elif len(user_response) > 0:
                     # user has submitted the form
                     update_user_data(conversation, 'form_filled', True)
@@ -89,29 +89,29 @@ class Dialogue:
             #     self.create_mod_note(conversation, "I'm having trouble accessing user responses from Qualtrics.", error=True)
             #     user_response = {}
 
-            # added the extra condition on user response, so if a user has already filled a form, we don't share the link again. 
-            # this will handle the case where a banned user starts a new modmail conv. 
+            # added the extra condition on user response, so if a user has already filled a form, we don't share the link again.
+            # this will handle the case where a banned user starts a new modmail conv.
             # if not self.bot.haveWeReplied(conversation) and len(user_response) == 0:
-            #     # we have not replied, so create a new contact and share form link 
+            #     # we have not replied, so create a new contact and share form link
             #     update_contacts_list(reddit_username)
             #     #provide the first response, and share the form link
             #     log(f'Sharing the form link with the user', conversationID=conversation.id)
             #     self.bot.reply_to_mod_mail_conversation(conversation, responses['initial'])
             #     self.bot.archive_conversation(conversation)
 
-                # treatment has been delivered so now we can update the user db with user info. 
-                # log_user_data(conversation,1)
+            # treatment has been delivered so now we can update the user db with user info.
+            # log_user_data(conversation,1)
 
-            # else: 
+            # else:
 
-                # we have already replied, so check for whether user has submitted the form
-                # start_time = self.bot.get_conversation_first_message_time(conversation)
-                # log(f'This is an ongoing conversation, retrieving survey response for user {reddit_username} starting from {start_time}', conversationID=conversation.id)
-                # user_response = get_survey_response(reddit_username, start_time)
+            # we have already replied, so check for whether user has submitted the form
+            # start_time = self.bot.get_conversation_first_message_time(conversation)
+            # log(f'This is an ongoing conversation, retrieving survey response for user {reddit_username} starting from {start_time}', conversationID=conversation.id)
+            # user_response = get_survey_response(reddit_username, start_time)
 
-                # if user_response is None:
-                #     # some error in collecting responses from qualtrics
-                #     self.create_mod_note(conversation, "I'm having trouble accessing user responses from Qualtrics.", error=True)
+            # if user_response is None:
+            #     # some error in collecting responses from qualtrics
+            #     self.create_mod_note(conversation, "I'm having trouble accessing user responses from Qualtrics.", error=True)
 
             # elif len(user_response) == 0:
             #     # user has not submitted any response yet
@@ -126,7 +126,7 @@ class Dialogue:
         #         log(f'Retrieved user survey response, creating a note for the mods', conversationID=conversation.id)
         #         self.create_mod_note(conversation, user_response)
         #         self.bot.unarchive_conversation(conversation)
-            
+
         # else:
         #     log(f'No response from the user yet', conversationID=conversation.id)
 
@@ -135,11 +135,11 @@ class Dialogue:
 
     def create_mod_note(self, conversation, user_response, error=False,
                         print_flag=False):
-        # to pass on any kind of expected error to the mods, so they can report it to us. 
+        # to pass on any kind of expected error to the mods, so they can report it to us.
         if error:
             self.bot.reply_to_mod_mail_conversation(conversation, user_response,
                                                     mod_note=True)
-        else: 
+        else:
             notes_list = qm.DICTIONARY
 
             # so that the responses always go in the fixed order
@@ -159,7 +159,7 @@ class Dialogue:
                 if isinstance(user_response[qid], list):
                     response_text += mydict['mod_note'] + ':: '
                     for i, comment in enumerate(user_response[qid]):
-                        response_text += str(i+1) + '. ' + comment + '\n\n'
+                        response_text += str(i + 1) + '. ' + comment + '\n\n'
                     response_text += '\n'
                     # response_text += mydict['mod_note'] + ':: ' + '\n'.join(user_response[qid]) + '\n\n'
                 else:
@@ -169,14 +169,14 @@ class Dialogue:
                 self.bot.reply_to_mod_mail_conversation(conversation, response_text,
                                                         mod_note=True)
             else:
-                with open('examples/mod-notes.txt','a') as outputfile:
+                with open('examples/mod-notes.txt', 'a') as outputfile:
                     output = conversation.id + '\n' + response_text + '\n'
                     outputfile.write(output)
 
     # def run(self,conversation):
     #     subreddit_name = 'r/'+str(conversation.owner)
     #     # If debug is true, we don't do any archive, any reply.
-        
+
     #     if has_conversation_been_logged(conversation):
     #         log(f"This is an existing conversation {conversation.id}")
     #         if self.bot.is_new_reply_from_user(conversation):
