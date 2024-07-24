@@ -43,10 +43,6 @@ def main():
     # consider all msgs not just appeals...
     while True:
         try:
-            if exception_flag:
-                log('*****Starting again after the exception*****')
-                exception_flag = False
-
             for modmail_conversation in bot.get_conversations():
                 current_subreddit = str(modmail_conversation.owner)
                 log(f'Received new modmail conversation: {modmail_conversation.id}',
@@ -83,7 +79,6 @@ def main():
             log(f'Received an exception from praw, retrying in 30 secs',
                 conversation_id=modmail_conversation.id)
             time.sleep(300)  # try again after 5 mins...
-            exception_flag = True
 
 
 if __name__ == "__main__":
