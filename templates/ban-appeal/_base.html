@@ -7,8 +7,17 @@
     <title>AppealMod</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        html, body {
+            background: none;
+            height: 100%;
+        }
+        .another-white-background {
+            background-color: #FCFCFC;
+        }
+    </style>
 </head>
-<body>
+<body class="another-white-background">
 
 <div class="container mt-5">
     {% block content %}
