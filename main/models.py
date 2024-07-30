@@ -21,7 +21,16 @@ class BanAppealDataManager(models.Manager):
         if self.auth(reddit_username, subreddit):
             return None
         return super().create(reddit_username=reddit_username.lower(),
-                              subreddit=subreddit.lower())
+                              subreddit=subreddit.lower(),
+                              why_banned=None,
+                              why_appealing=None,
+                              why_appealing_other=None,
+                              describe_rule=None,
+                              describe_actions=None,
+                              wrong_actions=None,
+                              will_not_repeat=None,
+                              what_steps=None,
+                              allowed_comments=None)
 
     def auth(self, reddit_username, subreddit):
         if reddit_username:
