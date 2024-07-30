@@ -74,6 +74,16 @@ class BanAppealMainFormView(UpdateView):
         subreddit = self.request.GET.get('subreddit')
         return BanAppealData.objects.auth(reddit_username, subreddit)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reddit_username = self.request.GET.get('reddit_username')
+        subreddit = self.request.GET.get('subreddit')
+        context.update({
+            'reddit_username': reddit_username,
+            'subreddit': subreddit,
+        })
+        return context
+
 
 class BanAppealFormErrorView(TemplateView):
     template_name = "ban-appeal/form-error.html"
