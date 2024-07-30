@@ -64,6 +64,9 @@ class BanAppealMainFormView(CreateView):
             url = reverse_lazy('form-auth-error') + \
                   f'?reddit_username={reddit_username}&subreddit={subreddit}'
             return redirect(url)
+        if auth.filled():
+            url = reverse_lazy('form-error')
+            return redirect(url)
         return super().get(request, *args, **kwargs)
 
 
