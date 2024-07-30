@@ -59,7 +59,8 @@ class BanAppealMainFormView(CreateView):
     def get(self, request, *args, **kwargs):
         reddit_username = request.GET.get('reddit_username')
         subreddit = request.GET.get('subreddit')
-        if not BanAppealData.objects.auth(reddit_username, subreddit):
+        auth = BanAppealData.objects.auth(reddit_username, subreddit)
+        if not auth:
             url = reverse_lazy('form-auth-error') + \
                   f'?reddit_username={reddit_username}&subreddit={subreddit}'
             return redirect(url)
