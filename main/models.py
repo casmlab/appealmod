@@ -124,3 +124,10 @@ class BanAppealData(models.Model):
 
     def __str__(self):
         return self.reddit_username
+
+    def filled(self):
+        return any({
+            self.why_banned, self.why_appealing, self.describe_rule,
+            self.describe_actions, self.wrong_actions, self.will_not_repeat,
+            self.what_steps, self.allowed_comments,
+        })
