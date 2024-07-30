@@ -25,8 +25,16 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-!gc#&e=+sd!goq25_0i')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['appealmod.com']
-CSRF_TRUSTED_ORIGINS = ['https://appealmod.com']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    'appealmod.com',
+]
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1',
+    'http://localhost',
+    'https://appealmod.com',
+]
 
 
 # Application definition
