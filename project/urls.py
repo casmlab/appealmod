@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from main.views import IndexView, SignUpView, SignUpSuccessView, BanAppealAuthFormView, \
-    BanAppealMainFormView, BanAppealAuthErrorView, BanAppealThanksView, DebugView
+    BanAppealMainFormView, BanAppealAuthErrorView, BanAppealThanksView, DebugView, BanAppealFormErrorView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,6 +30,7 @@ urlpatterns = [
     path('form/auth/', BanAppealAuthFormView.as_view(), name='form-auth'),
     path('form/auth/error/', BanAppealAuthErrorView.as_view(), name='form-auth-error'),
     path('form/', BanAppealMainFormView.as_view(), name='form'),
+    path('form/error/', BanAppealFormErrorView.as_view(), name='form-error'),
     path('form/thanks/', BanAppealThanksView.as_view(), name='form-thanks'),
 
     path('debug/', DebugView.as_view(), name='debug'),

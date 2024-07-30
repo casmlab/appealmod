@@ -67,6 +67,10 @@ class BanAppealMainFormView(CreateView):
         return super().get(request, *args, **kwargs)
 
 
+class BanAppealFormErrorView(TemplateView):
+    template_name = "ban-appeal/form-error.html"
+
+
 class BanAppealThanksView(TemplateView):
     template_name = "ban-appeal/thanks.html"
 
