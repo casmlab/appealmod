@@ -110,17 +110,6 @@ class BanAppealData(models.Model):
     allowed_comments = models.TextField(
         verbose_name='Which of the following comment(s) do you think '
                      'should be allowed in our community?',
-        choices=[
-            ("c1", "Hahaha, not at all, I love a good discussion, "
-                   "especially with a retard on the internet, but you're too dumb"),
-            ("c2", "You’re still a fat fuck, k..ill yourself"),
-            ("c3", "I’ll hire my hacker friend to doxx you then send a hitman "
-                   "to give you ebola then shoot you in the head and revive you to give you AIDS"),
-            ("c4", "Even if your mom is a fucking asshole, I believe you that she is, "
-                   "drugging her will NOT do anyone any good"),
-            ("c5", "Fuck him. You dont want or need those assholes in your life. "
-                   "Make a new friend"),
-        ],
         blank=False,
         default=None,
         null=True,
