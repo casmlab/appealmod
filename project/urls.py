@@ -17,8 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from main.views import IndexView, SignUpView, SignUpSuccessView, BanAppealAuthFormView, \
-    BanAppealMainFormView, BanAppealAuthErrorView, BanAppealThanksView, DebugView, BanAppealFormErrorView
+from main.views import IndexView, SignUpView, SignUpSuccessView, FormAuthView, \
+    MainFormView, FormAuthErrorView, FormThanksView, DebugView, FormErrorView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,11 +27,11 @@ urlpatterns = [
     path('sign-up/', SignUpView.as_view(), name='sign-up'),
     path('sign-up-success/', SignUpSuccessView.as_view(), name='sign-up-success'),
 
-    path('form/auth/', BanAppealAuthFormView.as_view(), name='form-auth'),
-    path('form/auth/error/', BanAppealAuthErrorView.as_view(), name='form-auth-error'),
-    path('form/', BanAppealMainFormView.as_view(), name='form'),
-    path('form/error/', BanAppealFormErrorView.as_view(), name='form-error'),
-    path('form/thanks/', BanAppealThanksView.as_view(), name='form-thanks'),
+    path('form/auth/', FormAuthView.as_view(), name='form-auth'),
+    path('form/auth/error/', FormAuthErrorView.as_view(), name='form-auth-error'),
+    path('form/', MainFormView.as_view(), name='form'),
+    path('form/error/', FormErrorView.as_view(), name='form-error'),
+    path('form/thanks/', FormThanksView.as_view(), name='form-thanks'),
 
     path('debug/', DebugView.as_view(), name='debug'),
 ]

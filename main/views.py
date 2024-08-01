@@ -25,7 +25,7 @@ class SignUpSuccessView(TemplateView):
     template_name = "sign-up/sign-up-success.html"
 
 
-class BanAppealAuthFormView(FormView):
+class FormAuthView(FormView):
     template_name = "form/auth.html"
     form_class = BanAppealAuthForm
 
@@ -37,7 +37,7 @@ class BanAppealAuthFormView(FormView):
         return redirect(url)
 
 
-class BanAppealAuthErrorView(TemplateView):
+class FormAuthErrorView(TemplateView):
     template_name = "form/auth-error.html"
 
     def get_context_data(self, **kwargs):
@@ -51,7 +51,7 @@ class BanAppealAuthErrorView(TemplateView):
         return context
 
 
-class BanAppealMainFormView(UpdateView):
+class MainFormView(UpdateView):
     template_name = "form/form.html"
     form_class = BanAppealMainForm
     success_url = reverse_lazy('form-thanks')
@@ -85,11 +85,11 @@ class BanAppealMainFormView(UpdateView):
         return context
 
 
-class BanAppealFormErrorView(TemplateView):
+class FormErrorView(TemplateView):
     template_name = "form/form-error.html"
 
 
-class BanAppealThanksView(TemplateView):
+class FormThanksView(TemplateView):
     template_name = "form/thanks.html"
 
 
