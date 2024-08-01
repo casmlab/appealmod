@@ -123,7 +123,7 @@ class BanAppealMainForm(forms.ModelForm):
         ],
         widget=forms.CheckboxSelectMultiple(),
         coerce=str,
-        required=True,
+        required=False,
     )
 
     class Meta:
