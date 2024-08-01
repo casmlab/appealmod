@@ -50,6 +50,63 @@ class BanAppealAuthForm(forms.Form):
 
 
 class BanAppealMainForm(forms.ModelForm):
+    why_banned = forms.CharField(
+        label='Find and copy/paste here the note from mods on '
+              'why you were banned',
+        widget=forms.Textarea({'class': 'form-control', 'rows': 2}),
+        required=True,
+    )
+    why_appealing = forms.ChoiceField(
+        label='Why are you appealing your ban?',
+        choices=[
+            ('disagree', "I don't agree with the rule"),
+            ('not-apply', "I don't think the rule applies to my behavior"),
+            ('regret', "I regret my behavior"),
+            ('other', "Other (please specify below)"),
+        ],
+        widget=forms.RadioSelect(),
+        required=True,
+    )
+    why_appealing_other = forms.CharField(
+        widget=forms.TextInput({'class': 'form-control'}),
+        required=False,
+    )
+    describe_rule = forms.CharField(
+        label='Can you describe the rule in your own words?',
+        widget=forms.Textarea({'class': 'form-control', 'rows': 2}),
+        required=True,
+    )
+    describe_actions = forms.CharField(
+        label='Can you describe your actions that led to the ban '
+              'and the circumstances that made you act that way?',
+        widget=forms.Textarea({'class': 'form-control', 'rows': 2}),
+        required=True,
+    )
+    wrong_actions = forms.ChoiceField(
+        label='Do you think your actions were wrong?',
+        choices=[
+            ('no', "No"),
+            ('yes', "Yes"),
+        ],
+        widget=forms.RadioSelect(),
+        required=True,
+    )
+    will_not_repeat = forms.ChoiceField(
+        label='Are you willing to pledge that you will not repeat '
+                     'such actions in the future?',
+        choices=[
+            ('no', "No"),
+            ('yes', "Yes"),
+        ],
+        widget=forms.RadioSelect(),
+        required=True,
+    )
+    what_steps = forms.CharField(
+        label="What steps will you take to ensure "
+              "that you don't do this again?",
+        widget=forms.Textarea({'class': 'form-control', 'rows': 2}),
+        required=True,
+    )
     allowed_comments = forms.TypedMultipleChoiceField(
         label='Which of the following comment(s) do you think '
               'should be allowed in our community?',
@@ -64,7 +121,7 @@ class BanAppealMainForm(forms.ModelForm):
             ("c5", "Fuck him. You dont want or need those assholes in your life. "
                    "Make a new friend"),
         ],
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(),
         coerce=str,
         required=True,
     )
@@ -77,28 +134,3 @@ class BanAppealMainForm(forms.ModelForm):
             'wrong_actions', 'will_not_repeat',
             'what_steps', 'allowed_comments',
         ]
-        widgets = {
-            'why_banned': forms.Textarea({
-                'class': 'form-control',
-                'rows': 2,
-            }),
-            'why_appealing': forms.RadioSelect(),
-            'why_appealing_other': forms.TextInput({
-                'class': 'form-control',
-            }),
-            'describe_rule': forms.Textarea({
-                'class': 'form-control',
-                'rows': 2,
-            }),
-            'describe_actions': forms.Textarea({
-                'class': 'form-control',
-                'rows': 2,
-            }),
-            'wrong_actions': forms.RadioSelect(),
-            'will_not_repeat': forms.RadioSelect(),
-            'what_steps': forms.Textarea({
-                'class': 'form-control',
-                'rows': 2,
-            }),
-            'allowed_comments': forms.CheckboxSelectMultiple(),
-        }

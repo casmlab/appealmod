@@ -51,19 +51,13 @@ class BanAppealData(models.Model):
     why_banned = models.TextField(
         verbose_name='Find and copy/paste here the note from mods on '
                      'why you were banned',
+        blank=True,
         null=True,
     )
     why_appealing = models.CharField(
         verbose_name='Why are you appealing your ban?',
         max_length=254,
-        choices=[
-            ('disagree', "I don't agree with the rule"),
-            ('not-apply', "I don't think the rule applies to my behavior"),
-            ('regret', "I regret my behavior"),
-            ('other', "Other (please specify below)"),
-        ],
-        blank=False,
-        default=None,
+        blank=True,
         null=True,
     )
     why_appealing_other = models.TextField(
@@ -72,46 +66,38 @@ class BanAppealData(models.Model):
     )
     describe_rule = models.TextField(
         verbose_name='Can you describe the rule in your own words?',
+        blank=True,
         null=True,
     )
     describe_actions = models.TextField(
         verbose_name='Can you describe your actions that led to the ban '
                      'and the circumstances that made you act that way?',
+        blank=True,
         null=True,
     )
     wrong_actions = models.CharField(
         verbose_name='Do you think your actions were wrong?',
         max_length=10,
-        choices=[
-            ('no', "No"),
-            ('yes', "Yes"),
-        ],
-        blank=False,
-        default=None,
+        blank=True,
         null=True,
     )
     will_not_repeat = models.CharField(
         verbose_name='Are you willing to pledge that you will not repeat '
                      'such actions in the future?',
         max_length=10,
-        choices=[
-            ('no', "No"),
-            ('yes', "Yes"),
-        ],
-        blank=False,
-        default=None,
+        blank=True,
         null=True,
     )
     what_steps = models.TextField(
         verbose_name="What steps will you take to ensure "
                      "that you don't do this again?",
+        blank=True,
         null=True,
     )
     allowed_comments = models.TextField(
         verbose_name='Which of the following comment(s) do you think '
                      'should be allowed in our community?',
-        blank=False,
-        default=None,
+        blank=True,
         null=True,
     )
 
