@@ -118,3 +118,7 @@ class BanAppealData(models.Model):
             self.describe_actions, self.wrong_actions, self.will_not_repeat,
             self.what_steps, self.allowed_comments,
         })
+
+    @classmethod
+    def get_label(cls, name):
+        return cls._meta.get_field(name).verbose_name

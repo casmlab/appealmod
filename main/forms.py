@@ -51,13 +51,12 @@ class BanAppealAuthForm(forms.Form):
 
 class BanAppealMainForm(forms.ModelForm):
     why_banned = forms.CharField(
-        label='Find and copy/paste here the note from mods on '
-              'why you were banned',
+        label=BanAppealData.get_label('why_banned'),
         widget=forms.Textarea({'class': 'form-control', 'rows': 2}),
         required=True,
     )
     why_appealing = forms.ChoiceField(
-        label='Why are you appealing your ban?',
+        label=BanAppealData.get_label('why_appealing'),
         choices=[
             ('disagree', "I don't agree with the rule"),
             ('not-apply', "I don't think the rule applies to my behavior"),
@@ -72,18 +71,17 @@ class BanAppealMainForm(forms.ModelForm):
         required=False,
     )
     describe_rule = forms.CharField(
-        label='Can you describe the rule in your own words?',
+        label=BanAppealData.get_label('describe_rule'),
         widget=forms.Textarea({'class': 'form-control', 'rows': 2}),
         required=True,
     )
     describe_actions = forms.CharField(
-        label='Can you describe your actions that led to the ban '
-              'and the circumstances that made you act that way?',
+        label=BanAppealData.get_label('describe_actions'),
         widget=forms.Textarea({'class': 'form-control', 'rows': 2}),
         required=True,
     )
     wrong_actions = forms.ChoiceField(
-        label='Do you think your actions were wrong?',
+        label=BanAppealData.get_label('wrong_actions'),
         choices=[
             ('no', "No"),
             ('yes', "Yes"),
@@ -92,8 +90,7 @@ class BanAppealMainForm(forms.ModelForm):
         required=True,
     )
     will_not_repeat = forms.ChoiceField(
-        label='Are you willing to pledge that you will not repeat '
-                     'such actions in the future?',
+        label=BanAppealData.get_label('will_not_repeat'),
         choices=[
             ('no', "No"),
             ('yes', "Yes"),
@@ -102,14 +99,12 @@ class BanAppealMainForm(forms.ModelForm):
         required=True,
     )
     what_steps = forms.CharField(
-        label="What steps will you take to ensure "
-              "that you don't do this again?",
+        label=BanAppealData.get_label('what_steps'),
         widget=forms.Textarea({'class': 'form-control', 'rows': 2}),
         required=True,
     )
     allowed_comments = forms.TypedMultipleChoiceField(
-        label='Which of the following comment(s) do you think '
-              'should be allowed in our community?',
+        label=BanAppealData.get_label('allowed_comments'),
         choices=[
             ("c1", "Hahaha, not at all, I love a good discussion, "
                    "especially with a retard on the internet, but you're too dumb"),
