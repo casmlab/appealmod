@@ -17,9 +17,7 @@ from dateutil import parser
 #             password=config.REDDIT_PASSWORD,
 # )
 
-subreddits = conf.subreddits_ids
-
-bot = Bot(subreddits)
+bot = Bot(conf.subreddits_ids)
 dialogue = Dialogue(bot)
 
 
@@ -42,7 +40,8 @@ def status_updates(user, conv):
 
         values = [last_update_time]
 
-        if not bot.is_user_banned_from_subreddit(user['username'], subreddits[0]):
+        subreddit = str(conv.owner)
+        if not bot.is_user_banned_from_subreddit(user['username'], subreddit):
             values.append(True)
         else:
             values.append(False)
