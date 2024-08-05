@@ -137,10 +137,13 @@ def update_user_data(modmail_conversation, key, value, username=None):
     if username is None:
         username = modmail_conversation.participant.name
     log(f'Updating user DB with dict {update_dict}')
-    user_logs_collection.update_one({'username': username}, {'$set': update_dict})
+    subreddit = str(modmail_conversation.owner)
+    user_logs_collection.update_one({'username': username, 'subreddit': subreddit}, {'$set': update_dict})
 
 
-def log_user_data(modmail_conversation, group):
+def log_user_data(modmail_conversation, group):  # todo: rename: add_user...
+    subreddit = str(modmail_conversation.owner)
+
     username = modmail_conversation.participant.name
     sorted_msgs = sorted(modmail_conversation.messages, key=lambda x: x.date)
 
@@ -154,6 +157,7 @@ def log_user_data(modmail_conversation, group):
     mydict = {
         'username': username,
         'conv_id': modmail_conversation.id,
+        'subreddit': subreddit,
         'group': group,
         'appeal_time': appeal_time,
         'form_filled': False,
