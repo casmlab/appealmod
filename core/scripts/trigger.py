@@ -48,7 +48,7 @@ def should_trigger_reply(bot, conversation, subreddit):
                     return False
 
                 elif not contains_reason(conversation):
-                    log(f"For conversation {conversation.id}, the ban contains no reason, will be ignored.",
+                    log(f"For conversation {conversation.id} ({subreddit}), the ban contains no reason, will be ignored.",
                         conversation_id=conversation.id)
                     if not bot.have_we_replied(conversation):
                         log(f"Writing a mod note to inform mods that the reason for ban is missing",

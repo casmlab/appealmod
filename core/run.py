@@ -46,7 +46,7 @@ def main():
         try:
             for modmail_conversation in bot.get_conversations():
                 current_subreddit = str(modmail_conversation.owner)
-                log(f'Received new modmail conversation: {modmail_conversation.id}',
+                log(f'Received new modmail conversation: {modmail_conversation.id} ({current_subreddit})',
                     conversation_id=modmail_conversation.id)
 
                 if should_trigger_reply(bot, modmail_conversation, current_subreddit):
