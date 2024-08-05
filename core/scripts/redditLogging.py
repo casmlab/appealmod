@@ -167,8 +167,8 @@ def log_user_data(modmail_conversation, group):
     return mydict
 
 
-def check_user_model(username):
-    mydict = user_logs_collection.find_one({"username": username})
+def check_user_model(username, subreddit):
+    mydict = user_logs_collection.find_one({"username": username, "subreddit": subreddit})
     if mydict:  # user exists already
         log(f'{username} is a repeat user, retrieving previously assigned group')
         return mydict

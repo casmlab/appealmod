@@ -14,7 +14,8 @@ import time
 
 
 def get_user_model(modmail_conversation, treatment_fraction=config.TREATMENT_FRACTION):
-    user_model = check_user_model(modmail_conversation.participant.name)  # to check if this is a repeat user.
+    subreddit = str(modmail_conversation.owner)
+    user_model = check_user_model(modmail_conversation.participant.name, subreddit)  # to check if this is a repeat user.
 
     if user_model is not None:  # this is repeat user
         # update conv ids if this is a new conversation
