@@ -59,6 +59,9 @@ class MainFormView(UpdateView):
     def get(self, request, *args, **kwargs):
         reddit_username = request.GET.get('reddit_username')
         subreddit = request.GET.get('subreddit')
+        if not reddit_username or not subreddit:
+            url = reverse_lazy('form-auth')
+            return redirect(url)
         auth = BanAppealData.objects.auth(reddit_username, subreddit)
         if not auth:
             url = reverse_lazy('form-auth-error') + \
