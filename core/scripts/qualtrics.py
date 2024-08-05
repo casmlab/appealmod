@@ -46,10 +46,10 @@ def parse_qualtrics_response(response):
     return result
 
 
-def update_contacts_list(reddit_username):
+def update_contacts_list(reddit_username, subreddit):
 
     log(f"Checking if the contact {reddit_username} already exists")
-    if does_contact_exist(reddit_username):
+    if does_contact_exist(reddit_username, subreddit):
         return None
 
     log(f"Contact {reddit_username} does not exist")
@@ -58,11 +58,13 @@ def update_contacts_list(reddit_username):
 
     body = {
         "firstName": "default",
-        "email": "default@gmail.com",
+        "email": subreddit,
         "embeddedData": {
             "reddit-username": reddit_username,
+            "subreddit": subreddit,
         },
         "externalDataRef": reddit_username,
+        # "externalDataRef": f'r/{subreddit}:u/{reddit_username}',  # todo
         "unsubscribed": False
     }
 
@@ -77,7 +79,7 @@ def update_contacts_list(reddit_username):
             log(r.text)
 
 
-def does_contact_exist(reddit_username):
+def does_contact_exist(reddit_username, subreddit):
     contact_list, next_page = get_contact_list()
     j = 0
 
@@ -85,6 +87,7 @@ def does_contact_exist(reddit_username):
         if contact_list is not None:
             for contact in contact_list:
                 if contact['embeddedData']['reddit-username'] == reddit_username:
+                        # and contact['embeddedData']['subreddit'] == subreddit:  # todo
                     log(f"Contact {reddit_username} already exists")
                     return True
         if next_page is not None:
@@ -119,7 +122,7 @@ def get_contact_list(skip=None):
         return None, None
 
 
-def get_survey_response(reddit_username, start_time, parse=True):
+def get_survey_response(reddit_username, subreddit, start_time, parse=True):
     export_endpoint = "/v3/surveys/" + config.QUALTRICS_SURVEY_ID + "/export-responses/"
     headers = {'X-API-TOKEN': config.QUALTRICS_TOKEN}
     url = config.QUALTRICS_BASE_URL + export_endpoint
@@ -158,7 +161,9 @@ def get_survey_response(reddit_username, start_time, parse=True):
                         continue
 
                     surveyor = response['values']['reddit-username']
-                    if surveyor == reddit_username:
+                    # surveyor_subreddit = response['values']['subreddit']  # todo: for Shubham: add to Qualtrics
+
+                    if surveyor == reddit_username:  # and surveyor_subreddit == subreddit:  # todo
                         log(f'Found the survey response for user {reddit_username}')
                         if not response['values']['finished'] == 1:
                             log(f"Found an incomplete response from user {reddit_username}, will be ignored")

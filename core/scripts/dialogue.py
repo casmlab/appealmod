@@ -16,7 +16,8 @@ class Dialogue:
     def run(self, conversation, user_model):
         # subreddit_name = 'r/'+str(conversation.owner)
         reddit_username = conversation.participant.name
-        responses = self.db.get_responses(str(conversation.owner))
+        subreddit = str(conversation.owner)
+        responses = self.db.get_responses(subreddit)
 
         # this logic has moved to the trigger class. so we only get triggered if no human mod is involved.
         if self.bot.has_mod_been_involved(conversation):
@@ -27,7 +28,7 @@ class Dialogue:
         else:
             if not self.bot.have_we_replied(conversation):
                 # we have not replied, so create a new contact and share form link
-                update_contacts_list(reddit_username)
+                update_contacts_list(reddit_username, subreddit)  # todo: create a new entry in our DB
                 # provide the first response, and share the form link
                 log(f'Sharing the form link with the user',
                     conversation_id=conversation.id)
@@ -46,8 +47,8 @@ class Dialogue:
                 log(f'Trying to retrieve any exising form responses from the user {reddit_username}',
                     conversation_id=conversation.id)
                 user_response = \
-                    get_survey_response(reddit_username, None)
-                
+                    get_survey_response(reddit_username, subreddit, None)  # todo: check if user filled out our form
+
                 if user_response is None:
                     # some error in collecting responses from qualtrics
                     log(f'Passing on the error via mod note',
