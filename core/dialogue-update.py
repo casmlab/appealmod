@@ -58,6 +58,13 @@ def dialogue_update_loop():
         try:
             for j, user in enumerate(cursor):
                 conversation_id = user["conv_id"]
+                subreddit = user["subreddit"]
+                if not subreddit:
+                    log(f'No subreddit found for conversation {conversation_id}', conversation_id=conversation_id)
+                    continue
+                if subreddit not in conf.subreddits_ids:
+                    log(f'Wrong subreddit used (not in conf): "{subreddit}"')
+                    continue
                 try:
                     if 'user_deleted' in user.keys() and user['user_deleted']:
                         log(f'User for conversation {conversation_id} has deleted their account, updates will be skipped',
@@ -67,13 +74,14 @@ def dialogue_update_loop():
                         # log(f'{conversation_id} has passed the update cutoff, will no longer be updated', conversation_id=conversation_id)
                         continue
 
-                    updated_conversation = bot.reddit.subreddit(subreddits[0]).modmail(conversation_id)
+                    updated_conversation = bot.reddit.subreddit(subreddit).modmail(conversation_id)
+                    # todo: check if `subreddit` from DB the same as `subreddit` from conv, and send to slack if not the same
                     update_flag = status_updates(user, updated_conversation)
 
                     if user['group'] == 1 and update_flag:
                         log("Dialogue updates for conversation id: " + conversation_id,
                             conversation_id=conversation_id)
-                        updated_conversation = bot.reddit.subreddit(subreddits[0]).modmail(conversation_id)
+                        updated_conversation = bot.reddit.subreddit(subreddit).modmail(conversation_id)
                         dialogue.run(updated_conversation, user)
 
                 except Exception as e:
