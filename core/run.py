@@ -45,11 +45,11 @@ def main():
     while True:
         try:
             for modmail_conversation in bot.get_conversations():
-                current_subreddit = str(modmail_conversation.owner)
-                log(f'Received new modmail conversation: {modmail_conversation.id} ({current_subreddit})',
+                subreddit = str(modmail_conversation.owner)
+                log(f'Received new modmail conversation: {modmail_conversation.id} ({subreddit})',
                     conversation_id=modmail_conversation.id)
 
-                if should_trigger_reply(bot, modmail_conversation, current_subreddit):
+                if should_trigger_reply(bot, modmail_conversation, subreddit):
                     log(f'conversation {modmail_conversation.id} classified as a ban appeal',
                         conversation_id=modmail_conversation.id)
 
@@ -58,7 +58,7 @@ def main():
                     if user_model['group'] == 1:  # treatment condition
                         log(f'Conversation {modmail_conversation.id} is assigned to the treatment group',
                             conversation_id=modmail_conversation.id)
-                        # offense = bot.get_user_ban_information(modmail_conversation.participant.name, current_subreddit)
+                        # offense = bot.get_user_ban_information(modmail_conversation.participant.name, subreddit)
                         log(f'Initiating the dialogue flow',
                             conversation_id=modmail_conversation.id)
                         dialogue.run(modmail_conversation, user_model)
