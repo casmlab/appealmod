@@ -37,20 +37,27 @@ class MongoDBLogger(StreamHandler):
         })
 
 
-logging.basicConfig(filename="redditLogging.log", level=logging.INFO,
-                    format='%(asctime)s,%(msecs)03d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-                    datefmt='%Y-%m-%d:%H:%M:%S')
-formatter = logging.Formatter('%(asctime)s,%(msecs)03d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+logger = logging.getLogger('main_logger')
+logger.setLevel(logging.INFO)
+
+formatter = logging.Formatter('%(asctime)s,%(msecs)03d %(levelname)-8s '
+                              '[%(filename)s:%(lineno)d] %(message)s',
                               datefmt='%Y-%m-%d:%H:%M:%S')
+
+file_handler = logging.FileHandler("redditLogging.log")
+file_handler.setFormatter(formatter)
+file_handler.setLevel(logging.INFO)
+logger.addHandler(file_handler)
+
 mongo_logger = MongoDBLogger()
 mongo_logger.setFormatter(formatter)
 mongo_logger.setLevel(logging.INFO)
-logging.getLogger().addHandler(mongo_logger)
+logger.addHandler(mongo_logger)
 
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setFormatter(formatter)
 console_handler.setLevel(logging.INFO)
-logging.getLogger().addHandler(console_handler)
+logger.addHandler(console_handler)
 
 
 class SafeJSONEncoder(json.JSONEncoder):
@@ -181,4 +188,4 @@ def check_user_model(username, subreddit):
 
 
 def log(message, conversation_id=None):
-    logging.info(message, extra={'conversationID': conversation_id})
+    logger.info(message, extra={'conversationID': conversation_id})
