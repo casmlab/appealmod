@@ -38,7 +38,11 @@ class MongoDBLogger(StreamHandler):
 
 
 def get_logger():
-    logger = logging.getLogger('main_logger')
+    logger_name = 'main_logger'
+    if logger_name in logging.Logger.manager.loggerDict:
+        return logging.getLogger(logger_name)
+
+    logger = logging.getLogger(logger_name)
     logger.setLevel(logging.INFO)
 
     formatter = logging.Formatter('%(asctime)s,%(msecs)03d %(levelname)-8s '
