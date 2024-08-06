@@ -15,7 +15,7 @@ class Dialogue:
 
     def run(self, conversation, user_model):
         # subreddit_name = 'r/'+str(conversation.owner)
-        reddit_username = conversation.participant.name
+        username = conversation.participant.name
         subreddit = str(conversation.owner)
         bot_responses = self.db.get_responses(subreddit)
 
@@ -28,7 +28,7 @@ class Dialogue:
         else:
             if not self.bot.have_we_replied(conversation):
                 # we have not replied, so create a new contact and share form link
-                update_contacts_list(reddit_username, subreddit)  # todo: create a new entry in our DB
+                update_contacts_list(username, subreddit)  # todo: create a new entry in our DB
                 # provide the first response, and share the form link
                 log(f'Sharing the form link with the user',
                     conversation_id=conversation.id)
@@ -44,10 +44,10 @@ class Dialogue:
                     log(f'User responses have already been shared with the mods')
                     return
 
-                log(f'Trying to retrieve any exising form responses from the user {reddit_username}',
+                log(f'Trying to retrieve any exising form responses from the user {username}',
                     conversation_id=conversation.id)
                 user_response = \
-                    get_survey_response(reddit_username, subreddit, None)  # todo: check if user filled out our form
+                    get_survey_response(username, subreddit, None)  # todo: check if user filled out our form
 
                 if user_response is None:
                     # some error in collecting responses from qualtrics
@@ -82,8 +82,8 @@ class Dialogue:
             # log(f"User has responsed to the conversation {conversation.id}", conversationID=conversation.id)
 
             # # start_time = self.bot.get_conversation_first_message_time(conversation)
-            # log(f'Trying to retrieve any exising form responses from the user {reddit_username}', conversationID=conversation.id)
-            # user_response = get_survey_response(reddit_username, None)
+            # log(f'Trying to retrieve any exising form responses from the user {username}', conversationID=conversation.id)
+            # user_response = get_survey_response(username, None)
 
             # if user_response is None:
             #     # some error in collecting responses from qualtrics
@@ -94,7 +94,7 @@ class Dialogue:
             # this will handle the case where a banned user starts a new modmail conv.
             # if not self.bot.haveWeReplied(conversation) and len(user_response) == 0:
             #     # we have not replied, so create a new contact and share form link
-            #     update_contacts_list(reddit_username)
+            #     update_contacts_list(username)
             #     #provide the first response, and share the form link
             #     log(f'Sharing the form link with the user', conversationID=conversation.id)
             #     self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['initial'])
@@ -107,8 +107,8 @@ class Dialogue:
 
             # we have already replied, so check for whether user has submitted the form
             # start_time = self.bot.get_conversation_first_message_time(conversation)
-            # log(f'This is an ongoing conversation, retrieving survey response for user {reddit_username} starting from {start_time}', conversationID=conversation.id)
-            # user_response = get_survey_response(reddit_username, start_time)
+            # log(f'This is an ongoing conversation, retrieving survey response for user {username} starting from {start_time}', conversationID=conversation.id)
+            # user_response = get_survey_response(username, start_time)
 
             # if user_response is None:
             #     # some error in collecting responses from qualtrics
