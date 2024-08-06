@@ -17,7 +17,7 @@ class Dialogue:
         # subreddit_name = 'r/'+str(conversation.owner)
         reddit_username = conversation.participant.name
         subreddit = str(conversation.owner)
-        responses = self.db.get_responses(subreddit)
+        bot_responses = self.db.get_responses(subreddit)
 
         # this logic has moved to the trigger class. so we only get triggered if no human mod is involved.
         if self.bot.has_mod_been_involved(conversation):
@@ -33,7 +33,7 @@ class Dialogue:
                 log(f'Sharing the form link with the user',
                     conversation_id=conversation.id)
                 self.bot.reply_to_mod_mail_conversation(conversation,
-                                                        responses['initial'],
+                                                        bot_responses['initial'],
                                                         form_shared=True)
                 self.bot.archive_conversation(conversation)
                 # update_user_data(conversation, 'form_shared', True)
@@ -60,7 +60,7 @@ class Dialogue:
                 elif len(user_response) > 0:
                     # user has submitted the form
                     update_user_data(conversation, 'form_filled', True)
-                    self.bot.reply_to_mod_mail_conversation(conversation, responses['final'])
+                    self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['final'])
                     log(f'Retrieved user survey response, creating a note for the mods',
                         conversation_id=conversation.id)
                     self.create_mod_note(conversation, user_response)
@@ -71,7 +71,7 @@ class Dialogue:
                     if self.bot.is_new_reply_from_user(conversation):
                         log(f'User survey response not found, reminding user to fill up the form',
                             conversation_id=conversation.id)
-                        self.bot.reply_to_mod_mail_conversation(conversation, responses['reminder'])
+                        self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['reminder'])
                         self.bot.archive_conversation(conversation)
                     else:
                         log(f'No response from the user yet',
@@ -97,7 +97,7 @@ class Dialogue:
             #     update_contacts_list(reddit_username)
             #     #provide the first response, and share the form link
             #     log(f'Sharing the form link with the user', conversationID=conversation.id)
-            #     self.bot.reply_to_mod_mail_conversation(conversation, responses['initial'])
+            #     self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['initial'])
             #     self.bot.archive_conversation(conversation)
 
             # treatment has been delivered so now we can update the user db with user info.
@@ -117,13 +117,13 @@ class Dialogue:
             # elif len(user_response) == 0:
             #     # user has not submitted any response yet
             #     log(f'User survey response not found, reminding user to fill up the form', conversationID=conversation.id)
-            #     self.bot.reply_to_mod_mail_conversation(conversation, responses['reminder'])
+            #     self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['reminder'])
             #     self.bot.archive_conversation(conversation)
 
         #     else:
         #         # user has submitted the form
         #         update_user_data(conversation)
-        #         self.bot.reply_to_mod_mail_conversation(conversation, responses['final'])
+        #         self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['final'])
         #         log(f'Retrieved user survey response, creating a note for the mods', conversationID=conversation.id)
         #         self.create_mod_note(conversation, user_response)
         #         self.bot.unarchive_conversation(conversation)
