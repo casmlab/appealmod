@@ -45,40 +45,41 @@ def main():
     while True:
         try:
             for modmail_conversation in bot.get_conversations():
+                conv_id = modmail_conversation.id
                 subreddit = str(modmail_conversation.owner)
                 log(f'Received new modmail conversation: {modmail_conversation.id} ({subreddit})',
-                    conversation_id=modmail_conversation.id)
+                    conversation_id=conv_id)
 
                 if should_trigger_reply(bot, modmail_conversation, subreddit):
-                    log(f'conversation {modmail_conversation.id} classified as a ban appeal',
-                        conversation_id=modmail_conversation.id)
+                    log(f'conversation {conv_id} classified as a ban appeal',
+                        conversation_id=conv_id)
 
                     user_model = get_user_model(modmail_conversation)
 
                     if user_model['group'] == 1:  # treatment condition
-                        log(f'Conversation {modmail_conversation.id} is assigned to the treatment group',
-                            conversation_id=modmail_conversation.id)
+                        log(f'Conversation {conv_id} is assigned to the treatment group',
+                            conversation_id=conv_id)
                         # offense = bot.get_user_ban_information(modmail_conversation.participant.name, subreddit)
                         log(f'Initiating the dialogue flow',
-                            conversation_id=modmail_conversation.id)
+                            conversation_id=conv_id)
                         dialogue.run(modmail_conversation, user_model)
 
                     else:  # control condition
-                        log(f'Conversation {modmail_conversation.id} is assigned to the control group',
-                            conversation_id=modmail_conversation.id)
+                        log(f'Conversation {conv_id} is assigned to the control group',
+                            conversation_id=conv_id)
                         # log_user_data(modmail_conversation, group)
 
                     if not has_conversation_been_logged(modmail_conversation):
                         log_conversation(modmail_conversation, bot)
                 else:
-                    log(f'Conversation {modmail_conversation.id} is not a ban appeal, will be ignored',
-                        conversation_id=modmail_conversation.id)
+                    log(f'Conversation {conv_id} is not a ban appeal, will be ignored',
+                        conversation_id=conv_id)
 
         except (ServerError, RequestException) as e:
             error_message = traceback.format_exc()
-            log(error_message, conversation_id=modmail_conversation.id)
+            log(error_message, conversation_id=conv_id)
             log(f'Received an exception from praw, retrying in 30 secs',
-                conversation_id=modmail_conversation.id)
+                conversation_id=conv_id)
             time.sleep(300)  # try again after 5 mins...
 
 
