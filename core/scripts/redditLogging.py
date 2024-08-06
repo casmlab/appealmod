@@ -45,9 +45,10 @@ def get_logger():
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.INFO)
 
-    formatter = logging.Formatter('%(asctime)s,%(msecs)03d %(levelname)-8s '
-                                  '[%(filename)s:%(lineno)d] %(message)s',
-                                  datefmt='%Y-%m-%d:%H:%M:%S')
+    formatter = logging.Formatter(
+        '%(asctime)s,%(msecs)03d %(levelname)-8s %(message)s',
+        datefmt='%Y-%m-%d:%H:%M:%S'
+    )
 
     file_handler = logging.FileHandler("redditLogging.log")
     file_handler.setFormatter(formatter)
