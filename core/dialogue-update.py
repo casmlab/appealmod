@@ -61,7 +61,7 @@ def dialogue_update_loop():
         try:
             for j, user in enumerate(cursor):
                 conversation_id = user["conv_id"]
-                subreddit = user["subreddit"]
+                subreddit = user.get("subreddit")
                 if not subreddit:
                     log(f'No subreddit found for conversation {conversation_id}', conversation_id=conversation_id)
                     continue
