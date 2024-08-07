@@ -1,6 +1,6 @@
 Django==5.0.*
-praw==7.4.*
-prawcore==2.3.*
+praw==7.*
+prawcore==2.*
 PyYAML==6.0.*
 pymongo[srv]==3.12.*
 python-dateutil==2.8.2
