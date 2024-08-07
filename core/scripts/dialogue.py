@@ -27,11 +27,11 @@ class Dialogue:
             update_user_data(conversation, 'mod_involved', True)
         else:
             if not self.bot.have_we_replied(conversation):
-                log2(conv_id, "We haven't replied")
+                log2(conv_id, f"User `{username}`: We haven't replied")
                 # we have not replied, so create a new contact and share form link
                 update_contacts_list(username, subreddit)  # todo: create a new entry in our DB
                 # provide the first response, and share the form link
-                log2(conv_id, "Sharing form with user")
+                log2(conv_id, f"User `{username}`: Sharing form...")
                 self.bot.reply_to_mod_mail_conversation(conversation,
                                                         bot_responses['initial'],
                                                         form_shared=True)
