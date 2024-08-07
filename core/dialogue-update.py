@@ -51,7 +51,7 @@ def status_updates(user, conv):
 
 
 def dialogue_update_loop():
-    log('******** Starting the dialogue update loop *****')
+    log('Starting dialogue loop...')
     while True:
         time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
         cursor = user_logs_collection.find({}, batch_size=30)

@@ -107,7 +107,7 @@ def log_conversation(praw_conversation, bot):
     if existing_conversation is None:
         to_log["unbannedTime"] = None
         conversation_logs_collection.insert_one(to_log)
-        log(f"Logged conversation {conv_id}")
+        log(f"  - `{conv_id}`: Conversation LOGGED (added to DB)", conv_id)
     else:
         if existing_conversation.get("isBanned") and not to_log.get("isBanned"):
             to_log["unbannedTime"] = datetime.now(EST)
@@ -115,7 +115,7 @@ def log_conversation(praw_conversation, bot):
             to_log["unbannedTime"] = existing_conversation.get("unbannedTime")
         conversation_logs_collection.update_one({"id": conv_id},
                                                 {"$set": to_log})
-        log(f"Updated conversation {conv_id}")
+        log(f"  - `{conv_id}`: Conversation LOGGED (updated in DB)", conv_id)
 
 
 def update_conv_ids(modmail_conversation, user_model):
@@ -154,7 +154,8 @@ def update_user_data(modmail_conversation, key, value, username=None):
 
     if username is None:
         username = modmail_conversation.participant.name
-    log(f'Updating user DB with dict {update_dict}')
+    conv_id = modmail_conversation.id
+    log(f'  - `{conv_id}`: User `{username}`: Updating data {update_dict}', conv_id)
     subreddit = str(modmail_conversation.owner)
     user_logs_collection.update_one({'username': username, 'subreddit': subreddit}, {'$set': update_dict})
 
@@ -186,14 +187,14 @@ def log_user_data(modmail_conversation, group):  # todo: rename: add_user...
         'user_deleted': False,
     }
     user_logs_collection.insert_one(mydict)
-    log(f'Inserted user {username} to the user DB')
+    log(f'  - `{conv_id}`: User `{username}`: Added to DB', conv_id)
     return mydict
 
 
 def check_user_model(username, subreddit):
     mydict = user_logs_collection.find_one({"username": username, "subreddit": subreddit})
     if mydict:  # user exists already
-        log(f'{username} is a repeat user, retrieving previously assigned group')
+        log(f'  - User `{username}`: Found in DB')  # todo: move this to `get_user_model` to log with `conv_id`
         return mydict
     else:
         return None
