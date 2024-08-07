@@ -75,7 +75,6 @@ def dialogue_update_loop():
                         continue
 
                     updated_conversation = bot.reddit.subreddit(subreddit).modmail(conversation_id)
-                    # todo: check if `subreddit` from DB the same as `subreddit` from conv, and send to slack if not the same
                     update_flag = status_updates(user, updated_conversation)
 
                     if user['group'] == 1 and update_flag:
