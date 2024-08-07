@@ -1,5 +1,5 @@
 from conf import conf
-from scripts.logger import user_logs_collection, log, update_user_data
+from scripts.logger import user_logs_collection, log, update_user_data, log2
 from config import Config as config
 import time
 from scripts.bot import Bot
@@ -60,43 +60,43 @@ def dialogue_update_loop():
         )
         try:
             for j, user in enumerate(cursor):
-                conversation_id = user["conv_id"]
+                conv_id = user["conv_id"]
                 subreddit = user.get("subreddit")
                 if not subreddit:
-                    log(f'No subreddit found for conversation {conversation_id}', conversation_id=conversation_id)
+                    log(f'No subreddit found for conversation {conv_id}', conversation_id=conv_id)
                     continue
                 if subreddit not in conf.subreddits_ids:
                     log(f'Wrong subreddit used (not in conf): "{subreddit}"')
                     continue
                 try:
                     if 'user_deleted' in user.keys() and user['user_deleted']:
-                        log(f'User for conversation {conversation_id} has deleted their account, updates will be skipped',
-                            conversation_id=conversation_id)
+                        log(f'User for conversation {conv_id} has deleted their account, updates will be skipped',
+                            conversation_id=conv_id)
                         continue
                     if 'last_conv_update' in user.keys() and (datetime.now(timezone.utc) - parser.parse(user['last_conv_update'])).days > config.UPDATE_CUTOFF:
-                        # log(f'{conversation_id} has passed the update cutoff, will no longer be updated', conversation_id=conversation_id)
+                        # log(f'{conv_id} has passed the update cutoff, will no longer be updated', conversation_id=conv_id)
                         continue
 
-                    updated_conversation = bot.reddit.subreddit(subreddit).modmail(conversation_id)
+                    updated_conversation = bot.reddit.subreddit(subreddit).modmail(conv_id)
                     update_flag = status_updates(user, updated_conversation)
 
                     if user['group'] == 1 and update_flag:
-                        log("Dialogue updates for conversation id: " + conversation_id,
-                            conversation_id=conversation_id)
-                        updated_conversation = bot.reddit.subreddit(subreddit).modmail(conversation_id)
+                        log("Dialogue updates for conversation id: " + conv_id,
+                            conversation_id=conv_id)
+                        updated_conversation = bot.reddit.subreddit(subreddit).modmail(conv_id)
                         dialogue.run(updated_conversation, user)
 
                 except Exception as e:
                     # traceback.print_exc()                
                     error_message = traceback.format_exc()
-                    log(error_message, conversation_id=conversation_id)
+                    log(error_message, conversation_id=conv_id)
                 time.sleep(5)
 
         except CursorNotFound as e:
             error_message = traceback.format_exc()
-            log(error_message, conversation_id=conversation_id)
+            log(error_message, conversation_id=conv_id)
             log(f'It appears that the cursor has expired after {j} records, update will run again after the specified delay',
-                conversation_id=conversation_id)
+                conversation_id=conv_id)
 
         # time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
         # cursor.close()
