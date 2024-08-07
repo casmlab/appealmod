@@ -201,3 +201,7 @@ def check_user_model(username, subreddit):
 
 def log(message, conversation_id=None):
     logger.info(message, extra={'conversationID': conversation_id})
+
+
+def log_str(text):
+    return f'\n```\n{text}\n```'
