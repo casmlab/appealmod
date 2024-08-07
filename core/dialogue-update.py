@@ -54,7 +54,10 @@ def dialogue_update_loop():
     log('Starting dialogue loop...')
     while True:
         time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
-        cursor = user_logs_collection.find({}, batch_size=30)
+        cursor = user_logs_collection.find(
+            {'subreddit': {'$in': conf.subreddits_ids}},
+            batch_size=30,
+        )
         try:
             for j, user in enumerate(cursor):
                 conversation_id = user["conv_id"]
