@@ -1,7 +1,7 @@
 from conf import conf
 from scripts.bot import Bot
 from scripts.trigger import should_trigger_reply
-from scripts.redditLogging import has_conversation_been_logged, log_conversation, \
+from scripts.logger import has_conversation_been_logged, log_conversation, \
     log, sanitize_object_for_mongo, log_user_data, \
     update_conv_ids, log2, user_logs_collection
 from config import Config as config

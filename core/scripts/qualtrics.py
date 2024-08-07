@@ -1,6 +1,6 @@
 import requests, json
 from core.config import Config as config
-from core.scripts.redditLogging import log
+from core.scripts.logger import log
 from core.scripts.qualtricsMap import QualtricsMap as qm
 import traceback
 from urllib.parse import urlparse, parse_qs

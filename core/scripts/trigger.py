@@ -1,5 +1,5 @@
 from prawcore.exceptions import Forbidden
-from core.scripts.redditLogging import log
+from core.scripts.logger import log
 from bs4 import BeautifulSoup
 
 

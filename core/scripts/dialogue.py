@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from core.config import Config as config
 from core.models.question import Question
 from core.scripts.db import Database
-from core.scripts.redditLogging import log, has_conversation_been_logged, \
+from core.scripts.logger import log, has_conversation_been_logged, \
     update_user_data, log2
 from core.scripts.qualtrics import get_survey_response, update_contacts_list
 from core.scripts.qualtricsMap import QualtricsMap as qm

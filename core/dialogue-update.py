@@ -1,5 +1,5 @@
 from conf import conf
-from scripts.redditLogging import user_logs_collection, log, update_user_data
+from scripts.logger import user_logs_collection, log, update_user_data
 from config import Config as config
 import time
 from scripts.bot import Bot

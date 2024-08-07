@@ -1,7 +1,7 @@
 import praw
 from core.config import Config as config
 from dateutil.parser import parse
-from core.scripts.redditLogging import log, update_user_data, log_str, log2
+from core.scripts.logger import log, update_user_data, log_str, log2
 
 
 class Bot:
