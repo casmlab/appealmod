@@ -87,9 +87,9 @@ def has_conversation_been_logged(praw_conversation):
 def log_conversation(praw_conversation, bot):
     conversation_data = sanitize_object_for_mongo(praw_conversation)
     message_data = [sanitize_object_for_mongo(m) for m in praw_conversation.messages]
-    conversation_id = praw_conversation.id
+    conv_id = praw_conversation.id
     to_log = {
-        "id": conversation_id,
+        "id": conv_id,
         "conversationData": conversation_data,
         "messageData": message_data,
     }
@@ -107,15 +107,15 @@ def log_conversation(praw_conversation, bot):
     if existing_conversation is None:
         to_log["unbannedTime"] = None
         conversation_logs_collection.insert_one(to_log)
-        log(f"Logged conversation {conversation_id}")
+        log(f"Logged conversation {conv_id}")
     else:
         if existing_conversation.get("isBanned") and not to_log.get("isBanned"):
             to_log["unbannedTime"] = datetime.now(EST)
         else:
             to_log["unbannedTime"] = existing_conversation.get("unbannedTime")
-        conversation_logs_collection.update_one({"id": conversation_id},
+        conversation_logs_collection.update_one({"id": conv_id},
                                                 {"$set": to_log})
-        log(f"Updated conversation {conversation_id}")
+        log(f"Updated conversation {conv_id}")
 
 
 def update_conv_ids(modmail_conversation, user_model):
@@ -171,10 +171,11 @@ def log_user_data(modmail_conversation, group):  # todo: rename: add_user...
             appeal_time = message.date  ## setting the appeal time
             break
 
+    conv_id = modmail_conversation.id
     # if getUserGroup(username) is None: # to ensure that we don't create duplicate entries...
     mydict = {
         'username': username,
-        'conv_id': modmail_conversation.id,
+        'conv_id': conv_id,
         'subreddit': subreddit,
         'group': group,
         'appeal_time': appeal_time,

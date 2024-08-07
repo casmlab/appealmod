@@ -65,8 +65,8 @@ class Bot:
             elif update and form_shared:
                 update_user_data(conversation, 'form_shared', True)
 
-        log(f"Replied to conversation: {conversation.id} with message: {reply}",
-            conversation_id=conversation.id)
+        conv_id = conversation.id
+        log(f"Replied to conversation: {conv_id} with message: {reply}", conv_id)
 
     def is_user_banned_from_subreddit(self, username, subreddit):
         """
@@ -91,8 +91,8 @@ class Bot:
         """
         if not self.DEBUG:
             conversation.archive()
-        log(f"Archived conversation: {conversation.id}",
-            conversation_id=conversation.id)
+        conv_id = conversation.id
+        log(f"Archived conversation: {conv_id}", conv_id)
 
     def unarchive_conversation(self, conversation):
         """
@@ -100,8 +100,8 @@ class Bot:
         """
         if not self.DEBUG:
             conversation.unarchive()
-        log(f"Unarchived conversation: {conversation.id}",
-            conversation_id=conversation.id)
+        conv_id = conversation.id
+        log(f"Unarchived conversation: {conv_id}", conv_id)
 
     def is_replied(self, conversation):  # fixme: never used?
         """
