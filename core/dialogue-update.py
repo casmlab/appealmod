@@ -61,6 +61,8 @@ def dialogue_update_loop():
             for j, user in enumerate(cursor):
                 conv_id = user["conv_id"]
                 subreddit = user.get("subreddit")
+                log(f'*** `{conv_id}` conversation in `r/{subreddit}` {"*" * 20}', conv_id)
+
                 if not subreddit:
                     # fixme: perhaps we don't need it anymore
                     log2(conv_id, 'No subreddit field found')
