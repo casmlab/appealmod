@@ -56,7 +56,7 @@ def main():
                 log(f'*** `{conv_id}` conversation in `r/{subreddit}` {"*" * 20}', conv_id)
 
                 if should_trigger_reply(bot, modmail_conversation, subreddit):
-                    log2(conv_id, f"It's a ban appeal, OK")
+                    log2(conv_id, "It's a ban appeal, OK")
 
                     user_model = get_user_model(modmail_conversation)
 

@@ -155,7 +155,7 @@ def update_user_data(modmail_conversation, key, value, username=None):
     if username is None:
         username = modmail_conversation.participant.name
     conv_id = modmail_conversation.id
-    log2(conv_id, "User `{username}`: Updating data {update_dict}")
+    log2(conv_id, f"User `{username}`: Updating data {update_dict}")
     subreddit = str(modmail_conversation.owner)
     user_logs_collection.update_one({'username': username, 'subreddit': subreddit}, {'$set': update_dict})
 

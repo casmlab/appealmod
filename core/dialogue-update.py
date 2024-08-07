@@ -63,7 +63,7 @@ def dialogue_update_loop():
                 subreddit = user.get("subreddit")
                 if not subreddit:
                     # fixme: perhaps we don't need it anymore
-                    log2(conv_id, f'No subreddit field found')
+                    log2(conv_id, 'No subreddit field found')
                     continue
                 if subreddit not in conf.subreddits_ids:
                     # fixme: perhaps we don't need it anymore
@@ -71,7 +71,7 @@ def dialogue_update_loop():
                     continue
                 try:
                     if 'user_deleted' in user.keys() and user['user_deleted']:
-                        log2(conv_id, f'User deleted account, SKIPPED')
+                        log2(conv_id, 'User deleted account, SKIPPED')
                         continue
                     if 'last_conv_update' in user.keys() and (datetime.now(timezone.utc) - parser.parse(user['last_conv_update'])).days > config.UPDATE_CUTOFF:
                         # log2(conv_id, 'passed the update cutoff, will no longer be updated')

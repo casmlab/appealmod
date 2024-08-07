@@ -45,7 +45,7 @@ class Dialogue:
                     log2(conv_id, "Note already shared with mods, DONE")
                     return
 
-                log2(conv_id, "User `{username}`: Check if form filled")
+                log2(conv_id, f"User `{username}`: Check if form filled")
                 user_response = \
                     get_survey_response(username, subreddit, None)  # todo: check if user filled out our form
 
@@ -58,7 +58,7 @@ class Dialogue:
                     user_response = {}
 
                 elif len(user_response) > 0:
-                    log2(conv_id, "User `{username}`: Form filled, OK")
+                    log2(conv_id, f"User `{username}`: Form filled, OK")
                     # user has submitted the form
                     update_user_data(conversation, 'form_filled', True)
                     self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['final'])

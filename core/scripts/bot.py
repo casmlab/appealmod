@@ -66,7 +66,7 @@ class Bot:
                 update_user_data(conversation, 'form_shared', True)
 
         conv_id = conversation.id
-        log2(conv_id, "Replied with message: {log_str(reply)}")
+        log2(conv_id, f"Replied with message: {log_str(reply)}")
 
     def is_user_banned_from_subreddit(self, username, subreddit):
         """
