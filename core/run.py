@@ -2,8 +2,8 @@ from conf import conf
 from scripts.bot import Bot
 from scripts.trigger import should_trigger_reply
 from scripts.redditLogging import has_conversation_been_logged, log_conversation, \
-    log, sanitize_object_for_mongo, log_user_data, check_user_model, \
-    update_conv_ids, log2
+    log, sanitize_object_for_mongo, log_user_data, \
+    update_conv_ids, log2, user_logs_collection
 from config import Config as config
 from scripts.db import Database
 from scripts.dialogue import Dialogue
@@ -13,14 +13,21 @@ import traceback
 import time
 
 
-def get_user_model(modmail_conversation, treatment_fraction=config.TREATMENT_FRACTION):
-    subreddit = str(modmail_conversation.owner)
-    user_model = check_user_model(modmail_conversation.participant.name, subreddit)  # to check if this is a repeat user.
+def get_user_model(modmail_conversation,
+                   treatment_fraction=config.TREATMENT_FRACTION):
 
-    if user_model is not None:  # this is repeat user
+    username = modmail_conversation.participant.name
+    subreddit = str(modmail_conversation.owner)
+    user_model = user_logs_collection.find_one({"username": username,
+                                                "subreddit": subreddit})
+
+    if user_model:  # this is repeat user
+        conv_id = modmail_conversation.id
+        log2(conv_id, f'  - User `{username}`: Found in DB')
         # update conv ids if this is a new conversation
         update_conv_ids(modmail_conversation, user_model)
         return user_model
+
     else:
         group = binomial(1, treatment_fraction)  # assign a new random group. 1 denotes treatment. 0 denotes control
         # we log user data here.

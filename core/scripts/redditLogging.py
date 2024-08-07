@@ -191,15 +191,6 @@ def log_user_data(modmail_conversation, group):  # todo: rename: add_user...
     return mydict
 
 
-def check_user_model(username, subreddit):
-    mydict = user_logs_collection.find_one({"username": username, "subreddit": subreddit})
-    if mydict:  # user exists already
-        log(f'  - User `{username}`: Found in DB')  # todo: move this to `get_user_model` to log with `conv_id`
-        return mydict
-    else:
-        return None
-
-
 def log(message, conversation_id=None):
     logger.info(message, extra={'conversationID': conversation_id})
 
