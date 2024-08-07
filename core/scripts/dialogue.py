@@ -46,24 +46,24 @@ class Dialogue:
                     return
 
                 log2(conv_id, f"User `{username}`: Check if form filled")
-                user_response = \
+                form_response = \
                     get_survey_response(username, subreddit, None)  # todo: check if user filled out our form
 
-                if user_response is None:
+                if form_response is None:  # fixme: will never happen now
                     # some error in collecting responses from qualtrics
                     log(f'Passing on the error via mod note',
                         conversation_id=conv_id)
                     self.create_mod_note(conversation, "I'm having trouble accessing user responses from Qualtrics.",
                                          error=True)
-                    user_response = {}
+                    form_response = {}
 
-                elif len(user_response) > 0:
+                elif len(form_response) > 0:
                     log2(conv_id, f"User `{username}`: Form filled, OK")
                     # user has submitted the form
                     update_user_data(conversation, 'form_filled', True)
                     self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['final'])
                     log2(conv_id, "Sending note for mods...")
-                    self.create_mod_note(conversation, user_response)
+                    self.create_mod_note(conversation, form_response)
                     self.bot.unarchive_conversation(conversation)
 
                 else:
@@ -81,16 +81,16 @@ class Dialogue:
 
             # # start_time = self.bot.get_conversation_first_message_time(conversation)
             # log(f'Trying to retrieve any exising form responses from the user {username}', conversationID=conv_id)
-            # user_response = get_survey_response(username, None)
+            # form_response = get_survey_response(username, None)
 
-            # if user_response is None:
+            # if form_response is None:
             #     # some error in collecting responses from qualtrics
             #     self.create_mod_note(conversation, "I'm having trouble accessing user responses from Qualtrics.", error=True)
-            #     user_response = {}
+            #     form_response = {}
 
             # added the extra condition on user response, so if a user has already filled a form, we don't share the link again.
             # this will handle the case where a banned user starts a new modmail conv.
-            # if not self.bot.haveWeReplied(conversation) and len(user_response) == 0:
+            # if not self.bot.haveWeReplied(conversation) and len(form_response) == 0:
             #     # we have not replied, so create a new contact and share form link
             #     update_contacts_list(username)
             #     #provide the first response, and share the form link
@@ -106,13 +106,13 @@ class Dialogue:
             # we have already replied, so check for whether user has submitted the form
             # start_time = self.bot.get_conversation_first_message_time(conversation)
             # log(f'This is an ongoing conversation, retrieving survey response for user {username} starting from {start_time}', conversationID=conv_id)
-            # user_response = get_survey_response(username, start_time)
+            # form_response = get_survey_response(username, start_time)
 
-            # if user_response is None:
+            # if form_response is None:
             #     # some error in collecting responses from qualtrics
             #     self.create_mod_note(conversation, "I'm having trouble accessing user responses from Qualtrics.", error=True)
 
-            # elif len(user_response) == 0:
+            # elif len(form_response) == 0:
             #     # user has not submitted any response yet
             #     log(f'User survey response not found, reminding user to fill up the form', conversationID=conv_id)
             #     self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['reminder'])
@@ -123,7 +123,7 @@ class Dialogue:
         #         update_user_data(conversation)
         #         self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['final'])
         #         log(f'Retrieved user survey response, creating a note for the mods', conversationID=conv_id)
-        #         self.create_mod_note(conversation, user_response)
+        #         self.create_mod_note(conversation, form_response)
         #         self.bot.unarchive_conversation(conversation)
 
         # else:
@@ -132,11 +132,11 @@ class Dialogue:
     def clean_user_text(self, user_response):
         pass
 
-    def create_mod_note(self, conversation, user_response, error=False,
+    def create_mod_note(self, conversation, form_response, error=False,
                         print_flag=False):
         # to pass on any kind of expected error to the mods, so they can report it to us.
         if error:
-            self.bot.reply_to_mod_mail_conversation(conversation, user_response,
+            self.bot.reply_to_mod_mail_conversation(conversation, form_response,
                                                     mod_note=True)
         else:
             notes_list = qm.DICTIONARY
@@ -145,24 +145,24 @@ class Dialogue:
             notes_list = sorted(notes_list, key=lambda d: d['note_order'])
 
             # no cleaning takes place as of now
-            self.clean_user_text(user_response)
+            self.clean_user_text(form_response)
 
             response_text = ""
 
             for mydict in notes_list:
                 qid = mydict['question_id']
                 # this particular question hasn't been answered by the user, so skip
-                if qid not in user_response.keys():
+                if qid not in form_response.keys():
                     continue
 
-                if isinstance(user_response[qid], list):
+                if isinstance(form_response[qid], list):
                     response_text += mydict['mod_note'] + ':: '
-                    for i, comment in enumerate(user_response[qid]):
+                    for i, comment in enumerate(form_response[qid]):
                         response_text += str(i + 1) + '. ' + comment + '\n\n'
                     response_text += '\n'
-                    # response_text += mydict['mod_note'] + ':: ' + '\n'.join(user_response[qid]) + '\n\n'
+                    # response_text += mydict['mod_note'] + ':: ' + '\n'.join(form_response[qid]) + '\n\n'
                 else:
-                    response_text += mydict['mod_note'] + ':: ' + str(user_response[qid]) + '\n\n'
+                    response_text += mydict['mod_note'] + ':: ' + str(form_response[qid]) + '\n\n'
 
             if not print_flag:
                 self.bot.reply_to_mod_mail_conversation(conversation, response_text,
