@@ -3,7 +3,7 @@ from scripts.bot import Bot
 from scripts.trigger import should_trigger_reply
 from scripts.redditLogging import has_conversation_been_logged, log_conversation, \
     log, sanitize_object_for_mongo, log_user_data, check_user_model, \
-    update_conv_ids
+    update_conv_ids, log2
 from config import Config as config
 from scripts.db import Database
 from scripts.dialogue import Dialogue
@@ -49,24 +49,24 @@ def main():
                 log(f'*** `{conv_id}` conversation in `r/{subreddit}` {"*" * 20}', conv_id)
 
                 if should_trigger_reply(bot, modmail_conversation, subreddit):
-                    log(f"  - `{conv_id}`: It's a ban appeal, OK", conv_id)
+                    log2(conv_id, f"It's a ban appeal, OK")
 
                     user_model = get_user_model(modmail_conversation)
 
                     if user_model['group'] == 1:  # treatment condition
-                        log(f"  - `{conv_id}`: It's treatment group, OK", conv_id)
+                        log2(conv_id, "It's treatment group, OK")
                         # offense = bot.get_user_ban_information(modmail_conversation.participant.name, subreddit)
-                        log(f'  - `{conv_id}`: Running dialogue flow...', conv_id)
+                        log2(conv_id, "Running dialogue flow...")
                         dialogue.run(modmail_conversation, user_model)
 
                     else:  # control condition
-                        log(f"  - `{conv_id}`: It's control group, IGNORED", conv_id)
+                        log2(conv_id, "It's control group, IGNORED")
                         # log_user_data(modmail_conversation, group)
 
                     if not has_conversation_been_logged(modmail_conversation):
                         log_conversation(modmail_conversation, bot)
                 else:
-                    log(f"  - `{conv_id}`: It's NOT a ban appeal, IGNORED", conv_id)
+                    log2(conv_id, "It's NOT a ban appeal, IGNORED")
 
         except (ServerError, RequestException) as e:
             error_message = traceback.format_exc()

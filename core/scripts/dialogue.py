@@ -3,7 +3,7 @@ from core.config import Config as config
 from core.models.question import Question
 from core.scripts.db import Database
 from core.scripts.redditLogging import log, has_conversation_been_logged, \
-    update_user_data
+    update_user_data, log2
 from core.scripts.qualtrics import get_survey_response, update_contacts_list
 from core.scripts.qualtricsMap import QualtricsMap as qm
 
@@ -23,15 +23,15 @@ class Dialogue:
         # this logic has moved to the trigger class. so we only get triggered if no human mod is involved.
         if self.bot.has_mod_been_involved(conversation):
             # mod has been involved so ignore this conversation
-            log(f"  - `{conv_id}`: Human mod involved, IGNORED", conv_id)
+            log2(conv_id, "Human mod involved, IGNORED")
             update_user_data(conversation, 'mod_involved', True)
         else:
             if not self.bot.have_we_replied(conversation):
-                log(f"  - `{conv_id}`: We haven't replied", conv_id)
+                log2(conv_id, "We haven't replied")
                 # we have not replied, so create a new contact and share form link
                 update_contacts_list(username, subreddit)  # todo: create a new entry in our DB
                 # provide the first response, and share the form link
-                log(f'  - `{conv_id}`: Sharing form with user', conv_id)
+                log2(conv_id, "Sharing form with user")
                 self.bot.reply_to_mod_mail_conversation(conversation,
                                                         bot_responses['initial'],
                                                         form_shared=True)
@@ -39,13 +39,13 @@ class Dialogue:
                 # update_user_data(conversation, 'form_shared', True)
 
             else:
-                log(f"  - `{conv_id}`: Bot already replied, OK", conv_id)
+                log2(conv_id, "Bot already replied, OK")
 
                 if user_model['note_shared']:
-                    log(f'  - `{conv_id}`: Note already shared with mods, DONE', conv_id)
+                    log2(conv_id, "Note already shared with mods, DONE")
                     return
 
-                log(f'  - `{conv_id}`: User `{username}`: Check if form filled', conv_id)
+                log2(conv_id, "User `{username}`: Check if form filled")
                 user_response = \
                     get_survey_response(username, subreddit, None)  # todo: check if user filled out our form
 
@@ -58,22 +58,22 @@ class Dialogue:
                     user_response = {}
 
                 elif len(user_response) > 0:
-                    log(f'  - `{conv_id}`: User `{username}`: Form filled, OK', conv_id)
+                    log2(conv_id, "User `{username}`: Form filled, OK")
                     # user has submitted the form
                     update_user_data(conversation, 'form_filled', True)
                     self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['final'])
-                    log(f'  - `{conv_id}`: Sending note for mods...', conv_id)
+                    log2(conv_id, "Sending note for mods...")
                     self.create_mod_note(conversation, user_response)
                     self.bot.unarchive_conversation(conversation)
 
                 else:
                     # user has not submitted any response yet
                     if self.bot.is_new_reply_from_user(conversation):
-                        log(f'  - `{conv_id}`: Form not filled, Reminding user...', conv_id)
+                        log2(conv_id, "Form not filled, Reminding user...")
                         self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['reminder'])
                         self.bot.archive_conversation(conversation)
                     else:
-                        log(f'  - `{conv_id}`: No response from user yet, DONE', conv_id)
+                        log2(conv_id, "No response from user yet, DONE")
 
             # if self.bot.is_new_reply_from_user(conversation):
             # # all our actions are triggered by some response from the user

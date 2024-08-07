@@ -1,7 +1,7 @@
 import praw
 from core.config import Config as config
 from dateutil.parser import parse
-from core.scripts.redditLogging import log, update_user_data, log_str
+from core.scripts.redditLogging import log, update_user_data, log_str, log2
 
 
 class Bot:
@@ -66,7 +66,7 @@ class Bot:
                 update_user_data(conversation, 'form_shared', True)
 
         conv_id = conversation.id
-        log(f"  - `{conv_id}`: Replied with message: {log_str(reply)}", conv_id)
+        log2(conv_id, "Replied with message: {log_str(reply)}")
 
     def is_user_banned_from_subreddit(self, username, subreddit):
         """
@@ -92,7 +92,7 @@ class Bot:
         if not self.DEBUG:
             conversation.archive()
         conv_id = conversation.id
-        log(f"  - `{conv_id}`: Conversation ARCHIVED", conv_id)
+        log2(conv_id, "Conversation ARCHIVED")
 
     def unarchive_conversation(self, conversation):
         """
@@ -101,7 +101,7 @@ class Bot:
         if not self.DEBUG:
             conversation.unarchive()
         conv_id = conversation.id
-        log(f"  - `{conv_id}`: Conversation UNARCHIVED", conv_id)
+        log2(conv_id, "Conversation UNARCHIVED")
 
     def is_replied(self, conversation):  # fixme: never used?
         """
