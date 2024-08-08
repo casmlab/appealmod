@@ -1,5 +1,5 @@
 from prawcore.exceptions import Forbidden
-from core.scripts.logger import log
+from core.scripts.logger import log2
 from bs4 import BeautifulSoup
 
 
@@ -28,8 +28,7 @@ def should_trigger_reply(bot, conversation, subreddit):
 
     # return conversation.num_messages < 2 and bot.isUserBannedFromSubreddit(conversation.author)
     if conversation.authors[-1].name == 'ArchangelleN8theGr8':  # another bot used in reddit
-        log(f'This is a pre-emptive ban by an anti-brigade bot, will be ignored',
-            conversation_id=conv_id)
+        log2(subreddit, conv_id, f'Pre-emptive ban by an anti-brigade bot, IGNORED')
         return False
 
     for author in conversation.authors:
@@ -39,22 +38,18 @@ def should_trigger_reply(bot, conversation, subreddit):
 
                 if 'temporarily banned' in conversation.subject:
                     # ignore temp bans...
-                    log(f'The conv {conv_id} is a temp ban, will be ignored',
-                        conversation_id=conv_id)
+                    log2(subreddit, conv_id, f'Is a temp ban, IGNORED')
                     return False
 
                 elif bot.has_mod_been_involved(conversation):
                     # mod has been involved so ignore this conversation
-                    log(f"A human mod has been involved in this conversation {conv_id}, will be ignored by our bot",
-                        conversation_id=conv_id)
+                    log2(subreddit, conv_id, f"A human mod has been involved in this conversation {conv_id}, IGNORED")
                     return False
 
                 elif not contains_reason(conversation):
-                    log(f"For conversation {conv_id} ({subreddit}), the ban contains no reason, will be ignored.",
-                        conversation_id=conversation.id)
+                    log2(subreddit, conv_id, f"Ban with no reason, IGNORED")
                     if not bot.have_we_replied(conversation):
-                        log(f"Writing a mod note to inform mods that the reason for ban is missing",
-                            conversation_id=conv_id)
+                        log2(subreddit, conv_id, f"Writing a mod note: ban reason is missing")
                         response = 'Hi mods, it seems that the reason for ban is not available for this user so I will not engage with them.'
                         bot.reply_to_mod_mail_conversation(conversation, response,
                                                            mod_note=True, update=False)
@@ -65,7 +60,6 @@ def should_trigger_reply(bot, conversation, subreddit):
                     return True
 
         except Forbidden:
-            log(f'Unable to get user ban status {author}',
-                conversation_id=conv_id)
+            log2(subreddit, conv_id, f'Unable to get user ban status {author}')
 
     return False
