@@ -88,6 +88,7 @@ def log_conversation(praw_conversation, bot):
     conversation_data = sanitize_object_for_mongo(praw_conversation)
     message_data = [sanitize_object_for_mongo(m) for m in praw_conversation.messages]
     conv_id = praw_conversation.id
+    subreddit = str(praw_conversation.owner)
     to_log = {
         "id": conv_id,
         "conversationData": conversation_data,
@@ -107,7 +108,7 @@ def log_conversation(praw_conversation, bot):
     if existing_conversation is None:
         to_log["unbannedTime"] = None
         conversation_logs_collection.insert_one(to_log)
-        log2(conv_id, "Conversation LOGGED (added to DB)")
+        log2(subreddit, conv_id, "Conversation LOGGED (added to DB)")
     else:
         if existing_conversation.get("isBanned") and not to_log.get("isBanned"):
             to_log["unbannedTime"] = datetime.now(EST)
@@ -115,7 +116,7 @@ def log_conversation(praw_conversation, bot):
             to_log["unbannedTime"] = existing_conversation.get("unbannedTime")
         conversation_logs_collection.update_one({"id": conv_id},
                                                 {"$set": to_log})
-        log2(conv_id, "Conversation LOGGED (updated in DB)")
+        log2(subreddit, conv_id, "Conversation LOGGED (updated in DB)")
 
 
 def update_conv_ids(modmail_conversation, user_model):
@@ -155,8 +156,8 @@ def update_user_data(modmail_conversation, key, value, username=None):
     if username is None:
         username = modmail_conversation.participant.name
     conv_id = modmail_conversation.id
-    log2(conv_id, f"User `{username}`: Updating data {update_dict}")
     subreddit = str(modmail_conversation.owner)
+    log2(subreddit, conv_id, f"User `{username}`: Updating data {update_dict}")
     user_logs_collection.update_one({'username': username, 'subreddit': subreddit}, {'$set': update_dict})
 
 
@@ -173,6 +174,7 @@ def log_user_data(modmail_conversation, group):  # todo: rename: add_user...
             break
 
     conv_id = modmail_conversation.id
+    subreddit = str(modmail_conversation.owner)
     # if getUserGroup(username) is None: # to ensure that we don't create duplicate entries...
     mydict = {
         'username': username,
@@ -187,17 +189,18 @@ def log_user_data(modmail_conversation, group):  # todo: rename: add_user...
         'user_deleted': False,
     }
     user_logs_collection.insert_one(mydict)
-    log2(conv_id, f'User `{username}`: Added to DB')
+    log2(subreddit, conv_id, f'User `{username}`: Added to DB')
     return mydict
 
 
-def log(message, conversation_id=None):
-    logger.info(message, extra={'conversationID': conversation_id})
+def log(message, conversation_id=None, subreddit=None):
+    logger.info(message, extra={'conversationID': conversation_id,
+                                'subreddit': subreddit})
 
 
 def log_str(text):
     return f'\n```\n{text}\n```'
 
 
-def log2(conv_id, message):
-    log(f'  - `{conv_id}`: {message}', conv_id)
+def log2(subreddit, conv_id, message):
+    log(f'  - `{subreddit}/{conv_id}`: {message}', conv_id, subreddit)

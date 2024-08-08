@@ -22,7 +22,8 @@ dialogue = Dialogue(bot)
 
 
 def status_updates(user, conv):
-    log2(user['conv_id'], "Status update")
+    subreddit = str(conv.owner)
+    log2(subreddit, user['conv_id'], "Status update")
     # values to update: last_conv_update, user_deleted, appeal_accept
     if conv.participant.name == '[deleted]':
         update_user_data(conv, 'user_deleted', True,
@@ -39,7 +40,6 @@ def status_updates(user, conv):
 
         values = [last_update_time]
 
-        subreddit = str(conv.owner)
         if not bot.is_user_banned_from_subreddit(user['username'], subreddit):
             values.append(True)
         else:
@@ -61,19 +61,19 @@ def dialogue_update_loop():
             for j, user in enumerate(cursor):
                 conv_id = user["conv_id"]
                 subreddit = user.get("subreddit")
-                log(f'*** `{conv_id}` conversation in `r/{subreddit}` {"*" * 20}', conv_id)
+                log(f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}', conv_id)
 
                 if not subreddit:
                     # fixme: perhaps we don't need it anymore
-                    log2(conv_id, 'No subreddit field found')
+                    log2(subreddit, conv_id, 'No subreddit field found')
                     continue
                 if subreddit not in conf.subreddits_ids:
                     # fixme: perhaps we don't need it anymore
-                    log2(conv_id, f'Wrong subreddit (not in conf): "{subreddit}"')
+                    log2(subreddit, conv_id, f'Wrong subreddit (not in conf): "{subreddit}"')
                     continue
                 try:
                     if 'user_deleted' in user.keys() and user['user_deleted']:
-                        log2(conv_id, 'User deleted account, SKIPPED')
+                        log2(subreddit, conv_id, 'User deleted account, SKIPPED')
                         continue
                     if 'last_conv_update' in user.keys() and (datetime.now(timezone.utc) - parser.parse(user['last_conv_update'])).days > config.UPDATE_CUTOFF:
                         # log2(conv_id, 'passed the update cutoff, will no longer be updated')
@@ -83,7 +83,7 @@ def dialogue_update_loop():
                     update_flag = status_updates(user, updated_conversation)
 
                     if user['group'] == 1 and update_flag:
-                        log2(conv_id, "Dialogue updates")
+                        log2(subreddit, conv_id, "Dialogue updates")
                         updated_conversation = bot.reddit.subreddit(subreddit).modmail(conv_id)
                         dialogue.run(updated_conversation, user)
 

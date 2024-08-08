@@ -66,7 +66,8 @@ class Bot:
                 update_user_data(conversation, 'form_shared', True)
 
         conv_id = conversation.id
-        log2(conv_id, f"Replied with message: {log_str(reply)}")
+        subreddit = str(conversation.owner)
+        log2(subreddit, conv_id, f"Replied with message: {log_str(reply)}")
 
     def is_user_banned_from_subreddit(self, username, subreddit):
         """
@@ -92,7 +93,8 @@ class Bot:
         if not self.DEBUG:
             conversation.archive()
         conv_id = conversation.id
-        log2(conv_id, "Conversation ARCHIVED")
+        subreddit = str(conversation.owner)
+        log2(subreddit, conv_id, "Conversation ARCHIVED")
 
     def unarchive_conversation(self, conversation):
         """
@@ -101,7 +103,8 @@ class Bot:
         if not self.DEBUG:
             conversation.unarchive()
         conv_id = conversation.id
-        log2(conv_id, "Conversation UNARCHIVED")
+        subreddit = str(conversation.owner)
+        log2(subreddit, conv_id, "Conversation UNARCHIVED")
 
     def is_replied(self, conversation):  # fixme: never used?
         """

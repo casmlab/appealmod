@@ -23,7 +23,7 @@ def get_user_model(modmail_conversation,
 
     if user_model:  # this is repeat user
         conv_id = modmail_conversation.id
-        log2(conv_id, f'  - User `{username}`: Found in DB')
+        log2(subreddit, conv_id, f'User `{username}`: Found in DB')
         # update conv ids if this is a new conversation
         update_conv_ids(modmail_conversation, user_model)
         return user_model
@@ -53,27 +53,27 @@ def main():
             for modmail_conversation in bot.get_conversations():
                 conv_id = modmail_conversation.id
                 subreddit = str(modmail_conversation.owner)
-                log(f'*** `{conv_id}` conversation in `r/{subreddit}` {"*" * 20}', conv_id)
+                log(f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}', conv_id)
 
                 if should_trigger_reply(bot, modmail_conversation, subreddit):
-                    log2(conv_id, "It's a ban appeal, OK")
+                    log2(subreddit, conv_id, "It's a ban appeal, OK")
 
                     user_model = get_user_model(modmail_conversation)
 
                     if user_model['group'] == 1:  # treatment condition
-                        log2(conv_id, "It's treatment group, OK")
+                        log2(subreddit, conv_id, "It's treatment group, OK")
                         # offense = bot.get_user_ban_information(modmail_conversation.participant.name, subreddit)
-                        log2(conv_id, "Running dialogue flow...")
+                        log2(subreddit, conv_id, "Running dialogue flow...")
                         dialogue.run(modmail_conversation, user_model)
 
                     else:  # control condition
-                        log2(conv_id, "It's control group, IGNORED")
+                        log2(subreddit, conv_id, "It's control group, IGNORED")
                         # log_user_data(modmail_conversation, group)
 
                     if not has_conversation_been_logged(modmail_conversation):
                         log_conversation(modmail_conversation, bot)
                 else:
-                    log2(conv_id, "It's NOT a ban appeal, IGNORED")
+                    log2(subreddit, conv_id, "It's NOT a ban appeal, IGNORED")
 
         except (ServerError, RequestException) as e:
             error_message = traceback.format_exc()
