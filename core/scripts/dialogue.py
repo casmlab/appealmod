@@ -2,9 +2,9 @@ from pymongo import MongoClient
 from core.config import Config as config
 from core.models.question import Question
 from core.scripts.db import Database
+from core.scripts.form import add_form_entry, get_form_response
 from core.scripts.logger import log, has_conversation_been_logged, \
     update_user_data, log2
-from core.scripts.qualtrics import get_survey_response, update_contacts_list
 from core.scripts.qualtricsMap import QualtricsMap as qm
 
 
@@ -29,7 +29,8 @@ class Dialogue:
             if not self.bot.have_we_replied(conversation):
                 log2(conv_id, f"User `{username}`: We haven't replied")
                 # we have not replied, so create a new contact and share form link
-                update_contacts_list(username, subreddit)  # todo: create a new entry in our DB
+                log2(conv_id, f"User `{username}`: Creating form entry")
+                add_form_entry(username, subreddit)
                 # provide the first response, and share the form link
                 log2(conv_id, f"User `{username}`: Sharing form...")
                 self.bot.reply_to_mod_mail_conversation(conversation,
@@ -46,10 +47,9 @@ class Dialogue:
                     return
 
                 log2(conv_id, f"User `{username}`: Check if form filled")
-                form_response = \
-                    get_survey_response(username, subreddit, None)  # todo: check if user filled out our form
+                form_response = get_form_response(username, subreddit)
 
-                if form_response is None:  # fixme: will never happen now
+                if form_response is None:
                     # some error in collecting responses from qualtrics
                     log(f'Passing on the error via mod note',
                         conversation_id=conv_id)
@@ -57,7 +57,7 @@ class Dialogue:
                                          error=True)
                     form_response = {}
 
-                elif len(form_response) > 0:
+                elif form_response.filled():
                     log2(conv_id, f"User `{username}`: Form filled, OK")
                     # user has submitted the form
                     update_user_data(conversation, 'form_filled', True)
@@ -147,22 +147,13 @@ class Dialogue:
             # no cleaning takes place as of now
             self.clean_user_text(form_response)
 
-            response_text = ""
-
-            for mydict in notes_list:
-                qid = mydict['question_id']
-                # this particular question hasn't been answered by the user, so skip
-                if qid not in form_response.keys():
-                    continue
-
-                if isinstance(form_response[qid], list):
-                    response_text += mydict['mod_note'] + ':: '
-                    for i, comment in enumerate(form_response[qid]):
-                        response_text += str(i + 1) + '. ' + comment + '\n\n'
-                    response_text += '\n'
-                    # response_text += mydict['mod_note'] + ':: ' + '\n'.join(form_response[qid]) + '\n\n'
-                else:
-                    response_text += mydict['mod_note'] + ':: ' + str(form_response[qid]) + '\n\n'
+            # todo: bold
+            response_text = "User's reflection on their behavior:" + "\n" + \
+                form_response.describe_actions + '\n\n' + \
+                "User's explanation of the rule led to their ban:" + "\n" + \
+                form_response.describe_rule + '\n\n' + \
+                "Changes in the future" + "\n" + \
+                form_response.what_steps
 
             if not print_flag:
                 self.bot.reply_to_mod_mail_conversation(conversation, response_text,
