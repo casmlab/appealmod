@@ -28,12 +28,18 @@ class MongoDBLogger(StreamHandler):
         except Exception as e:
             conversation_id = None
 
+        try:
+            subreddit = record.subreddit
+        except Exception as e:
+            subreddit = None
+
         msg = self.format(record)
         # write the log message to the mongo database
         application_logs_collection.insert_one({
             "message": msg,
             "timestamp": datetime.now(),
-            'conversationID': conversation_id
+            'conversationID': conversation_id,
+            'subreddit': subreddit,
         })
 
 
