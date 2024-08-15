@@ -139,8 +139,9 @@ def update_conv_ids(modmail_conversation, user_model):
     else:
         other_conv_ids.append(modmail_conversation.id)
         username = user_model['username']
-        log(f'This is a new conversation by the same user {username}, updating the model with the new conv id',
-            conversation_id=modmail_conversation.id)
+        conv_id = modmail_conversation.id
+        subreddit = str(modmail_conversation.owner)
+        log2(subreddit, conv_id, f'New conv by same user `{username}`, updating model')
         update_user_data(modmail_conversation, 'other_conv_ids', other_conv_ids)
 
 
