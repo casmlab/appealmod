@@ -30,7 +30,9 @@ class Dialogue:
                 log2(subreddit, conv_id, f"User `{username}`: We haven't replied")
                 # we have not replied, so create a new contact and share form link
                 log2(subreddit, conv_id, f"User `{username}`: Creating form entry")
-                add_form_entry(username, subreddit)
+                entry = add_form_entry(username, subreddit)
+                if not entry:
+                    log2(subreddit, conv_id, f"User `{username}`: Error creating form entry")
                 # provide the first response, and share the form link
                 log2(subreddit, conv_id, f"User `{username}`: Sharing form...")
                 self.bot.reply_to_mod_mail_conversation(conversation,
