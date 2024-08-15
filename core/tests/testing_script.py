@@ -26,7 +26,8 @@ def unban_user(username, subreddit):
 
 def get_users_cursor(username, subreddit):
     # print((any(reddit.subreddit(subreddit).banned(username))))
-    cursor = user_logs_collection.find({'username': username})  # todo: add subreddit
+    cursor = user_logs_collection.find({'username': username,
+                                        'subreddit': subreddit})
     # print(len(list(cursor)))
     return cursor
 
