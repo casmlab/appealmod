@@ -33,7 +33,8 @@ def get_users_cursor(username, subreddit):
 
 
 def ban_user(username, subreddit):
-    reddit.subreddit(subreddit).banned.add(username, ban_reason="banned",
+    reddit.subreddit(subreddit).banned.add(username, ban_message="banned",
+                                           ban_reason="banned",
                                            note="Banned with note")
 
 
