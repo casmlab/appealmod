@@ -93,7 +93,9 @@ def update_conv_ids(conv, user):
     update_user_data(conv, 'other_conv_ids', other_conv_ids)
 
 
-def update_user_data(conv, key, value, username=None):
+def update_user_data(conv, key, value, force_username=None):
+    username = force_username if force_username else conv.participant.name
+    subreddit = str(conv.owner)
 
     if type(key) is list and type(value) is list:
         pass
@@ -108,11 +110,7 @@ def update_user_data(conv, key, value, username=None):
         log(f'Key is {key} and value is {value}')
         update_dict = {}
 
-    if username is None:
-        username = conv.participant.name
-    conv_id = conv.id
-    subreddit = str(conv.owner)
-    log2(subreddit, conv_id, f"User `{username}`: Updating data {update_dict}")
+    log2(subreddit, conv.id, f"User `{username}`: Updating data {update_dict}")
     user_logs_collection.update_one({'username': username, 'subreddit': subreddit}, {'$set': update_dict})
 
 
