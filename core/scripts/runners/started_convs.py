@@ -7,8 +7,9 @@ from pymongo.errors import CursorNotFound
 
 from core.conf import conf
 from core.config import Config as config
+from core.scripts.db.db import db
 from core.scripts.dialogue_bot import dialogue_bot
-from core.scripts.logger import user_logs_collection, log, update_user_data, log2
+from core.scripts.logger import user_logs_collection, log, log2
 from core.scripts.reddit_bot import reddit_bot
 
 
@@ -17,8 +18,8 @@ def status_updates(user, conv):
     log2(subreddit, user['conv_id'], "Status update")
     # values to update: last_conv_update, user_deleted, appeal_accept
     if conv.participant.name == '[deleted]':
-        update_user_data(conv, 'user_deleted', True,
-                         username=user['username'])
+        db.users.update(conv, 'user_deleted', True,
+                        force_username=user['username'])
         return False
 
     else:
@@ -36,7 +37,7 @@ def status_updates(user, conv):
         else:
             values.append(False)
 
-        update_user_data(conv, keys, values)
+        db.users.update(conv, keys, values)
         return True
 
 
@@ -79,7 +80,7 @@ def dialogue_update_loop():
                         dialogue_bot.run(updated_conversation, user)
 
                 except Exception as e:
-                    # traceback.print_exc()                
+                    # traceback.print_exc()
                     error_message = traceback.format_exc()
                     log(error_message, conv_id=conv_id)
                 time.sleep(5)

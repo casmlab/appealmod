@@ -2,7 +2,8 @@ import praw
 
 from core.conf import conf
 from core.config import Config as config
-from core.scripts.logger import update_user_data, log_str, log2
+from core.scripts.db.db import db
+from core.scripts.logger import log_str, log2
 
 
 class RedditBot:
@@ -62,9 +63,9 @@ class RedditBot:
         if not self.DEBUG:
             conversation.reply(reply, internal=mod_note)
             if update and mod_note:
-                update_user_data(conversation, 'note_shared', True)
+                db.users.update(conversation, 'note_shared', True)
             elif update and form_shared:
-                update_user_data(conversation, 'form_shared', True)
+                db.users.update(conversation, 'form_shared', True)
 
         conv_id = conversation.id
         subreddit = str(conversation.owner)

@@ -1,7 +1,7 @@
 from core._old.qualtricsMap import QualtricsMap as qm
 from core.scripts.db.db import db
 from core.scripts.form import add_form_entry, get_form_response
-from core.scripts.logger import log, update_user_data, log2
+from core.scripts.logger import log, log2
 from core.scripts.reddit_bot import reddit_bot
 
 
@@ -16,7 +16,7 @@ class DialogueBot:
         if reddit_bot.has_mod_been_involved(conv):
             # mod has been involved so ignore this conversation
             log2(subreddit, conv.id, "Human mod involved, IGNORED")
-            update_user_data(conv, 'mod_involved', True)
+            db.users.update(conv, 'mod_involved', True)
         else:
             if not reddit_bot.have_we_replied(conv):
                 log2(subreddit, conv.id, f"User `{username}`: We haven't replied")
@@ -31,7 +31,7 @@ class DialogueBot:
                                                           bot_responses['initial'],
                                                           form_shared=True)
                 reddit_bot.archive_conversation(conv)
-                # update_user_data(conversation, 'form_shared', True)
+                # db.users.update(conv, 'form_shared', True)
 
             else:
                 log2(subreddit, conv.id, "Bot already replied, OK")
@@ -53,7 +53,7 @@ class DialogueBot:
                 elif form_response.filled():
                     log2(subreddit, conv.id, f"User `{username}`: Form filled, OK")
                     # user has submitted the form
-                    update_user_data(conv, 'form_filled', True)
+                    db.users.update(conv, 'form_filled', True)
                     reddit_bot.reply_to_mod_mail_conversation(conv, bot_responses['final'])
                     log2(subreddit, conv.id, "Sending note for mods...")
                     self.create_mod_note(conv, form_response)

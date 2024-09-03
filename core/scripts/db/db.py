@@ -5,6 +5,7 @@ from core.scripts.db.db_bot_responses import DbBotResponses
 from core.scripts.db.db_conversations import DbConversations
 from core.scripts.db.db_logs import DbLogs
 from core.scripts.db.db_subreddits import DbSubreddits
+from core.scripts.db.db_users import DbUsers
 
 
 class Database:
@@ -16,6 +17,7 @@ class Database:
         self.conversations = DbConversations(cluster['conversation-logs'])
         self.logs = DbLogs(cluster['application-logs'])
         self.subreddits = DbSubreddits(cluster['subreddits_info'])  # fixme: never used?
+        self.users = DbUsers(cluster['user-logs'])
 
 
 db = Database()

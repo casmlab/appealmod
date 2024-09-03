@@ -5,7 +5,7 @@ from prawcore.exceptions import ServerError, RequestException
 
 from core.scripts.db.db import db
 from core.scripts.dialogue_bot import dialogue_bot
-from core.scripts.logger import log, log2, get_user_model
+from core.scripts.logger import log, log2
 from core.scripts.reddit_bot import reddit_bot
 from core.scripts.trigger import should_trigger_reply
 
@@ -31,13 +31,13 @@ def main():
                 if should_trigger_reply(reddit_bot, conv, subreddit):
                     log2(subreddit, conv_id, "It's a ban appeal, OK")
 
-                    user_model = get_user_model(conv)
+                    user = db.users.get_or_create(conv)
 
-                    if user_model['group'] == 1:  # treatment condition
+                    if user['group'] == 1:  # treatment condition
                         log2(subreddit, conv_id, "It's treatment group, OK")
                         # offense = bot.get_user_ban_information(conv.participant.name, subreddit)
                         log2(subreddit, conv_id, "Running dialogue flow...")
-                        dialogue_bot.run(conv, user_model)
+                        dialogue_bot.run(conv, user)
 
                     else:  # control condition
                         log2(subreddit, conv_id, "It's control group, IGNORED")
