@@ -1,7 +1,7 @@
-import requests, json
+import requests
 from core.config import Config as config
 from core.scripts.logger import log
-from core.scripts.qualtricsMap import QualtricsMap as qm
+from core._old.qualtricsMap import QualtricsMap as qm
 import traceback
 from urllib.parse import urlparse, parse_qs
 
