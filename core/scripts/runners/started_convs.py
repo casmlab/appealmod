@@ -1,13 +1,15 @@
-from core.conf import conf
-from core.scripts.logger import user_logs_collection, log, update_user_data, log2
-from core.config import Config as config
 import time
-from core.scripts.reddit_bot import Bot
 import traceback
-from core.scripts.dialogue import Dialogue
-from pymongo.errors import CursorNotFound
 from datetime import datetime, timezone
+
 from dateutil import parser
+from pymongo.errors import CursorNotFound
+
+from core.conf import conf
+from core.config import Config as config
+from core.scripts.dialogue import Dialogue
+from core.scripts.logger import user_logs_collection, log, update_user_data, log2
+from core.scripts.reddit_bot import Bot
 
 bot = Bot(conf.subreddits_ids)
 dialogue = Dialogue(bot)

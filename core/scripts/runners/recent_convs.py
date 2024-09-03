@@ -1,16 +1,16 @@
-from core.conf import conf
-from core.scripts.reddit_bot import Bot
-from core.scripts.trigger import should_trigger_reply
-from core.scripts.logger import has_conversation_been_logged, log_conversation, \
-    log, sanitize_object_for_mongo, log_user_data, \
-    update_conv_ids, log2, user_logs_collection
-from core.config import Config as config
-from core.scripts.db import Database
-from core.scripts.dialogue import Dialogue
+import time
+import traceback
+
 from numpy.random import binomial
 from prawcore.exceptions import ServerError, RequestException
-import traceback
-import time
+
+from core.conf import conf
+from core.config import Config as config
+from core.scripts.dialogue import Dialogue
+from core.scripts.logger import has_conversation_been_logged, log_conversation, \
+    log, log_user_data, update_conv_ids, log2, user_logs_collection
+from core.scripts.reddit_bot import Bot
+from core.scripts.trigger import should_trigger_reply
 
 
 def get_user_model(modmail_conversation,

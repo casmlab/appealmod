@@ -1,11 +1,7 @@
-from pymongo import MongoClient
-from core.config import Config as config
-from core.models.question import Question
+from core._old.qualtricsMap import QualtricsMap as qm
 from core.scripts.db import Database
 from core.scripts.form import add_form_entry, get_form_response
-from core.scripts.logger import log, has_conversation_been_logged, \
-    update_user_data, log2
-from core.scripts.qualtricsMap import QualtricsMap as qm
+from core.scripts.logger import log, update_user_data, log2
 
 
 class Dialogue:

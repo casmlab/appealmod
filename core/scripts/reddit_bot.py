@@ -1,6 +1,6 @@
 import praw
+
 from core.config import Config as config
-from dateutil.parser import parse
 from core.scripts.logger import log, update_user_data, log_str, log2
 
 

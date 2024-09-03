@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+
 from core.config import Config as config
 from core.models.question import Question
 
