@@ -40,8 +40,8 @@ def main():
     Driver function
     Add testing functions
     """
-    bot = Bot(conf.subreddits_ids)
-    dialogue = Dialogue(bot)
+    reddit_bot = Bot(conf.subreddits_ids)
+    dialogue = Dialogue(reddit_bot)
     exception_flag = False
     # NOTE: Any conversation-specific logic should NOT be a part of this driver class
     # NOTE: Peripheral things such as logging the conversation should be a part of the driver class
@@ -50,12 +50,12 @@ def main():
     # consider all msgs not just appeals...
     while True:
         try:
-            for modmail_conversation in bot.get_conversations():
+            for modmail_conversation in reddit_bot.get_conversations():
                 conv_id = modmail_conversation.id
                 subreddit = str(modmail_conversation.owner)
                 log(f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}', conv_id)
 
-                if should_trigger_reply(bot, modmail_conversation, subreddit):
+                if should_trigger_reply(reddit_bot, modmail_conversation, subreddit):
                     log2(subreddit, conv_id, "It's a ban appeal, OK")
 
                     user_model = get_user_model(modmail_conversation)
@@ -71,7 +71,7 @@ def main():
                         # log_user_data(modmail_conversation, group)
 
                     if not has_conversation_been_logged(modmail_conversation):
-                        log_conversation(modmail_conversation, bot)
+                        log_conversation(modmail_conversation, reddit_bot)
                 else:
                     log2(subreddit, conv_id, "It's NOT a ban appeal, IGNORED")
 

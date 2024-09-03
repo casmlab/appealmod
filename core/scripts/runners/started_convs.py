@@ -11,8 +11,8 @@ from core.scripts.dialogue import Dialogue
 from core.scripts.logger import user_logs_collection, log, update_user_data, log2
 from core.scripts.reddit_bot import Bot
 
-bot = Bot(conf.subreddits_ids)
-dialogue = Dialogue(bot)
+reddit_bot = Bot(conf.subreddits_ids)
+dialogue = Dialogue(reddit_bot)
 
 
 def status_updates(user, conv):
@@ -34,7 +34,7 @@ def status_updates(user, conv):
 
         values = [last_update_time]
 
-        if not bot.is_user_banned_from_subreddit(user['username'], subreddit):
+        if not reddit_bot.is_user_banned_from_subreddit(user['username'], subreddit):
             values.append(True)
         else:
             values.append(False)
@@ -73,12 +73,12 @@ def dialogue_update_loop():
                         # log2(conv_id, 'passed the update cutoff, will no longer be updated')
                         continue
 
-                    updated_conversation = bot.reddit.subreddit(subreddit).modmail(conv_id)
+                    updated_conversation = reddit_bot.reddit.subreddit(subreddit).modmail(conv_id)
                     update_flag = status_updates(user, updated_conversation)
 
                     if user['group'] == 1 and update_flag:
                         log2(subreddit, conv_id, "Dialogue updates")
-                        updated_conversation = bot.reddit.subreddit(subreddit).modmail(conv_id)
+                        updated_conversation = reddit_bot.reddit.subreddit(subreddit).modmail(conv_id)
                         dialogue.run(updated_conversation, user)
 
                 except Exception as e:
