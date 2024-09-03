@@ -1,4 +1,4 @@
-import core.scripts.bin  # to enable django support
+import core.bin.django_bin  # to enable django support, # todo: remove from here
 from main.models import BanAppealData
 
 
