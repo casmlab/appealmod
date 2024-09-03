@@ -1,37 +1,13 @@
 import time
 import traceback
 
-from numpy.random import binomial
 from prawcore.exceptions import ServerError, RequestException
 
-from core.config import Config as config
 from core.scripts.db.db import db
 from core.scripts.dialogue_bot import dialogue_bot
-from core.scripts.logger import log, log_user_data, update_conv_ids, log2, user_logs_collection
+from core.scripts.logger import log, log2, get_user_model
 from core.scripts.reddit_bot import reddit_bot
 from core.scripts.trigger import should_trigger_reply
-
-
-def get_user_model(modmail_conversation,
-                   treatment_fraction=config.TREATMENT_FRACTION):
-
-    username = modmail_conversation.participant.name
-    subreddit = str(modmail_conversation.owner)
-    user_model = user_logs_collection.find_one({"username": username,
-                                                "subreddit": subreddit})
-
-    if user_model:  # this is repeat user
-        conv_id = modmail_conversation.id
-        log2(subreddit, conv_id, f'User `{username}`: Found in DB')
-        # update conv ids if this is a new conversation
-        update_conv_ids(modmail_conversation, user_model)
-        return user_model
-
-    else:
-        group = binomial(1, treatment_fraction)  # assign a new random group. 1 denotes treatment. 0 denotes control
-        # we log user data here.
-        user_model = log_user_data(modmail_conversation, group)
-        return user_model
 
 
 def main():
