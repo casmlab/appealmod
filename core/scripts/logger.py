@@ -116,26 +116,25 @@ def update_user_data(conv, key, value, username=None):
     user_logs_collection.update_one({'username': username, 'subreddit': subreddit}, {'$set': update_dict})
 
 
-def get_user_model(modmail_conversation,
-                   treatment_fraction=config.TREATMENT_FRACTION):
+def get_user_model(conv, treatment_fraction=config.TREATMENT_FRACTION):
+    username = conv.participant.name
+    subreddit = str(conv.owner)
 
-    username = modmail_conversation.participant.name
-    subreddit = str(modmail_conversation.owner)
-    user_model = user_logs_collection.find_one({"username": username,
-                                                "subreddit": subreddit})
-
-    if user_model:  # this is repeat user
-        conv_id = modmail_conversation.id
+    user = user_logs_collection.find_one({"username": username,
+                                          "subreddit": subreddit})
+    if user:  # this is repeat user
+        conv_id = conv.id
         log2(subreddit, conv_id, f'User `{username}`: Found in DB')
         # update conv ids if this is a new conversation
-        update_conv_ids(modmail_conversation, user_model)
-        return user_model
+        update_conv_ids(conv, user)
+        return user
 
     else:
-        group = binomial(1, treatment_fraction)  # assign a new random group. 1 denotes treatment. 0 denotes control
+        # assign a new random group. 1 denotes treatment. 0 denotes control
+        group = binomial(1, treatment_fraction)
         # we log user data here.
-        user_model = log_user_data(modmail_conversation, group)
-        return user_model
+        user = log_user_data(conv, group)
+        return user
 
 
 def log_user_data(conv, group):
