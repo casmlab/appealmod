@@ -74,24 +74,22 @@ def get_logger():
 logger = get_logger()
 
 
-def update_conv_ids(conv, user_model):
-    # get all conv user has initiated so far -- the main conv id + any other conv ids present
-    # check if the current conv is part of it.
-    # if not, then update the user data with a new conv id list which is current list + current conv
-    if 'other_conv_ids' in user_model.keys():
-        other_conv_ids = user_model['other_conv_ids']
-    else:
-        other_conv_ids = []
+def update_conv_ids(conv, user):
+    """
+    Get all conv user has initiated so far -- the main conv id + any other conv ids present
+    check if the current conv is part of it.
+    if not, then update the user data with a new conv id list which is current list + current conv
+    """
+    other_conv_ids = user.get('other_conv_ids', [])
 
-    if conv.id == user_model['conv_id'] or conv.id in other_conv_ids:  # this is an old conv
+    if conv.id == user['conv_id'] or conv.id in other_conv_ids:  # this is an old conv
         return
-    else:
-        other_conv_ids.append(conv.id)
-        username = user_model['username']
-        conv_id = conv.id
-        subreddit = str(conv.owner)
-        log2(subreddit, conv_id, f'New conv by same user `{username}`, updating model')
-        update_user_data(conv, 'other_conv_ids', other_conv_ids)
+
+    other_conv_ids.append(conv.id)
+    username = user['username']
+    subreddit = str(conv.owner)
+    log2(subreddit, conv.id, f'New conv by same user `{username}`, updating model')
+    update_user_data(conv, 'other_conv_ids', other_conv_ids)
 
 
 def update_user_data(conv, key, value, username=None):
