@@ -97,21 +97,10 @@ def update_user_data(conv, key, value, force_username=None):
     username = force_username if force_username else conv.participant.name
     subreddit = str(conv.owner)
 
-    if type(key) is list and type(value) is list:
-        pass
-    else:
-        key = [key]
-        value = [value]
+    update = {key: value}
 
-    if len(key) == len(value):
-        update_dict = dict(zip(key, value))
-    else:
-        log(f'Key and value list size mismatch while updating the user data')
-        log(f'Key is {key} and value is {value}')
-        update_dict = {}
-
-    log2(subreddit, conv.id, f"User `{username}`: Updating data {update_dict}")
-    user_logs_collection.update_one({'username': username, 'subreddit': subreddit}, {'$set': update_dict})
+    log2(subreddit, conv.id, f"User `{username}`: Updating data {update}")
+    user_logs_collection.update_one({'username': username, 'subreddit': subreddit}, {'$set': update})
 
 
 def get_user_model(conv, treatment_fraction=config.TREATMENT_FRACTION):
