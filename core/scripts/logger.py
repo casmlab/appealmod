@@ -74,48 +74,6 @@ def get_logger():
 logger = get_logger()
 
 
-def has_conversation_been_logged(praw_conversation):
-    return conversation_logs_collection.find_one({"id": praw_conversation.id})
-
-
-def log_conversation(conv, bot):
-    conv_data = sanitize(conv)
-    message_data = [sanitize(m) for m in conv.messages]
-    subreddit = str(conv.owner)
-
-    data = {
-        "id": conv.id,
-        "conversationData": conv_data,
-        "messageData": message_data,
-    }
-
-    user = conv.user.name
-    ban_info = None
-    try:
-        ban_info = bot.get_user_ban_information(user)
-    except:
-        pass
-    if ban_info:
-        del ban_info['_reddit']
-        data["banInfo"] = ban_info
-    data["isBanned"] = "banInfo" in data
-
-    old_entry = has_conversation_been_logged(conv)
-    if old_entry is not None:  # Need to update instead of adding new entry
-        if old_entry.get("isBanned") and not data.get("isBanned"):
-            data["unbannedTime"] = datetime.now(EST)
-        else:
-            data["unbannedTime"] = old_entry.get("unbannedTime")
-        conversation_logs_collection.update_one({"id": conv.id}, {"$set": data})
-        log2(subreddit, conv.id, "Conversation LOGGED (updated in DB)")
-        return
-
-    # Adding new entry:
-    data["unbannedTime"] = None
-    conversation_logs_collection.insert_one(data)
-    log2(subreddit, conv.id, "Conversation LOGGED (added to DB)")
-
-
 def update_conv_ids(conv, user_model):
     # get all conv user has initiated so far -- the main conv id + any other conv ids present
     # check if the current conv is part of it.

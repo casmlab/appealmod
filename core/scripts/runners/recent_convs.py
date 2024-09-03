@@ -5,9 +5,9 @@ from numpy.random import binomial
 from prawcore.exceptions import ServerError, RequestException
 
 from core.config import Config as config
+from core.scripts.db.db import db
 from core.scripts.dialogue_bot import dialogue_bot
-from core.scripts.logger import has_conversation_been_logged, log_conversation, \
-    log, log_user_data, update_conv_ids, log2, user_logs_collection
+from core.scripts.logger import log, log_user_data, update_conv_ids, log2, user_logs_collection
 from core.scripts.reddit_bot import reddit_bot
 from core.scripts.trigger import should_trigger_reply
 
@@ -67,8 +67,8 @@ def main():
                         log2(subreddit, conv_id, "It's control group, IGNORED")
                         # log_user_data(conv, group)
 
-                    if not has_conversation_been_logged(conv):
-                        log_conversation(conv, reddit_bot)
+                    if not db.conversations.find(conv):
+                        db.conversations.add(conv, reddit_bot)
                 else:
                     log2(subreddit, conv_id, "It's NOT a ban appeal, IGNORED")
 
