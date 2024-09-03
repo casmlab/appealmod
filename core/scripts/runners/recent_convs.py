@@ -5,7 +5,7 @@ from numpy.random import binomial
 from prawcore.exceptions import ServerError, RequestException
 
 from core.config import Config as config
-from core.scripts.dialogue import Dialogue
+from core.scripts.dialogue import Dialogue, dialogue
 from core.scripts.logger import has_conversation_been_logged, log_conversation, \
     log, log_user_data, update_conv_ids, log2, user_logs_collection
 from core.scripts.reddit_bot import reddit_bot
@@ -39,7 +39,6 @@ def main():
     Driver function
     Add testing functions
     """
-    dialogue = Dialogue(reddit_bot)
     exception_flag = False
     # NOTE: Any conversation-specific logic should NOT be a part of this driver class
     # NOTE: Peripheral things such as logging the conversation should be a part of the driver class

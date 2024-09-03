@@ -2,6 +2,7 @@ from core._old.qualtricsMap import QualtricsMap as qm
 from core.scripts.db import Database
 from core.scripts.form import add_form_entry, get_form_response
 from core.scripts.logger import log, update_user_data, log2
+from core.scripts.reddit_bot import reddit_bot
 
 
 class Dialogue:
@@ -106,3 +107,6 @@ class Dialogue:
                 with open('examples/mod-notes.txt', 'a') as outputfile:
                     output = conversation.id + '\n' + response_text + '\n'
                     outputfile.write(output)
+
+
+dialogue = Dialogue(reddit_bot)

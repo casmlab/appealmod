@@ -7,11 +7,9 @@ from pymongo.errors import CursorNotFound
 
 from core.conf import conf
 from core.config import Config as config
-from core.scripts.dialogue import Dialogue
+from core.scripts.dialogue import Dialogue, dialogue
 from core.scripts.logger import user_logs_collection, log, update_user_data, log2
 from core.scripts.reddit_bot import reddit_bot
-
-dialogue = Dialogue(reddit_bot)
 
 
 def status_updates(user, conv):
