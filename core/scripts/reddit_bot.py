@@ -5,7 +5,7 @@ from core.config import Config as config
 from core.scripts.logger import log, update_user_data, log_str, log2
 
 
-class Bot:
+class RedditBot:
     def __init__(self, subreddits, debug=config.DEBUG):
         """
         Authorize the reddit account with 'script' privileges
@@ -160,4 +160,4 @@ class Bot:
                                   other_subreddits=self.subreddits[1:])
 
 
-reddit_bot = Bot(conf.subreddits_ids)
+reddit_bot = RedditBot(conf.subreddits_ids)
