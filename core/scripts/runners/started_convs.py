@@ -9,14 +9,6 @@ from pymongo.errors import CursorNotFound
 from datetime import datetime, timezone
 from dateutil import parser
 
-# reddit = praw.Reddit(
-#             client_id=config.CLIENT_ID,
-#             client_secret=config.CLIENT_SECRET,
-#             user_agent=config.USER_AGENT,
-#             username=config.REDDIT_USERNAME,
-#             password=config.REDDIT_PASSWORD,
-# )
-
 bot = Bot(conf.subreddits_ids)
 dialogue = Dialogue(bot)
 

@@ -32,7 +32,6 @@ def should_trigger_reply(bot, conversation, subreddit):
         return False
 
     for author in conversation.authors:
-        # print(author)
         try:
             if bot.is_user_banned_from_subreddit(author, subreddit):
 
