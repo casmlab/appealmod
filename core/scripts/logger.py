@@ -109,17 +109,19 @@ def log_conversation(conv, bot):
     data["isBanned"] = "banInfo" in data
 
     old_entry = has_conversation_been_logged(conv)
-    if old_entry is None:
-        data["unbannedTime"] = None
-        conversation_logs_collection.insert_one(data)
-        log2(subreddit, conv.id, "Conversation LOGGED (added to DB)")
-    else:
+    if old_entry is not None:  # Need to update instead of adding new entry
         if old_entry.get("isBanned") and not data.get("isBanned"):
             data["unbannedTime"] = datetime.now(EST)
         else:
             data["unbannedTime"] = old_entry.get("unbannedTime")
         conversation_logs_collection.update_one({"id": conv.id}, {"$set": data})
         log2(subreddit, conv.id, "Conversation LOGGED (updated in DB)")
+        return
+
+    # Adding new entry:
+    data["unbannedTime"] = None
+    conversation_logs_collection.insert_one(data)
+    log2(subreddit, conv.id, "Conversation LOGGED (added to DB)")
 
 
 def update_conv_ids(conv, user_model):
