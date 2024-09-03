@@ -1,5 +1,5 @@
 from conf import conf
-from scripts.bot import Bot
+from scripts.reddit_bot import Bot
 from scripts.trigger import should_trigger_reply
 from scripts.logger import has_conversation_been_logged, log_conversation, \
     log, sanitize_object_for_mongo, log_user_data, \
