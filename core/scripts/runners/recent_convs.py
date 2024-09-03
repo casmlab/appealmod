@@ -47,28 +47,28 @@ def main():
     # consider all msgs not just appeals...
     while True:
         try:
-            for modmail_conversation in reddit_bot.get_conversations():
-                conv_id = modmail_conversation.id
-                subreddit = str(modmail_conversation.owner)
+            for conv in reddit_bot.get_conversations():
+                conv_id = conv.id
+                subreddit = str(conv.owner)
                 log(f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}', conv_id)
 
-                if should_trigger_reply(reddit_bot, modmail_conversation, subreddit):
+                if should_trigger_reply(reddit_bot, conv, subreddit):
                     log2(subreddit, conv_id, "It's a ban appeal, OK")
 
-                    user_model = get_user_model(modmail_conversation)
+                    user_model = get_user_model(conv)
 
                     if user_model['group'] == 1:  # treatment condition
                         log2(subreddit, conv_id, "It's treatment group, OK")
-                        # offense = bot.get_user_ban_information(modmail_conversation.participant.name, subreddit)
+                        # offense = bot.get_user_ban_information(conv.participant.name, subreddit)
                         log2(subreddit, conv_id, "Running dialogue flow...")
-                        dialogue_bot.run(modmail_conversation, user_model)
+                        dialogue_bot.run(conv, user_model)
 
                     else:  # control condition
                         log2(subreddit, conv_id, "It's control group, IGNORED")
-                        # log_user_data(modmail_conversation, group)
+                        # log_user_data(conv, group)
 
-                    if not has_conversation_been_logged(modmail_conversation):
-                        log_conversation(modmail_conversation, reddit_bot)
+                    if not has_conversation_been_logged(conv):
+                        log_conversation(conv, reddit_bot)
                 else:
                     log2(subreddit, conv_id, "It's NOT a ban appeal, IGNORED")
 

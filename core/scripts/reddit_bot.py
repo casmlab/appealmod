@@ -2,7 +2,7 @@ import praw
 
 from core.conf import conf
 from core.config import Config as config
-from core.scripts.logger import log, update_user_data, log_str, log2
+from core.scripts.logger import update_user_data, log_str, log2
 
 
 class RedditBot:

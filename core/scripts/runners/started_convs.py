@@ -81,14 +81,14 @@ def dialogue_update_loop():
                 except Exception as e:
                     # traceback.print_exc()                
                     error_message = traceback.format_exc()
-                    log(error_message, conversation_id=conv_id)
+                    log(error_message, conv_id=conv_id)
                 time.sleep(5)
 
         except CursorNotFound as e:
             error_message = traceback.format_exc()
-            log(error_message, conversation_id=conv_id)
+            log(error_message, conv_id=conv_id)
             log(f'It appears that the cursor has expired after {j} records, update will run again after the specified delay',
-                conversation_id=conv_id)
+                conv_id=conv_id)
 
         # time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
         # cursor.close()

@@ -9,20 +9,20 @@ class DialogueBot:
     def __init__(self):
         self.db = Database()
 
-    def run(self, conversation, user_model):
+    def run(self, conv, user_model):
         # subreddit_name = 'r/'+str(conversation.owner)
-        username = conversation.participant.name
-        conv_id = conversation.id
-        subreddit = str(conversation.owner)
+        username = conv.participant.name
+        conv_id = conv.id
+        subreddit = str(conv.owner)
         bot_responses = self.db.get_responses(subreddit)
 
         # this logic has moved to the trigger class. so we only get triggered if no human mod is involved.
-        if reddit_bot.has_mod_been_involved(conversation):
+        if reddit_bot.has_mod_been_involved(conv):
             # mod has been involved so ignore this conversation
             log2(subreddit, conv_id, "Human mod involved, IGNORED")
-            update_user_data(conversation, 'mod_involved', True)
+            update_user_data(conv, 'mod_involved', True)
         else:
-            if not reddit_bot.have_we_replied(conversation):
+            if not reddit_bot.have_we_replied(conv):
                 log2(subreddit, conv_id, f"User `{username}`: We haven't replied")
                 # we have not replied, so create a new contact and share form link
                 log2(subreddit, conv_id, f"User `{username}`: Creating form entry")
@@ -31,10 +31,10 @@ class DialogueBot:
                     log2(subreddit, conv_id, f"User `{username}`: Error creating form entry")
                 # provide the first response, and share the form link
                 log2(subreddit, conv_id, f"User `{username}`: Sharing form...")
-                reddit_bot.reply_to_mod_mail_conversation(conversation,
-                                                        bot_responses['initial'],
-                                                        form_shared=True)
-                reddit_bot.archive_conversation(conversation)
+                reddit_bot.reply_to_mod_mail_conversation(conv,
+                                                          bot_responses['initial'],
+                                                          form_shared=True)
+                reddit_bot.archive_conversation(conv)
                 # update_user_data(conversation, 'form_shared', True)
 
             else:
@@ -50,38 +50,38 @@ class DialogueBot:
                 if form_response is None:
                     # some error in collecting responses from qualtrics
                     log(f'Passing on the error via mod note',
-                        conversation_id=conv_id)
-                    self.create_mod_note(conversation, "I'm having trouble accessing user responses from Qualtrics.",
+                        conv_id=conv_id)
+                    self.create_mod_note(conv, "I'm having trouble accessing user responses from Qualtrics.",
                                          error=True)
                     form_response = {}
 
                 elif form_response.filled():
                     log2(subreddit, conv_id, f"User `{username}`: Form filled, OK")
                     # user has submitted the form
-                    update_user_data(conversation, 'form_filled', True)
-                    reddit_bot.reply_to_mod_mail_conversation(conversation, bot_responses['final'])
+                    update_user_data(conv, 'form_filled', True)
+                    reddit_bot.reply_to_mod_mail_conversation(conv, bot_responses['final'])
                     log2(subreddit, conv_id, "Sending note for mods...")
-                    self.create_mod_note(conversation, form_response)
-                    reddit_bot.unarchive_conversation(conversation)
+                    self.create_mod_note(conv, form_response)
+                    reddit_bot.unarchive_conversation(conv)
 
                 else:
                     # user has not submitted any response yet
-                    if reddit_bot.is_new_reply_from_user(conversation):
+                    if reddit_bot.is_new_reply_from_user(conv):
                         log2(subreddit, conv_id, "Form not filled, Reminding user...")
-                        reddit_bot.reply_to_mod_mail_conversation(conversation, bot_responses['reminder'])
-                        reddit_bot.archive_conversation(conversation)
+                        reddit_bot.reply_to_mod_mail_conversation(conv, bot_responses['reminder'])
+                        reddit_bot.archive_conversation(conv)
                     else:
                         log2(subreddit, conv_id, "No response from user yet, DONE")
 
     def clean_user_text(self, user_response):
         pass
 
-    def create_mod_note(self, conversation, form_response, error=False,
+    def create_mod_note(self, conv, form_response, error=False,
                         print_flag=False):
         # to pass on any kind of expected error to the mods, so they can report it to us.
         if error:
-            reddit_bot.reply_to_mod_mail_conversation(conversation, form_response,
-                                                    mod_note=True)
+            reddit_bot.reply_to_mod_mail_conversation(conv, form_response,
+                                                      mod_note=True)
         else:
             notes_list = qm.DICTIONARY
 
@@ -100,11 +100,11 @@ class DialogueBot:
                 form_response.what_steps
 
             if not print_flag:
-                reddit_bot.reply_to_mod_mail_conversation(conversation, response_text,
-                                                        mod_note=True)
+                reddit_bot.reply_to_mod_mail_conversation(conv, response_text,
+                                                          mod_note=True)
             else:
                 with open('examples/mod-notes.txt', 'a') as outputfile:
-                    output = conversation.id + '\n' + response_text + '\n'
+                    output = conv.id + '\n' + response_text + '\n'
                     outputfile.write(output)
 
 
