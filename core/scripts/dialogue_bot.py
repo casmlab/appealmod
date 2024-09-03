@@ -1,19 +1,16 @@
 from core._old.qualtricsMap import QualtricsMap as qm
-from core.scripts.db import Database
+from core.scripts.db.db import db
 from core.scripts.form import add_form_entry, get_form_response
 from core.scripts.logger import log, update_user_data, log2
 from core.scripts.reddit_bot import reddit_bot
 
 
 class DialogueBot:
-    def __init__(self):
-        self.db = Database()
-
     def run(self, conv, user_model):
         username = conv.participant.name
         subreddit = str(conv.owner)
 
-        bot_responses = self.db.get_responses(subreddit)
+        bot_responses = db.get_responses(subreddit)
 
         # this logic has moved to the trigger class. so we only get triggered if no human mod is involved.
         if reddit_bot.has_mod_been_involved(conv):

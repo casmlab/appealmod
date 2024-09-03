@@ -13,3 +13,6 @@ class Database:
         cursor = self.responses.find({'subreddit': subreddit})
         output = list(cursor)[0]
         return output
+
+
+db = Database()
