@@ -1,10 +1,10 @@
-from conf import conf
-from scripts.logger import user_logs_collection, log, update_user_data, log2
-from config import Config as config
+from core.conf import conf
+from core.scripts.logger import user_logs_collection, log, update_user_data, log2
+from core.config import Config as config
 import time
-from scripts.reddit_bot import Bot
+from core.scripts.reddit_bot import Bot
 import traceback
-from scripts.dialogue import Dialogue
+from core.scripts.dialogue import Dialogue
 from pymongo.errors import CursorNotFound
 from datetime import datetime, timezone
 from dateutil import parser
