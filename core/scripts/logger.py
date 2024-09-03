@@ -115,24 +115,21 @@ def update_user_data(conv, key, value, username=None):
     user_logs_collection.update_one({'username': username, 'subreddit': subreddit}, {'$set': update_dict})
 
 
-def log_user_data(conv, group):  # todo: rename: add_user...
+def log_user_data(conv, group):
+    username = conv.participant.name
     subreddit = str(conv.owner)
 
-    username = conv.participant.name
+    # Get `appeal_time` value:
     sorted_msgs = sorted(conv.messages, key=lambda x: x.date)
-
-    appeal_time = sorted_msgs[0].date  ## default time, if no appeal time is found.
+    appeal_time = sorted_msgs[0].date  # default, if no `appeal_time` found
     for message in sorted_msgs:
         if message.author.name == username:
-            appeal_time = message.date  ## setting the appeal time
+            appeal_time = message.date  # set `appeal_time`
             break
 
-    conv_id = conv.id
-    subreddit = str(conv.owner)
-    # if getUserGroup(username) is None: # to ensure that we don't create duplicate entries...
-    mydict = {
+    user = {
         'username': username,
-        'conv_id': conv_id,
+        'conv_id': conv.id,
         'subreddit': subreddit,
         'group': group,
         'appeal_time': appeal_time,
@@ -142,9 +139,9 @@ def log_user_data(conv, group):  # todo: rename: add_user...
         'mod_involved': False,
         'user_deleted': False,
     }
-    user_logs_collection.insert_one(mydict)
-    log2(subreddit, conv_id, f'User `{username}`: Added to DB')
-    return mydict
+    user_logs_collection.insert_one(user)
+    log2(subreddit, conv.id, f'User `{username}`: Added to DB')
+    return user
 
 
 def log(message, conv_id=None, subreddit=None):
