@@ -6,8 +6,7 @@ from core.scripts.reddit_bot import reddit_bot
 
 
 class DialogueBot:
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self):
         self.db = Database()
 
     def run(self, conversation, user_model):
@@ -18,12 +17,12 @@ class DialogueBot:
         bot_responses = self.db.get_responses(subreddit)
 
         # this logic has moved to the trigger class. so we only get triggered if no human mod is involved.
-        if self.bot.has_mod_been_involved(conversation):
+        if reddit_bot.has_mod_been_involved(conversation):
             # mod has been involved so ignore this conversation
             log2(subreddit, conv_id, "Human mod involved, IGNORED")
             update_user_data(conversation, 'mod_involved', True)
         else:
-            if not self.bot.have_we_replied(conversation):
+            if not reddit_bot.have_we_replied(conversation):
                 log2(subreddit, conv_id, f"User `{username}`: We haven't replied")
                 # we have not replied, so create a new contact and share form link
                 log2(subreddit, conv_id, f"User `{username}`: Creating form entry")
@@ -32,10 +31,10 @@ class DialogueBot:
                     log2(subreddit, conv_id, f"User `{username}`: Error creating form entry")
                 # provide the first response, and share the form link
                 log2(subreddit, conv_id, f"User `{username}`: Sharing form...")
-                self.bot.reply_to_mod_mail_conversation(conversation,
+                reddit_bot.reply_to_mod_mail_conversation(conversation,
                                                         bot_responses['initial'],
                                                         form_shared=True)
-                self.bot.archive_conversation(conversation)
+                reddit_bot.archive_conversation(conversation)
                 # update_user_data(conversation, 'form_shared', True)
 
             else:
@@ -60,17 +59,17 @@ class DialogueBot:
                     log2(subreddit, conv_id, f"User `{username}`: Form filled, OK")
                     # user has submitted the form
                     update_user_data(conversation, 'form_filled', True)
-                    self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['final'])
+                    reddit_bot.reply_to_mod_mail_conversation(conversation, bot_responses['final'])
                     log2(subreddit, conv_id, "Sending note for mods...")
                     self.create_mod_note(conversation, form_response)
-                    self.bot.unarchive_conversation(conversation)
+                    reddit_bot.unarchive_conversation(conversation)
 
                 else:
                     # user has not submitted any response yet
-                    if self.bot.is_new_reply_from_user(conversation):
+                    if reddit_bot.is_new_reply_from_user(conversation):
                         log2(subreddit, conv_id, "Form not filled, Reminding user...")
-                        self.bot.reply_to_mod_mail_conversation(conversation, bot_responses['reminder'])
-                        self.bot.archive_conversation(conversation)
+                        reddit_bot.reply_to_mod_mail_conversation(conversation, bot_responses['reminder'])
+                        reddit_bot.archive_conversation(conversation)
                     else:
                         log2(subreddit, conv_id, "No response from user yet, DONE")
 
@@ -81,7 +80,7 @@ class DialogueBot:
                         print_flag=False):
         # to pass on any kind of expected error to the mods, so they can report it to us.
         if error:
-            self.bot.reply_to_mod_mail_conversation(conversation, form_response,
+            reddit_bot.reply_to_mod_mail_conversation(conversation, form_response,
                                                     mod_note=True)
         else:
             notes_list = qm.DICTIONARY
@@ -101,7 +100,7 @@ class DialogueBot:
                 form_response.what_steps
 
             if not print_flag:
-                self.bot.reply_to_mod_mail_conversation(conversation, response_text,
+                reddit_bot.reply_to_mod_mail_conversation(conversation, response_text,
                                                         mod_note=True)
             else:
                 with open('examples/mod-notes.txt', 'a') as outputfile:
@@ -109,4 +108,4 @@ class DialogueBot:
                     outputfile.write(output)
 
 
-dialogue_bot = DialogueBot(reddit_bot)
+dialogue_bot = DialogueBot()
