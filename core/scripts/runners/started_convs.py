@@ -7,7 +7,7 @@ from pymongo.errors import CursorNotFound
 
 from core.conf import conf
 from core.config import Config as config
-from core.scripts.dialogue import Dialogue, dialogue
+from core.scripts.dialogue_bot import dialogue_bot
 from core.scripts.logger import user_logs_collection, log, update_user_data, log2
 from core.scripts.reddit_bot import reddit_bot
 
@@ -76,7 +76,7 @@ def dialogue_update_loop():
                     if user['group'] == 1 and update_flag:
                         log2(subreddit, conv_id, "Dialogue updates")
                         updated_conversation = reddit_bot.reddit.subreddit(subreddit).modmail(conv_id)
-                        dialogue.run(updated_conversation, user)
+                        dialogue_bot.run(updated_conversation, user)
 
                 except Exception as e:
                     # traceback.print_exc()                

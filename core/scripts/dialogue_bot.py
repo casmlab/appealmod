@@ -5,7 +5,7 @@ from core.scripts.logger import log, update_user_data, log2
 from core.scripts.reddit_bot import reddit_bot
 
 
-class Dialogue:
+class DialogueBot:
     def __init__(self, bot):
         self.bot = bot
         self.db = Database()
@@ -109,4 +109,4 @@ class Dialogue:
                     outputfile.write(output)
 
 
-dialogue = Dialogue(reddit_bot)
+dialogue_bot = DialogueBot(reddit_bot)

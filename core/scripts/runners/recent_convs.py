@@ -5,7 +5,7 @@ from numpy.random import binomial
 from prawcore.exceptions import ServerError, RequestException
 
 from core.config import Config as config
-from core.scripts.dialogue import Dialogue, dialogue
+from core.scripts.dialogue_bot import dialogue_bot
 from core.scripts.logger import has_conversation_been_logged, log_conversation, \
     log, log_user_data, update_conv_ids, log2, user_logs_collection
 from core.scripts.reddit_bot import reddit_bot
@@ -61,7 +61,7 @@ def main():
                         log2(subreddit, conv_id, "It's treatment group, OK")
                         # offense = bot.get_user_ban_information(modmail_conversation.participant.name, subreddit)
                         log2(subreddit, conv_id, "Running dialogue flow...")
-                        dialogue.run(modmail_conversation, user_model)
+                        dialogue_bot.run(modmail_conversation, user_model)
 
                     else:  # control condition
                         log2(subreddit, conv_id, "It's control group, IGNORED")
