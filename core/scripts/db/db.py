@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 
 from core.config import Config as config
+from core.scripts.db.db_bot_responses import DbBotResponses
 
 
 class Database:
@@ -8,12 +9,7 @@ class Database:
         client = MongoClient(config.DB_CONNECTION_STRING)
         cluster = client['main-cluster']
 
-        self.responses = cluster['bot-responses']
-
-    def get_responses(self, subreddit):
-        cursor = self.responses.find({'subreddit': subreddit})
-        output = list(cursor)[0]
-        return output
+        self.bot_responses = DbBotResponses(cluster['bot-responses'])
 
 
 db = Database()

@@ -10,7 +10,7 @@ class DialogueBot:
         username = conv.participant.name
         subreddit = str(conv.owner)
 
-        bot_responses = db.get_responses(subreddit)
+        bot_responses = db.bot_responses.get(subreddit)
 
         # this logic has moved to the trigger class. so we only get triggered if no human mod is involved.
         if reddit_bot.has_mod_been_involved(conv):
