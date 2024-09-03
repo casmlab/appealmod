@@ -9,6 +9,7 @@ import pytz
 
 from core.config import Config as config
 from core.scripts.db.db import db
+from core.scripts.db.utils.sanitizer import sanitize
 
 EST = pytz.timezone('US/Eastern')
 
@@ -73,22 +74,13 @@ def get_logger():
 logger = get_logger()
 
 
-class SafeJSONEncoder(json.JSONEncoder):
-    def default(self, obj):
-        return str(obj)
-
-
-def sanitize_object_for_mongo(obj):
-    return json.loads(json.dumps(vars(obj), cls=SafeJSONEncoder))
-
-
 def has_conversation_been_logged(praw_conversation):
     return conversation_logs_collection.find_one({"id": praw_conversation.id})
 
 
 def log_conversation(conv, bot):
-    conv_data = sanitize_object_for_mongo(conv)
-    message_data = [sanitize_object_for_mongo(m) for m in conv.messages]
+    conv_data = sanitize(conv)
+    message_data = [sanitize(m) for m in conv.messages]
     subreddit = str(conv.owner)
 
     data = {
