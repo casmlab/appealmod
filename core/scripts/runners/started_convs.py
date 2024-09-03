@@ -9,9 +9,8 @@ from core.conf import conf
 from core.config import Config as config
 from core.scripts.dialogue import Dialogue
 from core.scripts.logger import user_logs_collection, log, update_user_data, log2
-from core.scripts.reddit_bot import Bot
+from core.scripts.reddit_bot import reddit_bot
 
-reddit_bot = Bot(conf.subreddits_ids)
 dialogue = Dialogue(reddit_bot)
 
 

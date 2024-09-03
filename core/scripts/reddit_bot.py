@@ -1,5 +1,6 @@
 import praw
 
+from core.conf import conf
 from core.config import Config as config
 from core.scripts.logger import log, update_user_data, log_str, log2
 
@@ -157,3 +158,6 @@ class Bot:
         return self.reddit.subreddit(self.subreddits[0]).mod.stream.\
             modmail_conversations(sort="recent",
                                   other_subreddits=self.subreddits[1:])
+
+
+reddit_bot = Bot(conf.subreddits_ids)

@@ -4,12 +4,11 @@ import traceback
 from numpy.random import binomial
 from prawcore.exceptions import ServerError, RequestException
 
-from core.conf import conf
 from core.config import Config as config
 from core.scripts.dialogue import Dialogue
 from core.scripts.logger import has_conversation_been_logged, log_conversation, \
     log, log_user_data, update_conv_ids, log2, user_logs_collection
-from core.scripts.reddit_bot import Bot
+from core.scripts.reddit_bot import reddit_bot
 from core.scripts.trigger import should_trigger_reply
 
 
@@ -40,7 +39,6 @@ def main():
     Driver function
     Add testing functions
     """
-    reddit_bot = Bot(conf.subreddits_ids)
     dialogue = Dialogue(reddit_bot)
     exception_flag = False
     # NOTE: Any conversation-specific logic should NOT be a part of this driver class
