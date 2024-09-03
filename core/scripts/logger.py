@@ -87,15 +87,16 @@ def has_conversation_been_logged(praw_conversation):
 
 
 def log_conversation(conv, bot):
-    conversation_data = sanitize_object_for_mongo(conv)
+    conv_data = sanitize_object_for_mongo(conv)
     message_data = [sanitize_object_for_mongo(m) for m in conv.messages]
-    conv_id = conv.id
     subreddit = str(conv.owner)
-    to_log = {
-        "id": conv_id,
-        "conversationData": conversation_data,
+
+    data = {
+        "id": conv.id,
+        "conversationData": conv_data,
         "messageData": message_data,
     }
+
     user = conv.user.name
     ban_info = None
     try:
@@ -104,21 +105,21 @@ def log_conversation(conv, bot):
         pass
     if ban_info:
         del ban_info['_reddit']
-        to_log["banInfo"] = ban_info
-    to_log["isBanned"] = "banInfo" in to_log
-    existing_conversation = has_conversation_been_logged(conv)
-    if existing_conversation is None:
-        to_log["unbannedTime"] = None
-        conversation_logs_collection.insert_one(to_log)
-        log2(subreddit, conv_id, "Conversation LOGGED (added to DB)")
+        data["banInfo"] = ban_info
+    data["isBanned"] = "banInfo" in data
+
+    old_entry = has_conversation_been_logged(conv)
+    if old_entry is None:
+        data["unbannedTime"] = None
+        conversation_logs_collection.insert_one(data)
+        log2(subreddit, conv.id, "Conversation LOGGED (added to DB)")
     else:
-        if existing_conversation.get("isBanned") and not to_log.get("isBanned"):
-            to_log["unbannedTime"] = datetime.now(EST)
+        if old_entry.get("isBanned") and not data.get("isBanned"):
+            data["unbannedTime"] = datetime.now(EST)
         else:
-            to_log["unbannedTime"] = existing_conversation.get("unbannedTime")
-        conversation_logs_collection.update_one({"id": conv_id},
-                                                {"$set": to_log})
-        log2(subreddit, conv_id, "Conversation LOGGED (updated in DB)")
+            data["unbannedTime"] = old_entry.get("unbannedTime")
+        conversation_logs_collection.update_one({"id": conv.id}, {"$set": data})
+        log2(subreddit, conv.id, "Conversation LOGGED (updated in DB)")
 
 
 def update_conv_ids(conv, user_model):
