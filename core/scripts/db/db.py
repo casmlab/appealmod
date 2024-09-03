@@ -2,6 +2,7 @@ from pymongo import MongoClient
 
 from core.config import Config as config
 from core.scripts.db.db_bot_responses import DbBotResponses
+from core.scripts.db.db_logs import DbLogs
 from core.scripts.db.db_subreddits import DbSubreddits
 
 
@@ -11,6 +12,7 @@ class Database:
         cluster = client['main-cluster']
 
         self.bot_responses = DbBotResponses(cluster['bot-responses'])
+        self.logs = DbLogs(cluster['application-logs'])
         self.subreddits = DbSubreddits(cluster['subreddits_info'])  # fixme: never used?
 
 

@@ -8,6 +8,7 @@ import pymongo
 import pytz
 
 from core.config import Config as config
+from core.scripts.db.db import db
 
 EST = pytz.timezone('US/Eastern')
 
@@ -34,14 +35,8 @@ class MongoDBLogger(StreamHandler):
         except Exception as e:
             subreddit = None
 
-        msg = self.format(record)
-        # write the log message to the mongo database
-        application_logs_collection.insert_one({
-            "message": msg,
-            "timestamp": datetime.now(),
-            'conversationID': conversation_id,
-            'subreddit': subreddit,
-        })
+        message = self.format(record)
+        db.logs.add(message, subreddit, conversation_id)
 
 
 def get_logger():
