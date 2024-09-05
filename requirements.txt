@@ -8,4 +8,4 @@ pytz==2024.1
 tzdata
 bs4
 numpy==1.26.*
-psycopg2
+psycopg2-binary==2.9.*
