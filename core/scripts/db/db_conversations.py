@@ -2,8 +2,8 @@ from datetime import datetime
 
 import pytz
 
-from core.src.db.utils.sanitizer import sanitize
-from core.src.logger import log2
+from core.scripts.db.utils.sanitizer import sanitize
+from core.scripts.logger import log2
 
 EST = pytz.timezone('US/Eastern')
 

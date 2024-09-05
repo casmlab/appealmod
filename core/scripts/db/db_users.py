@@ -1,7 +1,7 @@
 from numpy.random import binomial
 
 from core.config import Config as config
-from core.src.logger import log2
+from core.scripts.logger import log2
 
 
 class DbUsers:
