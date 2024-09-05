@@ -10,7 +10,7 @@ from core.scripts.reddit_bot import reddit_bot
 from core.scripts.trigger import should_trigger_reply
 
 
-def main():
+def run_recent_convs():
     """
     Driver function
     Add testing functions
@@ -56,4 +56,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run_recent_convs()

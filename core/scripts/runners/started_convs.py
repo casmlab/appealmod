@@ -41,7 +41,7 @@ def status_updates(user, conv):
         return True
 
 
-def dialogue_update_loop():
+def run_started_convs():
     log('Starting dialogue loop...')
     while True:
         time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
@@ -96,4 +96,4 @@ def dialogue_update_loop():
 
 
 if __name__ == "__main__":
-    dialogue_update_loop()
+    run_started_convs()
