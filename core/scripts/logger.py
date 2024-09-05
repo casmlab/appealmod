@@ -2,20 +2,6 @@ import logging
 import sys
 from logging import StreamHandler
 
-import pymongo
-import pytz
-
-from core.config import Config as config
-
-EST = pytz.timezone('US/Eastern')
-
-# mongoConnectionString = r"mongodb+srv://admin:u8U9VKugQO6EFmrG@cluster0.hxwup.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-mongo_driver = pymongo.MongoClient(config.DB_CONNECTION_STRING)
-mongo_database = mongo_driver["main-cluster"]
-conversation_logs_collection = mongo_database["conversation-logs"]
-application_logs_collection = mongo_database["application-logs"]
-user_logs_collection = mongo_database['user-logs']
-
 
 class MongoDBLogger(StreamHandler):
     def __init__(self):
