@@ -1,16 +1,11 @@
-import json
 import logging
 import sys
-from datetime import datetime
 from logging import StreamHandler
 
 import pymongo
 import pytz
-from numpy.random import binomial
 
 from core.config import Config as config
-from core.scripts.db.db import db
-from core.scripts.db.utils.sanitizer import sanitize
 
 EST = pytz.timezone('US/Eastern')
 
@@ -36,6 +31,8 @@ class MongoDBLogger(StreamHandler):
             subreddit = record.subreddit
         except Exception as e:
             subreddit = None
+
+        from core.scripts.db.db import db
 
         message = self.format(record)
         db.logs.add(message, subreddit, conversation_id)
