@@ -1,3 +1,4 @@
+import up  # don't remove this
 import core.bin.django_bin  # to enable django support
 from core.scripts.runners.started_convs import run_started_convs
 
