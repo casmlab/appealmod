@@ -42,7 +42,7 @@ def status_updates(user, conv):
 
 
 def run_started_convs():
-    log('Starting dialogue loop...')
+    log('Processing already [S]tarted conversations...')
     while True:
         time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
         cursor = db.users.collection.find(

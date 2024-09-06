@@ -19,7 +19,7 @@ def run_recent_convs():
     # NOTE: Any conversation-specific logic should NOT be a part of this driver class
     # NOTE: Peripheral things such as logging the conversation should be a part of the driver class
 
-    log('Starting bot...')
+    log('Processing [R]ecently created conversations...')
     # consider all msgs not just appeals...
     while True:
         try:
