@@ -9,7 +9,7 @@ from core.conf import conf
 from core.config import Config as config
 from core.scripts.db.db import db
 from core.scripts.dialogue_bot import dialogue_bot
-from core.scripts.logger import user_logs_collection, log, log2
+from core.scripts.logger import log, log2
 from core.scripts.reddit_bot import reddit_bot
 
 
@@ -45,7 +45,7 @@ def run_started_convs():
     log('Starting dialogue loop...')
     while True:
         time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
-        cursor = user_logs_collection.find(
+        cursor = db.users.collection.find(
             {'subreddit': {'$in': conf.subreddits_ids}},
             batch_size=30,
         )
