@@ -6,11 +6,11 @@ from core.scripts.logger import log2
 
 class DbUsers:
     def __init__(self, collection):
-        self.users = collection
+        self.collection = collection
 
     def get(self, username, subreddit):
-        return self.users.find_one({"username": username,
-                                    "subreddit": subreddit})
+        return self.collection.find_one({"username": username,
+                                         "subreddit": subreddit})
 
     def update_conv_ids(self, conv, user):
         """
@@ -36,7 +36,8 @@ class DbUsers:
         update = {key: value}
 
         log2(subreddit, conv.id, f"User `{username}`: Updating data {update}")
-        self.users.update_one({'username': username, 'subreddit': subreddit}, {'$set': update})
+        self.collection.update_one({'username': username, 'subreddit': subreddit},
+                                   {'$set': update})
 
     def get_or_create(self, conv, treatment_fraction=config.TREATMENT_FRACTION):
         username = conv.participant.name
@@ -81,6 +82,6 @@ class DbUsers:
             'mod_involved': False,
             'user_deleted': False,
         }
-        self.users.insert_one(user)
+        self.collection.insert_one(user)
         log2(subreddit, conv.id, f'User `{username}`: Added to DB')
         return user
