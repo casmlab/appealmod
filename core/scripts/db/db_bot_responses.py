@@ -2,14 +2,14 @@
 
 class DbBotResponses:
     def __init__(self, collection):
-        self.bot_responses = collection
+        self.collection = collection
 
     def get(self, subreddit):
         # fixme: temp version: cursor = self.responses.find(); list(cursor)[0]
-        return self.bot_responses.find_one({'subreddit': subreddit})
+        return self.collection.find_one({'subreddit': subreddit})
 
     def add_default(self, subreddit):
-        self.responses.insert_one({
+        self.collection.insert_one({
             "final": "Thanks for your patience, a human moderator will review "
                      "the responses and respond to your request soon",
             "form_link": "https://appealmod.com/form/",
