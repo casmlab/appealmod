@@ -1,4 +1,3 @@
-from core._old.qualtricsMap import QualtricsMap as qm
 from core.scripts.db.db import db
 from core.scripts.form import add_form_entry, get_form_response
 from core.scripts.logger import log, log2
@@ -78,11 +77,6 @@ class DialogueBot:
             reddit_bot.reply_to_mod_mail_conversation(conv, form_response,
                                                       mod_note=True)
         else:
-            notes_list = qm.DICTIONARY
-
-            # so that the responses always go in the fixed order
-            notes_list = sorted(notes_list, key=lambda d: d['note_order'])
-
             # no cleaning takes place as of now
             self.clean_user_text(form_response)
 
