@@ -42,12 +42,9 @@ def run_started_convs():
     log('Processing already [S]tarted conversations...')
     while True:
         time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
-        cursor = db.users.collection.find(
-            {'subreddit': {'$in': conf.subreddits_ids}},
-            batch_size=30,
-        )
+        users = db.users.all()
         try:
-            for j, user in enumerate(cursor):
+            for j, user in enumerate(users):
                 conv_id = user["conv_id"]
                 subreddit = user.get("subreddit")
                 log(f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}', conv_id)

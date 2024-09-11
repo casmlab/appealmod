@@ -1,5 +1,6 @@
 from numpy.random import binomial
 
+from core.conf import conf
 from core.config import Config as config
 from core.scripts.logger import log2
 
@@ -11,6 +12,11 @@ class DbUsers:
     def get(self, username, subreddit):
         return self.collection.find_one({"username": username,
                                          "subreddit": subreddit})
+
+    def all(self):
+        return self.collection.find({'subreddit': {'$in': conf.subreddits_ids}},
+                                    batch_size=30)
+
 
     def update_conv_ids(self, conv, user):
         """
