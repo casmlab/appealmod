@@ -23,21 +23,18 @@ def status_updates(user, conv):
         return False
 
     else:
-        keys = ['last_conv_update', 'appeal_accept']
         last_update_time = conv.last_updated
-
         if len(conv.mod_actions) > 0:
             last_action_time = sorted(conv.mod_actions, key=lambda x: x.date)[-1].date
             last_update_time = max(last_update_time, last_action_time)
 
-        values = [last_update_time]
+        appeal_accept = \
+            not reddit_bot.is_user_banned_from_subreddit(user['username'],
+                                                         subreddit)
 
-        if not reddit_bot.is_user_banned_from_subreddit(user['username'], subreddit):
-            values.append(True)
-        else:
-            values.append(False)
+        db.users.update(conv, 'last_conv_update', last_update_time)
+        db.users.update(conv, 'appeal_accept', appeal_accept)
 
-        db.users.update(conv, keys, values)
         return True
 
 
