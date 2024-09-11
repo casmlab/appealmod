@@ -81,11 +81,11 @@ class DialogueBot:
             self.clean_user_text(form_response)
 
             # todo: bold
-            response_text = "User's reflection on their behavior:" + "\n" + \
+            response_text = "**User's reflection on their behavior**" + "\n\n" + \
                 form_response.describe_actions + '\n\n' + \
-                "User's explanation of the rule led to their ban:" + "\n" + \
+                "**User's explanation of the rule led to their ban**" + "\n\n" + \
                 form_response.describe_rule + '\n\n' + \
-                "Changes in the future" + "\n" + \
+                "**Changes in the future**" + "\n\n" + \
                 form_response.what_steps
 
             if not print_flag:
