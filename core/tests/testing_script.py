@@ -1,7 +1,8 @@
 import praw
 from core.config import Config as config
-from core.scripts.logger import user_logs_collection
 import time
+
+from core.scripts.db.db import db
 
 
 def get_admin_reddit():
@@ -25,9 +26,8 @@ def unban_user(username, subreddit):
 
 
 def get_users_cursor(username, subreddit):
-    # print((any(reddit.subreddit(subreddit).banned(username))))
-    cursor = user_logs_collection.find({'username': username,
-                                        'subreddit': subreddit})
+    cursor = db.users.collection.find({'username': username,
+                                       'subreddit': subreddit})
     # print(len(list(cursor)))
     return cursor
 
@@ -73,11 +73,12 @@ def reply_on_ban_message(subreddit, messages):
             break  # Stop after replying to the first matching message
 
 
-def wait_user_db_creation(cursor, username):
-    # Loop which keeps running until new user have been added to the DB via run.py script.
+def wait_user_db_creation(cursor, username, subreddit):
+    # Loop which keeps running until new user have been added to the DB via recent_convs.py script.
     while len(list(cursor)) == 0:
         # break
-        cursor = user_logs_collection.find({'username': username})
+        cursor = db.users.collection.find({'username': username,
+                                           'subreddit': subreddit})
         print("sleep...")
         time.sleep(5)
     print("Found the user in user logs.")
@@ -104,8 +105,9 @@ if __name__ == "__main__":
     messages = get_user_messages()
     reply_on_ban_message(subreddit, messages)
 
+    # print((any(reddit.subreddit(subreddit).banned(username))))  # fixme: old code
     cursor = get_users_cursor(username, subreddit)
-    wait_user_db_creation(cursor, username)
+    wait_user_db_creation(cursor, username, subreddit)
 
     # todo: 4st step - responses['initial']...
 
