@@ -1,28 +1,9 @@
-from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, CreateView, FormView, UpdateView
-
-from main.forms import SignUpForm, BanAppealMainForm, BanAppealAuthForm
-
 from django.urls import reverse_lazy
+from django.views.generic import FormView, TemplateView, UpdateView
 
+from main.forms import BanAppealAuthForm, BanAppealMainForm
 from main.models import BanAppealData
-
-
-class IndexView(CreateView):
-    template_name = "index.html"
-    form_class = SignUpForm
-    success_url = reverse_lazy('sign-up-success')
-
-
-class SignUpView(CreateView):
-    template_name = "sign-up/sign-up-page.html"
-    form_class = SignUpForm
-    success_url = reverse_lazy('sign-up-success')
-
-
-class SignUpSuccessView(TemplateView):
-    template_name = "sign-up/sign-up-success.html"
 
 
 class FormAuthView(FormView):
@@ -94,11 +75,3 @@ class FormErrorView(TemplateView):
 
 class FormThanksView(TemplateView):
     template_name = "form/thanks.html"
-
-
-class DebugView(TemplateView):
-    template_name = "debug.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        # BanAppealData.objects.create('vitalik-vitalik', 'umsiexperiments')
-        return super().dispatch(request, *args, **kwargs)
