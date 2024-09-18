@@ -9,7 +9,7 @@ class MongoDBLogger(StreamHandler):
 
     def emit(self, record):
         try:
-            conversation_id = record.conversationID
+            conversation_id = record.conv_id
         except Exception as e:
             conversation_id = None
 
@@ -59,7 +59,7 @@ logger = get_logger()
 
 
 def log(message, conv_id=None, subreddit=None):
-    logger.info(message, extra={'conversationID': conv_id,
+    logger.info(message, extra={'conv_id': conv_id,
                                 'subreddit': subreddit})
 
 

@@ -9,6 +9,6 @@ class DbLogs:
         self.collection.insert_one({
             "message": message,
             "timestamp": datetime.now(),
-            'conversationID': conv_id,
+            'conv_id': conv_id,
             'subreddit': subreddit,
         })

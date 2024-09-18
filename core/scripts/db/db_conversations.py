@@ -25,8 +25,8 @@ class DbConversations:
 
         data = {
             "id": conv.id,
-            "conversationData": conv_data,
-            "messageData": message_data,
+            "conversation_data": conv_data,
+            "message_data": message_data,
         }
 
         user = conv.user.name
@@ -37,20 +37,20 @@ class DbConversations:
             pass
         if ban_info:
             del ban_info['_reddit']
-            data["banInfo"] = ban_info
-        data["isBanned"] = "banInfo" in data
+            data["ban_info"] = ban_info
+        data["is_banned"] = "ban_info" in data
 
         old_entry = self.find(conv)
         if old_entry is not None:  # Need to update instead of adding new entry
-            if old_entry.get("isBanned") and not data.get("isBanned"):
-                data["unbannedTime"] = datetime.now(EST)
+            if old_entry.get("is_banned") and not data.get("is_banned"):
+                data["unbanned_time"] = datetime.now(EST)
             else:
-                data["unbannedTime"] = old_entry.get("unbannedTime")
+                data["unbanned_time"] = old_entry.get("unbanned_time")
             self.collection.update_one({"id": conv.id}, {"$set": data})
             log2(subreddit, conv.id, "Conversation LOGGED (updated in DB)")
             return
 
         # Adding new entry:
-        data["unbannedTime"] = None
+        data["unbanned_time"] = None
         self.collection.insert_one(data)
         log2(subreddit, conv.id, "Conversation LOGGED (added to DB)")
