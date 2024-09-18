@@ -36,8 +36,3 @@ class Config(object):
 
     DIALOGUE_UPDATE_INTERVAL = int(config['dialogue_update_interval'])
     UPDATE_CUTOFF = int(config['update_cutoff'])
-    # credentials for Qualtrics
-    QUALTRICS_TOKEN = config['qualtrics_token']
-    QUALTRICS_BASE_URL = config['qualtrics_base_url']
-    QUALTRICS_CONTACT_LIST_ID = config['qualtrics_contact_list_id']
-    QUALTRICS_SURVEY_ID = config['qualtrics_survey_id']
