@@ -5,7 +5,6 @@ class DbBotResponses:
         self.collection = collection
 
     def get(self, subreddit):
-        # fixme: temp version: cursor = self.responses.find(); list(cursor)[0]
         return self.collection.find_one({'subreddit': subreddit})
 
     def add_default(self, subreddit):

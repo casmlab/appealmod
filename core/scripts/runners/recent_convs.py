@@ -11,10 +11,6 @@ from core.scripts.trigger import should_trigger_reply
 
 
 def run_recent_convs():
-    """
-    Driver function
-    Add testing functions
-    """
     exception_flag = False
     # NOTE: Any conversation-specific logic should NOT be a part of this driver class
     # NOTE: Peripheral things such as logging the conversation should be a part of the driver class

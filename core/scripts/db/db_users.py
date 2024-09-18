@@ -17,7 +17,6 @@ class DbUsers:
         return self.collection.find({'subreddit': {'$in': conf.subreddits_ids}},
                                     batch_size=30)
 
-
     def update_conv_ids(self, conv, user):
         """
         Get all conv user has initiated so far -- the main conv id + any other conv ids present
