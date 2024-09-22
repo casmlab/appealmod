@@ -2,8 +2,8 @@ import praw
 
 from core.conf import conf
 from core.config import Config as config
-from core.scripts.db.db import db
 from core.scripts.logger import log_str, log2
+from mongo_db.db import db
 
 
 class RedditBot:

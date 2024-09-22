@@ -18,7 +18,7 @@ class MongoDBLogger(StreamHandler):
         except Exception as e:
             subreddit = None
 
-        from core.scripts.db.db import db
+        from mongo_db.db import db
 
         message = self.format(record)
         db.logs.add(message, subreddit, conversation_id)

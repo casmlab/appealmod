@@ -2,7 +2,7 @@ import praw
 from core.config import Config as config
 import time
 
-from core.scripts.db.db import db
+from mongo_db.db import db
 
 
 def get_admin_reddit():

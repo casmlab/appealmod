@@ -7,10 +7,10 @@ from pymongo.errors import CursorNotFound
 
 from core.conf import conf
 from core.config import Config as config
-from core.scripts.db.db import db
 from core.scripts.dialogue_bot import dialogue_bot
 from core.scripts.logger import log, log2
 from core.scripts.reddit_bot import reddit_bot
+from mongo_db.db import db
 
 
 def status_updates(user, conv):

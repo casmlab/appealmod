@@ -1,11 +1,11 @@
 from pymongo import MongoClient
 
 from core.config import Config as config
-from core.scripts.db.db_bot_responses import DbBotResponses
-from core.scripts.db.db_conversations import DbConversations
-from core.scripts.db.db_logs import DbLogs
-from core.scripts.db.db_subreddits import DbSubreddits
-from core.scripts.db.db_users import DbUsers
+from mongo_db.db_bot_responses import DbBotResponses
+from mongo_db.db_conversations import DbConversations
+from mongo_db.db_logs import DbLogs
+from mongo_db.db_subreddits import DbSubreddits
+from mongo_db.db_users import DbUsers
 
 
 class Database:
