@@ -7,9 +7,9 @@ from pymongo.errors import CursorNotFound
 
 from bot.conf import conf
 from bot.config import Config as config
-from bot.scripts.dialogue_bot import dialogue_bot
-from bot.scripts.logger import log, log2
-from bot.scripts.reddit_bot import reddit_bot
+from bot.src.dialogue_bot import dialogue_bot
+from bot.src.logger import log, log2
+from bot.src.reddit_bot import reddit_bot
 from mongo_db.db import db
 
 

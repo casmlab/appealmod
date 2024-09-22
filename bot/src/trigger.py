@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from prawcore.exceptions import Forbidden
 
-from bot.scripts.logger import log2
+from bot.src.logger import log2
 
 
 def contains_reason(conv):

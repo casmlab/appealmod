@@ -1,6 +1,6 @@
-from bot.scripts.form import add_form_entry, get_form_response
-from bot.scripts.logger import log, log2
-from bot.scripts.reddit_bot import reddit_bot
+from bot.src.form import add_form_entry, get_form_response
+from bot.src.logger import log, log2
+from bot.src.reddit_bot import reddit_bot
 from mongo_db.db import db
 
 

@@ -3,10 +3,10 @@ import traceback
 
 from prawcore.exceptions import ServerError, RequestException
 
-from bot.scripts.dialogue_bot import dialogue_bot
-from bot.scripts.logger import log, log2
-from bot.scripts.reddit_bot import reddit_bot
-from bot.scripts.trigger import should_trigger_reply
+from bot.src.dialogue_bot import dialogue_bot
+from bot.src.logger import log, log2
+from bot.src.reddit_bot import reddit_bot
+from bot.src.trigger import should_trigger_reply
 from mongo_db.db import db
 
 
