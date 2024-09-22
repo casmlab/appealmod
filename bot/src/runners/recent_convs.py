@@ -8,21 +8,28 @@ from bot.src.logger import log, log2
 from bot.src.reddit_bot import reddit_bot
 from bot.src.trigger import should_trigger_reply
 from mongo_db.db import db
+from utils.slack.decorator import slack
+from utils.slack.webhooks import slack_status
 
 
+@slack('recent_convs')
 def run_recent_convs():
     exception_flag = False
     # NOTE: Any conversation-specific logic should NOT be a part of this driver class
     # NOTE: Peripheral things such as logging the conversation should be a part of the driver class
 
-    log('Processing [R]ecently created conversations...')
+    msg = 'Processing [R]ecently created conversations...'
+    log(msg)
+    slack_status(msg)
     # consider all msgs not just appeals...
     while True:
         try:
             for conv in reddit_bot.get_conversations():
                 conv_id = conv.id
                 subreddit = str(conv.owner)
-                log(f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}', conv_id)
+                msg = f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}'
+                log(msg, conv_id)
+                slack_status(msg)
 
                 if should_trigger_reply(reddit_bot, conv, subreddit):
                     log2(subreddit, conv_id, "It's a ban appeal, OK")
@@ -32,17 +39,23 @@ def run_recent_convs():
                     if user['group'] == 1:  # treatment condition
                         log2(subreddit, conv_id, "It's treatment group, OK")
                         # offense = bot.get_user_ban_information(conv.participant.name, subreddit)
-                        log2(subreddit, conv_id, "Running dialogue flow...")
+                        msg = "Running dialogue flow..."
+                        log2(subreddit, conv_id, msg)
+                        slack_status(msg)
                         dialogue_bot.run(conv, user)
 
                     else:  # control condition
-                        log2(subreddit, conv_id, "It's control group, IGNORED")
+                        msg = "It's control group, IGNORED"
+                        log2(subreddit, conv_id, msg)
+                        slack_status(msg)
                         # log_user_data(conv, group)
 
                     if not db.conversations.find(conv.id):
                         db.conversations.add(conv, reddit_bot)
                 else:
-                    log2(subreddit, conv_id, "It's NOT a ban appeal, IGNORED")
+                    msg = "It's NOT a ban appeal, IGNORED"
+                    log2(subreddit, conv_id, msg)
+                    slack_status(msg)
 
         except (ServerError, RequestException) as e:
             error_message = traceback.format_exc()
