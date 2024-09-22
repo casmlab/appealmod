@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0008_alter_banappealdata_why_appealing_and_more'),
+        ('web', '0008_alter_banappealdata_why_appealing_and_more'),
     ]
 
     operations = [

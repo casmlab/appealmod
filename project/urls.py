@@ -17,10 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from main.views.debug import DebugView
-from main.views.form import FormAuthView, FormAuthErrorView, MainFormView, \
+from web.views.debug import DebugView
+from web.views.form import FormAuthView, FormAuthErrorView, MainFormView, \
     FormErrorView, FormThanksView
-from main.views.home import IndexView, SignUpView, SignUpSuccessView
+from web.views.home import IndexView, SignUpView, SignUpSuccessView
 
 urlpatterns = [
     path('admin/', admin.site.urls),

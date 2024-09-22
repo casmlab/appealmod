@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0004_banappealdata_updated_at'),
+        ('web', '0004_banappealdata_updated_at'),
     ]
 
     operations = [

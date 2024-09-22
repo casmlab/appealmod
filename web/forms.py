@@ -1,6 +1,6 @@
 from django import forms
 
-from main.models import SignUpData, BanAppealData
+from web.models import SignUpData, BanAppealData
 
 
 class SignUpForm(forms.ModelForm):

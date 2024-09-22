@@ -2,8 +2,8 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView, UpdateView
 
-from main.forms import BanAppealAuthForm, BanAppealMainForm
-from main.models import BanAppealData
+from web.forms import BanAppealAuthForm, BanAppealMainForm
+from web.models import BanAppealData
 
 
 class FormAuthView(FormView):

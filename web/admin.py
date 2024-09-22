@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from main.models import SignUpData, BanAppealData
+from web.models import SignUpData, BanAppealData
 
 
 @admin.register(SignUpData)
