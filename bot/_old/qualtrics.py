@@ -1,6 +1,6 @@
 import requests
-from bot.config import Config as config
-from bot.scripts.logger import log
+# from bot.config import Config as config
+# from bot.scripts.logger import log
 from bot._old.qualtricsMap import QualtricsMap as qm
 import traceback
 from urllib.parse import urlparse, parse_qs
