@@ -12,11 +12,11 @@ class DbConversations:
     def __init__(self, collection):
         self.collection = collection
 
-    def find(self, conv):
+    def find(self, conv_id):
         """
         Has conversation been logged?
         """
-        return self.collection.find_one({"id": conv.id})
+        return self.collection.find_one({"id": conv_id})
 
     def add(self, conv, bot):
         conv_data = sanitize(conv)
@@ -40,7 +40,7 @@ class DbConversations:
             data["ban_info"] = ban_info
         data["is_banned"] = "ban_info" in data
 
-        old_entry = self.find(conv)
+        old_entry = self.find(conv.id)
         if old_entry is not None:  # Need to update instead of adding new entry
             if old_entry.get("is_banned") and not data.get("is_banned"):
                 data["unbanned_time"] = datetime.now(EST)

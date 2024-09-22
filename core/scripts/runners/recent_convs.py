@@ -39,7 +39,7 @@ def run_recent_convs():
                         log2(subreddit, conv_id, "It's control group, IGNORED")
                         # log_user_data(conv, group)
 
-                    if not db.conversations.find(conv):
+                    if not db.conversations.find(conv.id):
                         db.conversations.add(conv, reddit_bot)
                 else:
                     log2(subreddit, conv_id, "It's NOT a ban appeal, IGNORED")
