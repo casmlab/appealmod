@@ -1,6 +1,6 @@
 from pymongo import MongoClient
-from core.config import Config as config
-from core.models.answer import Answer
+from bot.config import Config as config
+from bot.models.answer import Answer
 
 
 class Question:

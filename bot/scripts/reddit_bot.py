@@ -1,8 +1,8 @@
 import praw
 
-from core.conf import conf
-from core.config import Config as config
-from core.scripts.logger import log_str, log2
+from bot.conf import conf
+from bot.config import Config as config
+from bot.scripts.logger import log_str, log2
 from mongo_db.db import db
 
 

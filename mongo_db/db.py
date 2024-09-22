@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-from core.config import Config as config
+from bot.config import Config as config
 from mongo_db.db_bot_responses import DbBotResponses
 from mongo_db.db_conversations import DbConversations
 from mongo_db.db_logs import DbLogs

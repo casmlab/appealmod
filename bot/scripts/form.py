@@ -1,4 +1,4 @@
-import core.bin.django_bin  # to enable django support, # todo: remove from here
+import bot.bin.django_bin  # to enable django support, # todo: remove from here
 from web.models import BanAppealData
 
 

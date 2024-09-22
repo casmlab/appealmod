@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from core.config import Config as config
+from bot.config import Config as config
 
 
 class Answer:

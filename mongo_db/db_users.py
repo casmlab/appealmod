@@ -1,8 +1,8 @@
 from numpy.random import binomial
 
-from core.conf import conf
-from core.config import Config as config
-from core.scripts.logger import log2
+from bot.conf import conf
+from bot.config import Config as config
+from bot.scripts.logger import log2
 
 
 class DbUsers:

@@ -1,4 +1,4 @@
-from core.models.question import Question
+from bot.models.question import Question
 
 
 class Database:

@@ -1,5 +1,5 @@
 import praw
-from core.config import Config as config
+from bot.config import Config as config
 import time
 
 from mongo_db.db import db
