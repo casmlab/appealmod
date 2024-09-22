@@ -1,5 +1,5 @@
 import core.bin.django_bin  # to enable django support, # todo: remove from here
-from main.models import BanAppealData
+from web.models import BanAppealData
 
 
 def add_form_entry(reddit_username, subreddit):
