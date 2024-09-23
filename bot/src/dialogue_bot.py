@@ -64,7 +64,6 @@ class DialogueBot:
                                    ':name_badge: Form not found → ERROR'))
                     self.create_mod_note(conv, "I'm having trouble accessing user form responses",
                                          error=True)
-                    form_response = {}
 
                 elif form_response.filled():
                     log2(subreddit, conv.id, f"User `{username}`: Form filled, OK")

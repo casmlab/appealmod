@@ -70,8 +70,8 @@ def run_started_convs():
                         log2(subreddit, conv_id, 'User deleted account, IGNORED')
                         slack_status(sl('S', subreddit, conv_id,
                                         ':x: User deleted → IGNORE'))
-
                         continue
+
                     if 'last_conv_update' in user.keys() and (datetime.now(timezone.utc) - parser.parse(user['last_conv_update'])).days > config.UPDATE_CUTOFF:
                         log2(subreddit, conv_id, 'Passed time cutoff, IGNORED')  # will no longer be updated
                         slack_status(sl('S', subreddit, conv_id,

@@ -48,7 +48,8 @@ def run_recent_convs():
 
                     else:  # control condition
                         log2(subreddit, conv_id, "It's control group, IGNORED")
-                        slack_status(':heavy_multiplication_x: Control group → IGNORE')
+                        slack_status(sl('R', subreddit, conv_id,
+                                        ':heavy_multiplication_x: Control group → IGNORE'))
                         # log_user_data(conv, group)
 
                     if not db.conversations.find(conv.id):
