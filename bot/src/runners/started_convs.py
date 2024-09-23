@@ -39,9 +39,9 @@ def status_updates(user, conv):
 
 
 def run_started_convs():
+    time.sleep(60)  # wait while [R]ecent conversation processed first  # fixme: increase interval?
     log('Processing already [S]tarted conversations...')
     while True:
-        time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
         users = db.users.all()
         try:
             for j, user in enumerate(users):
@@ -85,8 +85,7 @@ def run_started_convs():
             log(f'It appears that the cursor has expired after {j} records, update will run again after the specified delay',
                 conv_id=conv_id)
 
-        # time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
-        # cursor.close()
+        time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
 
 
 if __name__ == "__main__":
