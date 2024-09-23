@@ -81,7 +81,14 @@ def run_started_convs():
                     updated_conversation = reddit_bot.reddit.subreddit(subreddit).modmail(conv_id)
                     update_flag = status_updates(user, updated_conversation)
 
-                    if user['group'] == 1 and update_flag:
+                    if user['group'] != 1:
+                        log2(subreddit, conv_id, "It's control group, IGNORED")
+                        slack_status(sl('S', subreddit, conv_id,
+                                        ':heavy_multiplication_x: Control group → IGNORE'))
+                    elif not update_flag:  # fixme: Implement check in another way?
+                        slack_status(sl('S', subreddit, conv_id,
+                                        ':x: User was deleted → IGNORE'))
+                    else:
                         log2(subreddit, conv_id, "Running dialogue flow...")
                         updated_conversation = reddit_bot.reddit.subreddit(subreddit).modmail(conv_id)
                         slack_status(sl('S', subreddit, conv_id,
