@@ -11,6 +11,9 @@ from bot.src.dialogue_bot import dialogue_bot
 from bot.src.logger import log, log2
 from bot.src.reddit_bot import reddit_bot
 from mongo_db.db import db
+from utils.slack.decorator import slack
+from utils.slack.styling import sl
+from utils.slack.webhooks import slack_status
 
 
 def status_updates(user, conv):
@@ -38,9 +41,12 @@ def status_updates(user, conv):
         return True
 
 
+@slack('started_convs')
 def run_started_convs():
     time.sleep(60)  # wait while [R]ecent conversation processed first  # fixme: increase interval?
     log('Processing already [S]tarted conversations...')
+    slack_status(':sparkle: Processing '
+                 ':arrows_counterclockwise: already *started* conversations')
     while True:
         users = db.users.all()
         try:
@@ -48,6 +54,8 @@ def run_started_convs():
                 conv_id = user["conv_id"]
                 subreddit = user.get("subreddit")
                 log(f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}', conv_id)
+                slack_status(sl('S', subreddit, conv_id,
+                                ':eight_pointed_black_star: *Processing...*'))
 
                 if not subreddit:
                     # fixme: perhaps we don't need it anymore
@@ -59,18 +67,25 @@ def run_started_convs():
                     continue
                 try:
                     if 'user_deleted' in user.keys() and user['user_deleted']:
-                        log2(subreddit, conv_id, 'User deleted account, SKIPPED')
+                        log2(subreddit, conv_id, 'User deleted account, IGNORED')
+                        slack_status(sl('S', subreddit, conv_id,
+                                        ':x: User deleted → IGNORE'))
+
                         continue
                     if 'last_conv_update' in user.keys() and (datetime.now(timezone.utc) - parser.parse(user['last_conv_update'])).days > config.UPDATE_CUTOFF:
-                        # log2(conv_id, 'passed the update cutoff, will no longer be updated')
+                        log2(subreddit, conv_id, 'Passed time cutoff, IGNORED')  # will no longer be updated
+                        slack_status(sl('S', subreddit, conv_id,
+                                        ':heavy_multiplication_x: Too old → IGNORE'))
                         continue
 
                     updated_conversation = reddit_bot.reddit.subreddit(subreddit).modmail(conv_id)
                     update_flag = status_updates(user, updated_conversation)
 
                     if user['group'] == 1 and update_flag:
-                        log2(subreddit, conv_id, "Dialogue updates")
+                        log2(subreddit, conv_id, "Running dialogue flow...")
                         updated_conversation = reddit_bot.reddit.subreddit(subreddit).modmail(conv_id)
+                        slack_status(sl('S', subreddit, conv_id,
+                                        ':speech_balloon: Running Dialog...'))
                         dialogue_bot.run(updated_conversation, user)
 
                 except Exception as e:
