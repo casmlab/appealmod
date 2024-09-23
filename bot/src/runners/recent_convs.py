@@ -31,7 +31,7 @@ def run_recent_convs():
                 subreddit = str(conv.owner)
                 log(f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}', conv_id)
                 slack_status(sl('R', subreddit, conv_id,
-                                ':eight_pointed_black_star: Processing...'))
+                                ':eight_pointed_black_star: *Processing...*'))
 
                 if should_trigger_reply(reddit_bot, conv, subreddit):
                     log2(subreddit, conv_id, "It's a ban appeal, OK")
@@ -47,9 +47,8 @@ def run_recent_convs():
                         dialogue_bot.run(conv, user)
 
                     else:  # control condition
-                        msg = "It's control group, IGNORED"
-                        log2(subreddit, conv_id, msg)
-                        slack_status(msg)
+                        log2(subreddit, conv_id, "It's control group, IGNORED")
+                        slack_status(':heavy_multiplication_x: Control group → IGNORE')
                         # log_user_data(conv, group)
 
                     if not db.conversations.find(conv.id):
@@ -57,7 +56,7 @@ def run_recent_convs():
                 else:
                     log2(subreddit, conv_id, "It's NOT a ban appeal, IGNORED")
                     slack_status(sl('R', subreddit, conv_id,
-                                    ':heavy_multiplication_x: Not appeal → IGNORE.'))
+                                    ':heavy_multiplication_x: Not appeal → IGNORE'))
 
         except (ServerError, RequestException) as e:
             error_message = traceback.format_exc()
