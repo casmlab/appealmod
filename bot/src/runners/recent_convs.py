@@ -9,6 +9,7 @@ from bot.src.reddit_bot import reddit_bot
 from bot.src.trigger import should_trigger_reply
 from mongo_db.db import db
 from utils.slack.decorator import slack
+from utils.slack.styling import sl
 from utils.slack.webhooks import slack_status
 
 
@@ -18,18 +19,19 @@ def run_recent_convs():
     # NOTE: Any conversation-specific logic should NOT be a part of this driver class
     # NOTE: Peripheral things such as logging the conversation should be a part of the driver class
 
-    msg = 'Processing [R]ecently created conversations...'
-    log(msg)
-    slack_status(msg)
-    # consider all msgs not just appeals...
+    log('Processing [R]ecently created conversations...')
+    slack_status(':sparkle: Processing '
+                 ':arrow_forward: *recently* created conversations')
+
+    # consider all msgs, not just appeals...
     while True:
         try:
             for conv in reddit_bot.get_conversations():
                 conv_id = conv.id
                 subreddit = str(conv.owner)
-                msg = f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}'
-                log(msg, conv_id)
-                slack_status(msg)
+                log(f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}', conv_id)
+                slack_status(sl('R', subreddit, conv_id,
+                                ':eight_pointed_black_star: Processing...'))
 
                 if should_trigger_reply(reddit_bot, conv, subreddit):
                     log2(subreddit, conv_id, "It's a ban appeal, OK")
@@ -39,9 +41,9 @@ def run_recent_convs():
                     if user['group'] == 1:  # treatment condition
                         log2(subreddit, conv_id, "It's treatment group, OK")
                         # offense = bot.get_user_ban_information(conv.participant.name, subreddit)
-                        msg = "Running dialogue flow..."
-                        log2(subreddit, conv_id, msg)
-                        slack_status(msg)
+                        log2(subreddit, conv_id, "Running dialogue flow...")
+                        slack_status(sl('R', subreddit, conv_id,
+                                        ':speech_balloon: Running Dialog...'))
                         dialogue_bot.run(conv, user)
 
                     else:  # control condition
@@ -53,9 +55,9 @@ def run_recent_convs():
                     if not db.conversations.find(conv.id):
                         db.conversations.add(conv, reddit_bot)
                 else:
-                    msg = "It's NOT a ban appeal, IGNORED"
-                    log2(subreddit, conv_id, msg)
-                    slack_status(msg)
+                    log2(subreddit, conv_id, "It's NOT a ban appeal, IGNORED")
+                    slack_status(sl('R', subreddit, conv_id,
+                                    ':heavy_multiplication_x: Not appeal → IGNORE.'))
 
         except (ServerError, RequestException) as e:
             error_message = traceback.format_exc()
