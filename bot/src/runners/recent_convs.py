@@ -9,6 +9,7 @@ from bot.src.reddit_bot import reddit_bot
 from bot.src.trigger import should_trigger_reply
 from mongo_db.db import db
 from utils.slack.decorator import slack
+from utils.slack.exceptions import slack_exception
 from utils.slack.styling import sl
 from utils.slack.webhooks import slack_status
 
@@ -63,6 +64,7 @@ def run_recent_convs():
             error_message = traceback.format_exc()
             log(error_message, conv_id)
             log(f'Received an exception from praw, retrying in 30 secs', conv_id)
+            slack_exception('recent_convs', e)
             time.sleep(300)  # try again after 5 mins...
 
 
