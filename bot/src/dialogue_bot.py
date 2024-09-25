@@ -20,6 +20,7 @@ class DialogueBot:
             slack_status(sl('D', subreddit, conv.id,
                             ':heavy_multiplication_x: Human involved → IGNORE'))
             db.users.update(conv, 'mod_involved', True)
+            db.users.update(conv, 'ignored', True)
         else:
             if not reddit_bot.have_we_replied(conv):
                 log2(subreddit, conv.id, f"User `{username}`: We haven't replied")
@@ -52,6 +53,7 @@ class DialogueBot:
                     log2(subreddit, conv.id, "Note already shared with mods, IGNORE")
                     slack_status(sl('D', subreddit, conv.id,
                                     ':heavy_multiplication_x: Note already shared → IGNORE'))
+                    db.users.update(conv, 'ignored', True)
                     return
 
                 log2(subreddit, conv.id, f"User `{username}`: Check if form filled")

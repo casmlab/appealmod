@@ -14,8 +14,10 @@ class DbUsers:
                                          "subreddit": subreddit})
 
     def all(self):
-        return self.collection.find({'subreddit': {'$in': conf.subreddits_ids}},
-                                    batch_size=30)
+        return self.collection.find({
+            'subreddit': {'$in': conf.subreddits_ids},
+            'ignored': False,
+        }, batch_size=30)
 
     def update_conv_ids(self, conv, user):
         """
@@ -86,6 +88,7 @@ class DbUsers:
             'note_shared': False,
             'mod_involved': False,
             'user_deleted': False,
+            'ignored': False,
         }
         self.collection.insert_one(user)
         log2(subreddit, conv.id, f'User `{username}`: Added to DB')
