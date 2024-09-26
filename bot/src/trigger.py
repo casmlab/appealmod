@@ -32,6 +32,10 @@ def should_trigger_reply(bot, conv, subreddit):
         log2(subreddit, conv_id, f'Pre-emptive ban by an anti-brigade bot, IGNORED')
         return False
 
+    elif conv.authors[-1].name == 'saferbot':  # another bot used in reddit
+        log2(subreddit, conv_id, f'Used saferbot already, IGNORED')
+        return False
+
     for author in conv.authors:
         try:
             if bot.is_user_banned_from_subreddit(author, subreddit):
