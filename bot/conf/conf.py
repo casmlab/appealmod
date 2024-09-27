@@ -1,7 +1,8 @@
 
 subreddits_ids = [
-    'umsiexperiments',
-    'appealmodtest',
+    # 'umsiexperiments',
+    # 'appealmodtest',
     # 'pics',
     # 'modabuse',
+    'offmychest',
 ]
