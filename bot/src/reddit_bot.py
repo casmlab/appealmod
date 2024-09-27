@@ -54,18 +54,21 @@ class RedditBot:
     def conversation_has_one_message(self, conversation):  # fixme: never used?
         return conversation.num_messages == 1
 
-    def reply_to_mod_mail_conversation(self, conversation, reply, mod_note=False,
+    def reply_to_mod_mail_conversation(self, conv, reply, mod_note=False,
                                        form_shared=False, update=True):
         """
         helper function to reply to a modmail conversation
         `mod_note`: should it be visible for user or not
         """
-        if not self.DEBUG:
-            conversation.reply(reply, internal=mod_note)
-            if update and mod_note:
-                db.users.update(conversation, 'note_shared', True)
-            elif update and form_shared:
-                db.users.update(conversation, 'form_shared', True)
+        if self.DEBUG:  # todo: as decorator @ignore_if_debug ?
+            return
+
+        conv.reply(reply, internal=mod_note)
+
+        if update and mod_note:
+            db.users.update(conv, 'note_shared', True)
+        elif update and form_shared:
+            db.users.update(conv, 'form_shared', True)
 
     def is_user_banned_from_subreddit(self, username, subreddit):
         """
@@ -88,15 +91,19 @@ class RedditBot:
         """
         helper function to archive a modmail conversation
         """
-        if not self.DEBUG:
-            conversation.archive()
+        if self.DEBUG:
+            return
+
+        conversation.archive()
 
     def unarchive_conversation(self, conversation):
         """
         helper function to unarchive a modmail conversation
         """
-        if not self.DEBUG:
-            conversation.unarchive()
+        if self.DEBUG:
+            return
+
+        conversation.unarchive()
 
     def is_replied(self, conversation):  # fixme: never used?
         """
