@@ -2,7 +2,7 @@ import praw
 
 from bot.conf import conf
 from bot.config import Config as config
-from bot.src.logger import log_str, log2
+from bot.src.logger import md_code, log2
 from mongo_db.db import db
 
 
@@ -69,7 +69,7 @@ class RedditBot:
 
         conv_id = conversation.id
         subreddit = str(conversation.owner)
-        log2(subreddit, conv_id, f"Replied with message: {log_str(reply)}")
+        log2(subreddit, conv_id, f"Replied with message: {md_code(reply)}")
 
     def is_user_banned_from_subreddit(self, username, subreddit):
         """

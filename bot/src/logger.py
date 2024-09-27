@@ -63,7 +63,7 @@ def log(message, conv_id=None, subreddit=None):
                                 'subreddit': subreddit})
 
 
-def log_str(text):
+def md_code(text):  # Markdown code block
     return f'\n```\n{text}\n```'
 
 
