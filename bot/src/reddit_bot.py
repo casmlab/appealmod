@@ -127,7 +127,7 @@ class RedditBot:
 
     def have_we_replied(self, conversation):
         """
-        check if our account (interactive-workflow) has replied to this modmail conversation
+        check if our bot account has replied to this modmail conversation
         """
         authors_name_set = set([x.name for x in conversation.authors])
         return config.REDDIT_USERNAME in authors_name_set
