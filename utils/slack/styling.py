@@ -18,7 +18,7 @@ def sl(job, subreddit, conv_id, text):
         'D': ':speech_balloon:',
     }[job]
 
-    return f'{job_icon} [{rlink(subreddit)} :: <{clink(conv_id)}]: {text}'
+    return f'{job_icon} [{rlink(subreddit)} :: {clink(conv_id)}]: {text}'
 
 
 def subreddits():
