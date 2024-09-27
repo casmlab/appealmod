@@ -57,11 +57,17 @@ def slack_steps(message, emoji=None):
     slack_hook('steps', message, emoji)
 
 
+def slack_status(message, emoji=None):
+    slack_hook('logging', message, emoji)
+    slack_hook('status', message, emoji)
+
+
 def slack_alert(message, emoji=None, send_status=True):
     slack_hook('logging', message, emoji)
     slack_hook('alerts', message, emoji)
     if send_status:
         slack_steps(message, emoji)
+        slack_status(message, emoji)
 
 
 def slack_error(message, emoji=None, send_status=True):
@@ -69,3 +75,4 @@ def slack_error(message, emoji=None, send_status=True):
     slack_hook('errors', message, emoji)
     if send_status:
         slack_steps(message, emoji)
+        slack_status(message, emoji)
