@@ -44,7 +44,7 @@ def status_updates(user, conv):
 
 @slack('started_convs')
 def run_started_convs():
-    time.sleep(60)  # wait while [R]ecent conversation processed first  # fixme: increase interval?
+    time.sleep(120)  # wait while [R]ecent conversation processed first
     log('Processing already [S]tarted conversations...')
     slack_steps(':sparkle: Processing '
                 ':arrows_counterclockwise: already *started* conversations for '
