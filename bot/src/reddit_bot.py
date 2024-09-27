@@ -2,7 +2,7 @@ import praw
 
 from bot.conf import conf
 from bot.config import Config as config
-from bot.src.logger import md_code, log2
+from bot.src.logger import md_code, log_conv
 from mongo_db.db import db
 
 
@@ -69,7 +69,7 @@ class RedditBot:
 
         conv_id = conversation.id
         subreddit = str(conversation.owner)
-        log2(subreddit, conv_id, f"Replied with message: {md_code(reply)}")
+        log_conv(subreddit, conv_id, f"Replied with message: {md_code(reply)}")
 
     def is_user_banned_from_subreddit(self, username, subreddit):
         """
@@ -96,7 +96,7 @@ class RedditBot:
             conversation.archive()
         conv_id = conversation.id
         subreddit = str(conversation.owner)
-        log2(subreddit, conv_id, "Conversation ARCHIVED")
+        log_conv(subreddit, conv_id, "Conversation ARCHIVED")
 
     def unarchive_conversation(self, conversation):
         """
@@ -106,7 +106,7 @@ class RedditBot:
             conversation.unarchive()
         conv_id = conversation.id
         subreddit = str(conversation.owner)
-        log2(subreddit, conv_id, "Conversation UNARCHIVED")
+        log_conv(subreddit, conv_id, "Conversation UNARCHIVED")
 
     def is_replied(self, conversation):  # fixme: never used?
         """

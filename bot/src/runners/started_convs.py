@@ -8,7 +8,7 @@ from pymongo.errors import CursorNotFound
 from bot.conf import conf
 from bot.config import Config as config
 from bot.src.dialogue_bot import dialogue_bot
-from bot.src.logger import log, log2
+from bot.src.logger import log, log_conv
 from bot.src.reddit_bot import reddit_bot
 from mongo_db.db import db
 from utils.slack.decorator import slack
@@ -19,7 +19,7 @@ from utils.slack.webhooks import slack_steps
 
 def status_updates(user, conv):
     subreddit = str(conv.owner)
-    log2(subreddit, user['conv_id'], "Status update")
+    log_conv(subreddit, user['conv_id'], "Status update")
     # values to update: last_conv_update, user_deleted, appeal_accept
     if conv.participant.name == '[deleted]':
         db.users.update(conv, 'user_deleted', True,
@@ -67,21 +67,21 @@ def run_started_convs():
 
                 if not subreddit:
                     # fixme: perhaps we don't need it anymore
-                    log2(subreddit, conv_id, 'No subreddit field found')
+                    log_conv(subreddit, conv_id, 'No subreddit field found')
                     continue
                 if subreddit not in conf.subreddits_ids:
                     # fixme: perhaps we don't need it anymore
-                    log2(subreddit, conv_id, f'Wrong subreddit (not in conf): "{subreddit}"')
+                    log_conv(subreddit, conv_id, f'Wrong subreddit (not in conf): "{subreddit}"')
                     continue
                 try:
                     if 'user_deleted' in user.keys() and user['user_deleted']:
-                        log2(subreddit, conv_id, 'User deleted account, IGNORED')
+                        log_conv(subreddit, conv_id, 'User deleted account, IGNORED')
                         slack_steps(sl('S', subreddit, conv_id,
                                        ':x: User deleted → IGNORE'))
                         continue
 
                     if 'last_conv_update' in user.keys() and (datetime.now(timezone.utc) - parser.parse(user['last_conv_update'])).days > config.UPDATE_CUTOFF:
-                        log2(subreddit, conv_id, 'Passed time cutoff, IGNORED')  # will no longer be updated
+                        log_conv(subreddit, conv_id, 'Passed time cutoff, IGNORED')  # will no longer be updated
                         slack_steps(sl('S', subreddit, conv_id,
                                        ':heavy_multiplication_x: Too old → IGNORE'))
                         continue
@@ -90,14 +90,14 @@ def run_started_convs():
                     update_flag = status_updates(user, updated_conversation)
 
                     if user['group'] != 1:
-                        log2(subreddit, conv_id, "It's control group, IGNORED")
+                        log_conv(subreddit, conv_id, "It's control group, IGNORED")
                         slack_steps(sl('S', subreddit, conv_id,
                                        ':heavy_multiplication_x: Control group → IGNORE'))
                     elif not update_flag:  # fixme: Implement check in another way?
                         slack_steps(sl('S', subreddit, conv_id,
                                        ':x: User was deleted → IGNORE'))
                     else:
-                        log2(subreddit, conv_id, "Running dialogue flow...")
+                        log_conv(subreddit, conv_id, "Running dialogue flow...")
                         updated_conversation = reddit_bot.reddit.subreddit(subreddit).modmail(conv_id)
                         slack_steps(sl('S', subreddit, conv_id,
                                        ':speech_balloon: Running Dialog...'))

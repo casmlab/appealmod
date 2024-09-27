@@ -67,5 +67,5 @@ def md_code(text):  # Markdown code block
     return f'\n```\n{text}\n```'
 
 
-def log2(subreddit, conv_id, message):
+def log_conv(subreddit, conv_id, message):  # Logging conversation related info
     log(f'  - `{subreddit}/{conv_id}`: {message}', conv_id, subreddit)

@@ -5,7 +5,7 @@ from prawcore.exceptions import ServerError, RequestException
 
 from bot.conf import conf
 from bot.src.dialogue_bot import dialogue_bot
-from bot.src.logger import log, log2
+from bot.src.logger import log, log_conv
 from bot.src.reddit_bot import reddit_bot
 from bot.src.trigger import should_trigger_reply
 from mongo_db.db import db
@@ -42,20 +42,20 @@ def run_recent_convs():
                                ':eight_pointed_black_star: *Processing...*'))
 
                 if should_trigger_reply(reddit_bot, conv, subreddit):
-                    log2(subreddit, conv_id, "It's a ban appeal, OK")
+                    log_conv(subreddit, conv_id, "It's a ban appeal, OK")
 
                     user = db.users.get_or_create(conv)
 
                     if user['group'] == 1:  # treatment condition
-                        log2(subreddit, conv_id, "It's treatment group, OK")
+                        log_conv(subreddit, conv_id, "It's treatment group, OK")
                         # offense = bot.get_user_ban_information(conv.participant.name, subreddit)
-                        log2(subreddit, conv_id, "Running dialogue flow...")
+                        log_conv(subreddit, conv_id, "Running dialogue flow...")
                         slack_steps(sl('R', subreddit, conv_id,
                                        ':speech_balloon: Running Dialog...'))
                         dialogue_bot.run(conv, user)
 
                     else:  # control condition
-                        log2(subreddit, conv_id, "It's control group, IGNORED")
+                        log_conv(subreddit, conv_id, "It's control group, IGNORED")
                         slack_steps(sl('R', subreddit, conv_id,
                                        ':heavy_multiplication_x: Control group → IGNORE'))
                         # log_user_data(conv, group)
@@ -63,7 +63,7 @@ def run_recent_convs():
                     if not db.conversations.find(conv.id):
                         db.conversations.add(conv, reddit_bot)
                 else:
-                    log2(subreddit, conv_id, "It's NOT a ban appeal, IGNORED")
+                    log_conv(subreddit, conv_id, "It's NOT a ban appeal, IGNORED")
                     slack_steps(sl('R', subreddit, conv_id,
                                    ':heavy_multiplication_x: Not appeal → IGNORE'))
 

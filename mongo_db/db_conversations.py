@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytz
 
-from bot.src.logger import log2
+from bot.src.logger import log_conv
 from mongo_db.utils.sanitizer import sanitize
 
 EST = pytz.timezone('US/Eastern')
@@ -47,10 +47,10 @@ class DbConversations:
             else:
                 data["unbanned_time"] = old_entry.get("unbanned_time")
             self.collection.update_one({"id": conv.id}, {"$set": data})
-            log2(subreddit, conv.id, "Conversation LOGGED (updated in DB)")
+            log_conv(subreddit, conv.id, "Conversation LOGGED (updated in DB)")
             return
 
         # Adding new entry:
         data["unbanned_time"] = None
         self.collection.insert_one(data)
-        log2(subreddit, conv.id, "Conversation LOGGED (added to DB)")
+        log_conv(subreddit, conv.id, "Conversation LOGGED (added to DB)")

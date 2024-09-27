@@ -2,7 +2,7 @@ from numpy.random import binomial
 
 from bot.conf import conf
 from bot.config import Config as config
-from bot.src.logger import log2
+from bot.src.logger import log_conv
 
 
 class DbUsers:
@@ -34,7 +34,7 @@ class DbUsers:
         other_conv_ids.append(conv.id)
         username = user['username']
         subreddit = str(conv.owner)
-        log2(subreddit, conv.id, f'New conv by same user `{username}`, updating model')
+        log_conv(subreddit, conv.id, f'New conv by same user `{username}`, updating model')
         self.update(conv, 'other_conv_ids', other_conv_ids)
 
     def update(self, conv, key, value, force_username=None):
@@ -43,7 +43,7 @@ class DbUsers:
 
         update = {key: value}
 
-        log2(subreddit, conv.id, f"User `{username}`: Updating data {update}")
+        log_conv(subreddit, conv.id, f"User `{username}`: Updating data {update}")
         self.collection.update_one({'username': username, 'subreddit': subreddit},
                                    {'$set': update})
 
@@ -54,7 +54,7 @@ class DbUsers:
         user = self.get(username, subreddit)
         if user:  # this is repeat user
             conv_id = conv.id
-            log2(subreddit, conv_id, f'User `{username}`: Found in DB')
+            log_conv(subreddit, conv_id, f'User `{username}`: Found in DB')
             # update conv ids if this is a new conversation
             self.update_conv_ids(conv, user)
             return user
@@ -92,5 +92,5 @@ class DbUsers:
             'ignored': False,
         }
         self.collection.insert_one(user)
-        log2(subreddit, conv.id, f'User `{username}`: Added to DB')
+        log_conv(subreddit, conv.id, f'User `{username}`: Added to DB')
         return user
