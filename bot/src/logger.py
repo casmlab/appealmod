@@ -71,6 +71,8 @@ def log(message, conv_id=None, subreddit=None):
 def md_code(text):  # Markdown code block
     return f'\n```\n{text}\n```'
 
+# todo: in `log_conv`: which job: [R]ecent_convs, [S]tarted_convs, [C]ommon_code
 
-def log_conv(subreddit, conv_id, message):  # Logging conversation related info
-    log(f'  - `{subreddit}/{conv_id}`: {message}', conv_id, subreddit)
+def log_conv(message):  # Logging conversation related info
+    log(f'  - `{L.subreddit}/{L.conv_id}`: {message}',
+        L.conv_id, L.subreddit)

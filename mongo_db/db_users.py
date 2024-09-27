@@ -40,7 +40,7 @@ class DbUsers:
 
         update = {key: value}
 
-        log_conv(subreddit, conv.id, f"User `{username}`: Updating data {update}")
+        log_conv(f"User `{username}`: Updating data {update}")
         self.collection.update_one({'username': username, 'subreddit': subreddit},
                                    {'$set': update})
 

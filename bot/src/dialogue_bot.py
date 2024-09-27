@@ -17,50 +17,50 @@ class DialogueBot:
         # this logic has moved to the trigger class. so we only get triggered if no human mod is involved.
         if reddit_bot.has_mod_been_involved(conv):
             # mod has been involved so ignore this conversation
-            log_conv(L.subreddit, L.conv_id, "Human mod involved, IGNORED")
+            log_conv("Human mod involved, IGNORED")
             slack_steps(sl('D', L.subreddit, L.conv_id,
                            ':heavy_multiplication_x: Human involved → IGNORE'))
             db.users.update(conv, 'mod_involved', True)
             db.users.update(conv, 'ignored', True)
         else:
             if not reddit_bot.have_we_replied(conv):
-                log_conv(L.subreddit, L.conv_id, f"User `{username}`: We haven't replied")
+                log_conv(f"User `{username}`: We haven't replied")
                 # we have not replied, so create a new contact and share form link
-                log_conv(L.subreddit, L.conv_id, f"User `{username}`: Creating form entry")
+                log_conv(f"User `{username}`: Creating form entry")
                 entry = add_form_entry(username, L.subreddit)
                 if not entry:
-                    log_conv(L.subreddit, L.conv_id, f"User `{username}`: Error creating form entry")
+                    log_conv(f"User `{username}`: Error creating form entry")
                     slack_error(sl('D', L.subreddit, L.conv_id,
                                    ':name_badge: Creating Form → ERROR'))
                     return
                 slack_steps(sl('D', L.subreddit, L.conv_id,
                                ':ballot_box_with_check: Form created'))
                 # provide the first response, and share the form link
-                log_conv(L.subreddit, L.conv_id, f"User `{username}`: Sharing form...")
+                log_conv(f"User `{username}`: Sharing form...")
                 reddit_bot.reply_to_mod_mail_conversation(conv,
                                                           bot_responses['initial'],
                                                           form_shared=True)
-                log_conv(L.subreddit, L.conv_id, f"Replied with message: {md_code(bot_responses['initial'])}")
+                log_conv(f"Replied with message: {md_code(bot_responses['initial'])}")
 
                 slack_steps(sl('D', L.subreddit, L.conv_id,
                                ':ballot_box_with_check: Form shared'))
                 reddit_bot.archive_conversation(conv)
-                log_conv(L.subreddit, L.conv_id, "Conversation ARCHIVED")
+                log_conv("Conversation ARCHIVED")
                 slack_steps(sl('D', L.subreddit, L.conv_id,
                                ':white_check_mark: Archived'))
                 # db.users.update(conv, 'form_shared', True)
 
             else:
-                log_conv(L.subreddit, L.conv_id, "Bot already replied, OK")
+                log_conv("Bot already replied, OK")
 
                 if user['note_shared']:
-                    log_conv(L.subreddit, L.conv_id, "Note already shared with mods, IGNORE")
+                    log_conv("Note already shared with mods, IGNORE")
                     slack_steps(sl('D', L.subreddit, L.conv_id,
                                    ':heavy_multiplication_x: Note already shared → IGNORE'))
                     db.users.update(conv, 'ignored', True)
                     return
 
-                log_conv(L.subreddit, L.conv_id, f"User `{username}`: Check if form filled")
+                log_conv(f"User `{username}`: Check if form filled")
                 form_response = get_form_response(username, L.subreddit)
 
                 if form_response is None:
@@ -72,20 +72,20 @@ class DialogueBot:
                                          error=True)
 
                 elif form_response.filled():
-                    log_conv(L.subreddit, L.conv_id, f"User `{username}`: Form filled, OK")
+                    log_conv(f"User `{username}`: Form filled, OK")
                     slack_steps(sl('D', L.subreddit, L.conv_id,
                                    ':ballot_box_with_check: Form was filled'))
                     # user has submitted the form
                     db.users.update(conv, 'form_filled', True)
                     reddit_bot.reply_to_mod_mail_conversation(conv, bot_responses['final'])
-                    log_conv(L.subreddit, L.conv_id, f"Replied with message: {md_code(bot_responses['final'])}")
+                    log_conv(f"Replied with message: {md_code(bot_responses['final'])}")
 
-                    log_conv(L.subreddit, L.conv_id, "Sending note for mods...")
+                    log_conv("Sending note for mods...")
                     self.create_mod_note(conv, form_response)
                     slack_steps(sl('D', L.subreddit, L.conv_id,
                                    ':ballot_box_with_check: Note shared'))
                     reddit_bot.unarchive_conversation(conv)
-                    log_conv(L.subreddit, L.conv_id, "Conversation UNARCHIVED")
+                    log_conv("Conversation UNARCHIVED")
                     slack_steps(sl('D', L.subreddit, L.conv_id,
                                    ':white_check_mark: Unarchived'))
 
@@ -94,18 +94,18 @@ class DialogueBot:
                                    ':radio_button: Form not filled yet'))
                     # user has not submitted any response yet
                     if reddit_bot.is_new_reply_from_user(conv):
-                        log_conv(L.subreddit, L.conv_id, "Form not filled, Reminding user...")
+                        log_conv("Form not filled, Reminding user...")
                         reddit_bot.reply_to_mod_mail_conversation(conv, bot_responses['reminder'])
-                        log_conv(L.subreddit, L.conv_id, f"Replied with message: {md_code(bot_responses['reminder'])}")
+                        log_conv(f"Replied with message: {md_code(bot_responses['reminder'])}")
 
                         slack_steps(sl('D', L.subreddit, L.conv_id,
                                        ':ballot_box_with_check: User reminded'))
                         reddit_bot.archive_conversation(conv)
-                        log_conv(L.subreddit, L.conv_id, "Conversation ARCHIVED")
+                        log_conv("Conversation ARCHIVED")
                         slack_steps(sl('D', L.subreddit, L.conv_id,
                                        ':white_check_mark: Archived'))
                     else:
-                        log_conv(L.subreddit, L.conv_id, "No response from user yet, DONE")
+                        log_conv("No response from user yet, DONE")
                         slack_steps(sl('D', L.subreddit, L.conv_id,
                                        ':ballot_box_with_check: Do nothing'))
 
@@ -118,7 +118,7 @@ class DialogueBot:
         if error:
             reddit_bot.reply_to_mod_mail_conversation(conv, form_response,
                                                       mod_note=True)
-            log_conv(L.subreddit, L.conv_id, f"Replied with message: {md_code(form_response)}")
+            log_conv(f"Replied with message: {md_code(form_response)}")
         else:
             # no cleaning takes place as of now
             self.clean_user_text(form_response)
@@ -134,7 +134,7 @@ class DialogueBot:
             if not print_flag:
                 reddit_bot.reply_to_mod_mail_conversation(conv, response_text,
                                                           mod_note=True)
-                log_conv(L.subreddit, L.conv_id, f"Replied with message: {md_code(response_text)}")
+                log_conv(f"Replied with message: {md_code(response_text)}")
             else:
                 with open('examples/mod-notes.txt', 'a') as outputfile:
                     output = conv.id + '\n' + response_text + '\n'

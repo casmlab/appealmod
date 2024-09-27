@@ -43,37 +43,37 @@ def run_recent_convs():
                                f':eight_pointed_black_star: *Start processing {clink(L.conv_id)}:*'))
 
                 if should_trigger_reply(conv):
-                    log_conv(L.subreddit, L.conv_id, "It's a ban appeal, OK")
+                    log_conv("It's a ban appeal, OK")
 
                     user, created = db.users.get_or_create(conv)
                     username = user['username']
                     if created:
-                        log_conv(L.subreddit, L.conv_id, f'User `{username}`: Added to DB')
+                        log_conv(f'User `{username}`: Added to DB')
                     else:
-                        log_conv(L.subreddit, L.conv_id, f'User `{username}`: Found in DB')
-                        log_conv(L.subreddit, L.conv_id, f'New conv by same user `{username}`, updating model')
+                        log_conv(f'User `{username}`: Found in DB')
+                        log_conv(f'New conv by same user `{username}`, updating model')
 
                     if user['group'] == 1:  # treatment condition
-                        log_conv(L.subreddit, L.conv_id, "It's treatment group, OK")
+                        log_conv("It's treatment group, OK")
                         # offense = bot.get_user_ban_information(conv.participant.name, L.subreddit)
-                        log_conv(L.subreddit, L.conv_id, "Running dialogue flow...")
+                        log_conv("Running dialogue flow...")
                         slack_steps(sl('R', L.subreddit, L.conv_id,
                                        ':speech_balloon: Running Dialog...'))
                         dialogue_bot.reply(conv, user)
 
                     else:  # control condition
-                        log_conv(L.subreddit, L.conv_id, "It's control group, IGNORED")
+                        log_conv("It's control group, IGNORED")
                         slack_steps(sl('R', L.subreddit, L.conv_id,
                                        ':heavy_multiplication_x: Control group → IGNORE'))
                         # log_user_data(conv, group)
 
                     if not db.conversations.find(conv.id):
                         if db.conversations.add(conv, reddit_bot):
-                            log_conv(L.subreddit, L.conv_id, "Conversation LOGGED (added to DB)")
+                            log_conv("Conversation LOGGED (added to DB)")
                         else:
-                            log_conv(L.subreddit, L.conv_id, "Conversation LOGGED (updated in DB)")
+                            log_conv("Conversation LOGGED (updated in DB)")
                 else:
-                    log_conv(L.subreddit, L.conv_id, "It's NOT a ban appeal, IGNORED")
+                    log_conv("It's NOT a ban appeal, IGNORED")
                     slack_steps(sl('R', L.subreddit, L.conv_id,
                                    ':heavy_multiplication_x: Not appeal → IGNORE'))
 

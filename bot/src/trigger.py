@@ -29,11 +29,11 @@ def should_trigger_reply(conv):
 
     # return conversation.num_messages < 2 and bot.isUserBannedFromSubreddit(conversation.author)
     if conv.authors[-1].name == 'ArchangelleN8theGr8':  # another bot used in reddit
-        log_conv(L.subreddit, L.conv_id, f'Pre-emptive ban by an anti-brigade bot, IGNORED')
+        log_conv(f'Pre-emptive ban by an anti-brigade bot, IGNORED')
         return False
 
     elif conv.authors[-1].name.lower() == 'saferbot':  # another bot used in reddit
-        log_conv(L.subreddit, L.conv_id, f'Used saferbot already, IGNORED')
+        log_conv(f'Used saferbot already, IGNORED')
         return False
 
     for author in conv.authors:
@@ -42,23 +42,23 @@ def should_trigger_reply(conv):
 
                 if 'temporarily banned' in conv.subject:
                     # ignore temp bans...
-                    log_conv(L.subreddit, L.conv_id, f'Is a temp ban, IGNORED')
+                    log_conv(f'Is a temp ban, IGNORED')
                     return False
 
                 elif reddit_bot.has_mod_been_involved(conv):
                     # mod has been involved so ignore this conversation
-                    log_conv(L.subreddit, L.conv_id, f"A human mod has been involved in this conversation {L.conv_id}, IGNORED")
+                    log_conv(f"A human mod has been involved in this conversation {L.conv_id}, IGNORED")
                     return False
 
                 elif not contains_reason(conv):
-                    log_conv(L.subreddit, L.conv_id, f"Ban with no reason, IGNORED")
+                    log_conv(f"Ban with no reason, IGNORED")
                     if not reddit_bot.have_we_replied(conv):
-                        log_conv(L.subreddit, L.conv_id, f"Writing a mod note: ban reason is missing")
+                        log_conv(f"Writing a mod note: ban reason is missing")
                         reply = 'Hi mods, it seems that the reason for ban is not available for this user so I will not engage with them.'
                         reddit_bot.reply_to_mod_mail_conversation(
                             conv, reply, mod_note=True, update=False
                         )
-                        log_conv(L.subreddit, L.conv_id, f"Replied with message: {md_code(reply)}")
+                        log_conv(f"Replied with message: {md_code(reply)}")
                     return False
 
                 else:
@@ -66,6 +66,6 @@ def should_trigger_reply(conv):
                     return True
 
         except Forbidden:
-            log_conv(L.subreddit, L.conv_id, f'Unable to get user ban status {author}')
+            log_conv(f'Unable to get user ban status {author}')
 
     return False
