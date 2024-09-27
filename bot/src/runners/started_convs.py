@@ -108,7 +108,6 @@ def run_started_convs():
                     error_message = traceback.format_exc()
                     log(error_message, conv_id=conv_id)
                     slack_exception('started_convs', e)
-                time.sleep(5)
 
         except CursorNotFound as e:
             error_message = traceback.format_exc()
