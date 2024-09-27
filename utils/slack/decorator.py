@@ -8,7 +8,7 @@ def slack(name):
             try:
                 result = func(*args, **kwargs)
             except Exception as e:
-                slack_exception(name, e)
+                slack_exception(name, e, only_alert=False)
                 raise
             return result
 
