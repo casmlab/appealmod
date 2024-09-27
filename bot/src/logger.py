@@ -58,6 +58,11 @@ def get_logger():
 logger = get_logger()
 
 
+class L:  # current logging "headers"
+    subreddit = '?'
+    conv_id = '?'
+
+
 def log(message, conv_id=None, subreddit=None):
     logger.info(message, extra={'conv_id': conv_id,
                                 'subreddit': subreddit})

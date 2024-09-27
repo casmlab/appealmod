@@ -8,7 +8,7 @@ from pymongo.errors import CursorNotFound
 from bot.conf import conf
 from bot.config import Config as config
 from bot.src.dialogue_bot import dialogue_bot
-from bot.src.logger import log, log_conv
+from bot.src.logger import log, log_conv, L
 from bot.src.reddit_bot import reddit_bot
 from mongo_db.db import db
 from utils.slack.decorator import slack
@@ -59,61 +59,62 @@ def run_started_convs():
         users = db.users.all()
         try:
             for j, user in enumerate(users):
-                conv_id = user["conv_id"]
-                subreddit = user.get("subreddit")
-                log(f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}', conv_id)
-                slack_steps(sl('S', subreddit, conv_id,
+                L.conv_id = user["conv_id"]
+                L.subreddit = user.get("subreddit")
+
+                log(f'*** `{L.subreddit}/{L.conv_id}` processing conversation... {"*" * 20}', L.conv_id)
+                slack_steps(sl('S', L.subreddit, L.conv_id,
                                ':eight_pointed_black_star: *Processing...*'))
 
-                if not subreddit:
+                if not L.subreddit:
                     # fixme: perhaps we don't need it anymore
-                    log_conv(subreddit, conv_id, 'No subreddit field found')
+                    log_conv(L.subreddit, L.conv_id, 'No subreddit field found')
                     continue
-                if subreddit not in conf.subreddits_ids:
+                if L.subreddit not in conf.subreddits_ids:
                     # fixme: perhaps we don't need it anymore
-                    log_conv(subreddit, conv_id, f'Wrong subreddit (not in conf): "{subreddit}"')
+                    log_conv(L.subreddit, L.conv_id, f'Wrong subreddit (not in conf): "{L.subreddit}"')
                     continue
                 try:
                     if 'user_deleted' in user.keys() and user['user_deleted']:
-                        log_conv(subreddit, conv_id, 'User deleted account, IGNORED')
-                        slack_steps(sl('S', subreddit, conv_id,
+                        log_conv(L.subreddit, L.conv_id, 'User deleted account, IGNORED')
+                        slack_steps(sl('S', L.subreddit, L.conv_id,
                                        ':x: User deleted → IGNORE'))
                         continue
 
                     if 'last_conv_update' in user.keys() and (datetime.now(timezone.utc) - parser.parse(user['last_conv_update'])).days > config.UPDATE_CUTOFF:
-                        log_conv(subreddit, conv_id, 'Passed time cutoff, IGNORED')  # will no longer be updated
-                        slack_steps(sl('S', subreddit, conv_id,
+                        log_conv(L.subreddit, L.conv_id, 'Passed time cutoff, IGNORED')  # will no longer be updated
+                        slack_steps(sl('S', L.subreddit, L.conv_id,
                                        ':heavy_multiplication_x: Too old → IGNORE'))
                         continue
 
-                    updated_conversation = reddit_bot.reddit.subreddit(subreddit).modmail(conv_id)
+                    updated_conversation = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
                     update_flag = status_updates(user, updated_conversation)
 
                     if user['group'] != 1:
-                        log_conv(subreddit, conv_id, "It's control group, IGNORED")
-                        slack_steps(sl('S', subreddit, conv_id,
+                        log_conv(L.subreddit, L.conv_id, "It's control group, IGNORED")
+                        slack_steps(sl('S', L.subreddit, L.conv_id,
                                        ':heavy_multiplication_x: Control group → IGNORE'))
                     elif not update_flag:  # fixme: Implement check in another way?
-                        slack_steps(sl('S', subreddit, conv_id,
+                        slack_steps(sl('S', L.subreddit, L.conv_id,
                                        ':x: User was deleted → IGNORE'))
                     else:
-                        log_conv(subreddit, conv_id, "Running dialogue flow...")
-                        updated_conversation = reddit_bot.reddit.subreddit(subreddit).modmail(conv_id)
-                        slack_steps(sl('S', subreddit, conv_id,
+                        log_conv(L.subreddit, L.conv_id, "Running dialogue flow...")
+                        updated_conversation = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
+                        slack_steps(sl('S', L.subreddit, L.conv_id,
                                        ':speech_balloon: Running Dialog...'))
                         dialogue_bot.run(updated_conversation, user)
 
                 except Exception as e:
                     # traceback.print_exc()
                     error_message = traceback.format_exc()
-                    log(error_message, conv_id=conv_id)
+                    log(error_message, conv_id=L.conv_id)
                     slack_exception('started_convs', e)
 
         except CursorNotFound as e:
             error_message = traceback.format_exc()
-            log(error_message, conv_id=conv_id)
+            log(error_message, conv_id=L.conv_id)
             log(f'It appears that the cursor has expired after {j} records, update will run again after the specified delay',
-                conv_id=conv_id)
+                conv_id=L.conv_id)
             slack_exception('started_convs', e)
 
         time.sleep(config.DIALOGUE_UPDATE_INTERVAL)

@@ -5,7 +5,7 @@ from prawcore.exceptions import ServerError, RequestException
 
 from bot.conf import conf
 from bot.src.dialogue_bot import dialogue_bot
-from bot.src.logger import log, log_conv
+from bot.src.logger import log, log_conv, L
 from bot.src.reddit_bot import reddit_bot
 from bot.src.trigger import should_trigger_reply
 from mongo_db.db import db
@@ -35,42 +35,43 @@ def run_recent_convs():
     while True:
         try:
             for conv in reddit_bot.get_conversations():
-                conv_id = conv.id
-                subreddit = str(conv.owner)
-                log(f'*** `{subreddit}/{conv_id}` processing conversation... {"*" * 20}', conv_id)
-                slack_steps(sl('R', subreddit, conv_id,
+                L.conv_id = conv.id
+                L.subreddit = str(conv.owner)
+
+                log(f'*** `{L.subreddit}/{L.conv_id}` processing conversation... {"*" * 20}', L.conv_id)
+                slack_steps(sl('R', L.subreddit, L.conv_id,
                                ':eight_pointed_black_star: *Processing...*'))
 
-                if should_trigger_reply(reddit_bot, conv, subreddit):
-                    log_conv(subreddit, conv_id, "It's a ban appeal, OK")
+                if should_trigger_reply(reddit_bot, conv, L.subreddit):
+                    log_conv(L.subreddit, L.conv_id, "It's a ban appeal, OK")
 
                     user = db.users.get_or_create(conv)
 
                     if user['group'] == 1:  # treatment condition
-                        log_conv(subreddit, conv_id, "It's treatment group, OK")
-                        # offense = bot.get_user_ban_information(conv.participant.name, subreddit)
-                        log_conv(subreddit, conv_id, "Running dialogue flow...")
-                        slack_steps(sl('R', subreddit, conv_id,
+                        log_conv(L.subreddit, L.conv_id, "It's treatment group, OK")
+                        # offense = bot.get_user_ban_information(conv.participant.name, L.subreddit)
+                        log_conv(L.subreddit, L.conv_id, "Running dialogue flow...")
+                        slack_steps(sl('R', L.subreddit, L.conv_id,
                                        ':speech_balloon: Running Dialog...'))
                         dialogue_bot.run(conv, user)
 
                     else:  # control condition
-                        log_conv(subreddit, conv_id, "It's control group, IGNORED")
-                        slack_steps(sl('R', subreddit, conv_id,
+                        log_conv(L.subreddit, L.conv_id, "It's control group, IGNORED")
+                        slack_steps(sl('R', L.subreddit, L.conv_id,
                                        ':heavy_multiplication_x: Control group → IGNORE'))
                         # log_user_data(conv, group)
 
                     if not db.conversations.find(conv.id):
                         db.conversations.add(conv, reddit_bot)
                 else:
-                    log_conv(subreddit, conv_id, "It's NOT a ban appeal, IGNORED")
-                    slack_steps(sl('R', subreddit, conv_id,
+                    log_conv(L.subreddit, L.conv_id, "It's NOT a ban appeal, IGNORED")
+                    slack_steps(sl('R', L.subreddit, L.conv_id,
                                    ':heavy_multiplication_x: Not appeal → IGNORE'))
 
         except (ServerError, RequestException) as e:
             error_message = traceback.format_exc()
-            log(error_message, conv_id)
-            log(f'Received an exception from praw, retrying in 30 secs', conv_id)
+            log(error_message, L.conv_id)
+            log(f'Received an exception from praw, retrying in 30 secs', L.conv_id)
             slack_exception('recent_convs', e)
             time.sleep(300)  # try again after 5 mins...
 
