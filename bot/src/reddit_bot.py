@@ -94,9 +94,6 @@ class RedditBot:
         """
         if not self.DEBUG:
             conversation.archive()
-        conv_id = conversation.id
-        subreddit = str(conversation.owner)
-        log_conv(subreddit, conv_id, "Conversation ARCHIVED")
 
     def unarchive_conversation(self, conversation):
         """
@@ -104,9 +101,6 @@ class RedditBot:
         """
         if not self.DEBUG:
             conversation.unarchive()
-        conv_id = conversation.id
-        subreddit = str(conversation.owner)
-        log_conv(subreddit, conv_id, "Conversation UNARCHIVED")
 
     def is_replied(self, conversation):  # fixme: never used?
         """

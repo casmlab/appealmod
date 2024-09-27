@@ -43,6 +43,7 @@ class DialogueBot:
                 slack_steps(sl('D', L.subreddit, L.conv_id,
                                ':ballot_box_with_check: Form shared'))
                 reddit_bot.archive_conversation(conv)
+                log_conv(L.subreddit, L.conv_id, "Conversation ARCHIVED")
                 slack_steps(sl('D', L.subreddit, L.conv_id,
                                ':white_check_mark: Archived'))
                 # db.users.update(conv, 'form_shared', True)
@@ -80,6 +81,7 @@ class DialogueBot:
                     slack_steps(sl('D', L.subreddit, L.conv_id,
                                    ':ballot_box_with_check: Note shared'))
                     reddit_bot.unarchive_conversation(conv)
+                    log_conv(L.subreddit, L.conv_id, "Conversation UNARCHIVED")
                     slack_steps(sl('D', L.subreddit, L.conv_id,
                                    ':white_check_mark: Unarchived'))
 
@@ -93,6 +95,7 @@ class DialogueBot:
                         slack_steps(sl('D', L.subreddit, L.conv_id,
                                        ':ballot_box_with_check: User reminded'))
                         reddit_bot.archive_conversation(conv)
+                        log_conv(L.subreddit, L.conv_id, "Conversation ARCHIVED")
                         slack_steps(sl('D', L.subreddit, L.conv_id,
                                        ':white_check_mark: Archived'))
                     else:
