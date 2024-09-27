@@ -50,6 +50,11 @@ def run_started_convs():
                  ':arrows_counterclockwise: already *started* conversations for '
                  f'[{subreddits()}]')
 
+    if not conf.subreddits_ids:
+        log('No subreddits configured, exiting...')
+        slack_status(':no_entry_sign: No subreddits configured, exiting...')
+        return
+
     while True:
         users = db.users.all()
         try:

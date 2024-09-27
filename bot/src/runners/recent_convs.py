@@ -26,6 +26,11 @@ def run_recent_convs():
                  ':arrow_forward: *recently* created conversations for '
                  f'[{subreddits()}]')
 
+    if not conf.subreddits_ids:
+        log('No subreddits configured, exiting...')
+        slack_status(':no_entry_sign: No subreddits configured, exiting...')
+        return
+
     # consider all msgs, not just appeals...
     while True:
         try:
