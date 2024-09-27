@@ -20,5 +20,6 @@ def sl(job, subreddit, conv_id, text):
 
     return f'{job_icon} [{rlink(subreddit)} :: <{clink(conv_id)}]: {text}'
 
-    return f'{job_icon} [<{subreddit_link}|{subreddit}> :: ' \
-           f'<{conv_link}|{conv_id}>]: {text}'
+
+def subreddits():
+    return {", ".join(rlink(subreddit) for subreddit in conf.subreddits_ids)}

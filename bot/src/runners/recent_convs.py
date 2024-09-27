@@ -3,6 +3,7 @@ import traceback
 
 from prawcore.exceptions import ServerError, RequestException
 
+from bot.conf import conf
 from bot.src.dialogue_bot import dialogue_bot
 from bot.src.logger import log, log2
 from bot.src.reddit_bot import reddit_bot
@@ -10,7 +11,7 @@ from bot.src.trigger import should_trigger_reply
 from mongo_db.db import db
 from utils.slack.decorator import slack
 from utils.slack.exceptions import slack_exception
-from utils.slack.styling import sl
+from utils.slack.styling import sl, subreddits
 from utils.slack.webhooks import slack_status
 
 
@@ -22,7 +23,8 @@ def run_recent_convs():
 
     log('Processing [R]ecently created conversations...')
     slack_status(':sparkle: Processing '
-                 ':arrow_forward: *recently* created conversations')
+                 ':arrow_forward: *recently* created conversations for '
+                 f'[{subreddits()}]')
 
     # consider all msgs, not just appeals...
     while True:

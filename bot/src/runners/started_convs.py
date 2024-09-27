@@ -13,7 +13,7 @@ from bot.src.reddit_bot import reddit_bot
 from mongo_db.db import db
 from utils.slack.decorator import slack
 from utils.slack.exceptions import slack_exception
-from utils.slack.styling import sl
+from utils.slack.styling import sl, subreddits
 from utils.slack.webhooks import slack_status
 
 
@@ -47,7 +47,9 @@ def run_started_convs():
     time.sleep(60)  # wait while [R]ecent conversation processed first  # fixme: increase interval?
     log('Processing already [S]tarted conversations...')
     slack_status(':sparkle: Processing '
-                 ':arrows_counterclockwise: already *started* conversations')
+                 ':arrows_counterclockwise: already *started* conversations for '
+                 f'[{subreddits()}]')
+
     while True:
         users = db.users.all()
         try:
