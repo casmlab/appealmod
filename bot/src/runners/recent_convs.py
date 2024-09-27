@@ -42,7 +42,7 @@ def run_recent_convs():
                 slack_steps(sl('R', L.subreddit, L.conv_id,
                                ':eight_pointed_black_star: *Processing...*'))
 
-                if should_trigger_reply(conv, L.subreddit):
+                if should_trigger_reply(conv):
                     log_conv(L.subreddit, L.conv_id, "It's a ban appeal, OK")
 
                     user = db.users.get_or_create(conv)
