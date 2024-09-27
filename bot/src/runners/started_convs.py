@@ -13,7 +13,7 @@ from bot.src.reddit_bot import reddit_bot
 from mongo_db.db import db
 from utils.slack.decorator import slack
 from utils.slack.exceptions import slack_exception
-from utils.slack.styling import sl, subreddits
+from utils.slack.styling import sl, subreddits, clink
 from utils.slack.webhooks import slack_steps
 
 
@@ -64,7 +64,7 @@ def run_started_convs():
 
                 log(f'*** `{L.subreddit}/{L.conv_id}` processing conversation... {"*" * 20}', L.conv_id)
                 slack_steps(sl('S', L.subreddit, L.conv_id,
-                               ':eight_pointed_black_star: *Processing...*'))
+                               f':eight_pointed_black_star: *Start processing {clink(L.conv_id)}:*'))
 
                 if not L.subreddit:
                     # fixme: perhaps we don't need it anymore

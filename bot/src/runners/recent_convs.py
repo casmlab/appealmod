@@ -11,7 +11,7 @@ from bot.src.trigger import should_trigger_reply
 from mongo_db.db import db
 from utils.slack.decorator import slack
 from utils.slack.exceptions import slack_exception
-from utils.slack.styling import sl, subreddits
+from utils.slack.styling import sl, subreddits, clink
 from utils.slack.webhooks import slack_steps
 
 
@@ -40,7 +40,7 @@ def run_recent_convs():
 
                 log(f'*** `{L.subreddit}/{L.conv_id}` processing conversation... {"*" * 20}', L.conv_id)
                 slack_steps(sl('R', L.subreddit, L.conv_id,
-                               ':eight_pointed_black_star: *Processing...*'))
+                               f':eight_pointed_black_star: *Start processing {clink(L.conv_id)}:*'))
 
                 if should_trigger_reply(conv):
                     log_conv(L.subreddit, L.conv_id, "It's a ban appeal, OK")
