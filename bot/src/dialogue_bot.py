@@ -1,5 +1,5 @@
 from bot.src.form import add_form_entry, get_form_response
-from bot.src.logger import log, log_conv, L
+from bot.src.logger import log, log_conv, L, md_code
 from bot.src.reddit_bot import reddit_bot
 from mongo_db.db import db
 from utils.slack.styling import sl
@@ -40,6 +40,8 @@ class DialogueBot:
                 reddit_bot.reply_to_mod_mail_conversation(conv,
                                                           bot_responses['initial'],
                                                           form_shared=True)
+                log_conv(L.subreddit, L.conv_id, f"Replied with message: {md_code(bot_responses['initial'])}")
+
                 slack_steps(sl('D', L.subreddit, L.conv_id,
                                ':ballot_box_with_check: Form shared'))
                 reddit_bot.archive_conversation(conv)
@@ -76,6 +78,8 @@ class DialogueBot:
                     # user has submitted the form
                     db.users.update(conv, 'form_filled', True)
                     reddit_bot.reply_to_mod_mail_conversation(conv, bot_responses['final'])
+                    log_conv(L.subreddit, L.conv_id, f"Replied with message: {md_code(bot_responses['final'])}")
+
                     log_conv(L.subreddit, L.conv_id, "Sending note for mods...")
                     self.create_mod_note(conv, form_response)
                     slack_steps(sl('D', L.subreddit, L.conv_id,
@@ -92,6 +96,8 @@ class DialogueBot:
                     if reddit_bot.is_new_reply_from_user(conv):
                         log_conv(L.subreddit, L.conv_id, "Form not filled, Reminding user...")
                         reddit_bot.reply_to_mod_mail_conversation(conv, bot_responses['reminder'])
+                        log_conv(L.subreddit, L.conv_id, f"Replied with message: {md_code(bot_responses['reminder'])}")
+
                         slack_steps(sl('D', L.subreddit, L.conv_id,
                                        ':ballot_box_with_check: User reminded'))
                         reddit_bot.archive_conversation(conv)
@@ -112,6 +118,7 @@ class DialogueBot:
         if error:
             reddit_bot.reply_to_mod_mail_conversation(conv, form_response,
                                                       mod_note=True)
+            log_conv(L.subreddit, L.conv_id, f"Replied with message: {md_code(form_response)}")
         else:
             # no cleaning takes place as of now
             self.clean_user_text(form_response)
@@ -127,6 +134,7 @@ class DialogueBot:
             if not print_flag:
                 reddit_bot.reply_to_mod_mail_conversation(conv, response_text,
                                                           mod_note=True)
+                log_conv(L.subreddit, L.conv_id, f"Replied with message: {md_code(response_text)}")
             else:
                 with open('examples/mod-notes.txt', 'a') as outputfile:
                     output = conv.id + '\n' + response_text + '\n'

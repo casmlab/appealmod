@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from prawcore.exceptions import Forbidden
 
-from bot.src.logger import log_conv, L
+from bot.src.logger import log_conv, L, md_code
 from bot.src.reddit_bot import reddit_bot
 
 
@@ -54,10 +54,11 @@ def should_trigger_reply(conv):
                     log_conv(L.subreddit, L.conv_id, f"Ban with no reason, IGNORED")
                     if not reddit_bot.have_we_replied(conv):
                         log_conv(L.subreddit, L.conv_id, f"Writing a mod note: ban reason is missing")
-                        response = 'Hi mods, it seems that the reason for ban is not available for this user so I will not engage with them.'
+                        reply = 'Hi mods, it seems that the reason for ban is not available for this user so I will not engage with them.'
                         reddit_bot.reply_to_mod_mail_conversation(
-                            conv, response, mod_note=True, update=False
+                            conv, reply, mod_note=True, update=False
                         )
+                        log_conv(L.subreddit, L.conv_id, f"Replied with message: {md_code(reply)}")
                     return False
 
                 else:

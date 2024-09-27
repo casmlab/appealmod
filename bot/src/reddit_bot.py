@@ -67,10 +67,6 @@ class RedditBot:
             elif update and form_shared:
                 db.users.update(conversation, 'form_shared', True)
 
-        conv_id = conversation.id
-        subreddit = str(conversation.owner)
-        log_conv(subreddit, conv_id, f"Replied with message: {md_code(reply)}")
-
     def is_user_banned_from_subreddit(self, username, subreddit):
         """
         returns true if a user is in a subreddit's ban list
