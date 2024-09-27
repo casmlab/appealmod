@@ -19,7 +19,7 @@ from utils.slack.webhooks import slack_steps
 
 def status_updates(user, conv):
     subreddit = str(conv.owner)
-    log_conv(subreddit, user['conv_id'], "Status update")
+
     # values to update: last_conv_update, user_deleted, appeal_accept
     if conv.participant.name == '[deleted]':
         db.users.update(conv, 'user_deleted', True,
@@ -88,6 +88,7 @@ def run_started_convs():
                         continue
 
                     updated_conversation = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
+                    log_conv(L.subreddit, L.conv_id, "Status update")
                     update_flag = status_updates(user, updated_conversation)
 
                     if user['group'] != 1:
