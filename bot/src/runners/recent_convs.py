@@ -45,7 +45,13 @@ def run_recent_convs():
                 if should_trigger_reply(conv):
                     log_conv(L.subreddit, L.conv_id, "It's a ban appeal, OK")
 
-                    user = db.users.get_or_create(conv)
+                    user, created = db.users.get_or_create(conv)
+                    username = user['username']
+                    if created:
+                        log_conv(L.subreddit, L.conv_id, f'User `{username}`: Added to DB')
+                    else:
+                        log_conv(L.subreddit, L.conv_id, f'User `{username}`: Found in DB')
+                        log_conv(L.subreddit, L.conv_id, f'New conv by same user `{username}`, updating model')
 
                     if user['group'] == 1:  # treatment condition
                         log_conv(L.subreddit, L.conv_id, "It's treatment group, OK")
@@ -62,7 +68,10 @@ def run_recent_convs():
                         # log_user_data(conv, group)
 
                     if not db.conversations.find(conv.id):
-                        db.conversations.add(conv, reddit_bot)
+                        if db.conversations.add(conv, reddit_bot):
+                            log_conv(L.subreddit, L.conv_id, "Conversation LOGGED (added to DB)")
+                        else:
+                            log_conv(L.subreddit, L.conv_id, "Conversation LOGGED (updated in DB)")
                 else:
                     log_conv(L.subreddit, L.conv_id, "It's NOT a ban appeal, IGNORED")
                     slack_steps(sl('R', L.subreddit, L.conv_id,

@@ -2,7 +2,6 @@ import praw
 
 from bot.conf import conf
 from bot.config import Config as config
-from bot.src.logger import md_code, log_conv
 from mongo_db.db import db
 
 

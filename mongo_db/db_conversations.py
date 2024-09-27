@@ -19,9 +19,12 @@ class DbConversations:
         return self.collection.find_one({"id": conv_id})
 
     def add(self, conv, bot):
+        """
+        Adding new conversation to DB
+        Returns True if added, False if already exists
+        """
         conv_data = sanitize(conv)
         message_data = [sanitize(m) for m in conv.messages]
-        subreddit = str(conv.owner)
 
         data = {
             "id": conv.id,
@@ -47,10 +50,9 @@ class DbConversations:
             else:
                 data["unbanned_time"] = old_entry.get("unbanned_time")
             self.collection.update_one({"id": conv.id}, {"$set": data})
-            log_conv(subreddit, conv.id, "Conversation LOGGED (updated in DB)")
-            return
+            return False
 
         # Adding new entry:
         data["unbanned_time"] = None
         self.collection.insert_one(data)
-        log_conv(subreddit, conv.id, "Conversation LOGGED (added to DB)")
+        return True

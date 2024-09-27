@@ -32,9 +32,6 @@ class DbUsers:
             return
 
         other_conv_ids.append(conv.id)
-        username = user['username']
-        subreddit = str(conv.owner)
-        log_conv(subreddit, conv.id, f'New conv by same user `{username}`, updating model')
         self.update(conv, 'other_conv_ids', other_conv_ids)
 
     def update(self, conv, key, value, force_username=None):
@@ -53,18 +50,15 @@ class DbUsers:
 
         user = self.get(username, subreddit)
         if user:  # this is repeat user
-            conv_id = conv.id
-            log_conv(subreddit, conv_id, f'User `{username}`: Found in DB')
             # update conv ids if this is a new conversation
             self.update_conv_ids(conv, user)
-            return user
+            return user, False
 
         else:
             # assign a new random group. 1 denotes treatment. 0 denotes control
             group = binomial(1, treatment_fraction)
-            # we log user data here.
-            user = self.add(conv, group)
-            return user
+            user = self.add(conv, group)  # we log user data here
+            return user, True
 
     def add(self, conv, group):
         username = conv.participant.name
@@ -92,5 +86,4 @@ class DbUsers:
             'ignored': False,
         }
         self.collection.insert_one(user)
-        log_conv(subreddit, conv.id, f'User `{username}`: Added to DB')
         return user
