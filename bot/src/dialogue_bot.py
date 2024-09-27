@@ -7,7 +7,7 @@ from utils.slack.webhooks import slack_steps, slack_error
 
 
 class DialogueBot:
-    def reply(self, conv, user_model):
+    def reply(self, conv, user):
         username = conv.participant.name
         L.conv_id = conv.id
         L.subreddit = str(conv.owner)
@@ -50,7 +50,7 @@ class DialogueBot:
             else:
                 log_conv(L.subreddit, L.conv_id, "Bot already replied, OK")
 
-                if user_model['note_shared']:
+                if user['note_shared']:
                     log_conv(L.subreddit, L.conv_id, "Note already shared with mods, IGNORE")
                     slack_steps(sl('D', L.subreddit, L.conv_id,
                                    ':heavy_multiplication_x: Note already shared → IGNORE'))
