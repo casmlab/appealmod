@@ -36,7 +36,7 @@ def slack_hook(chat, message, emoji=None):
 
     except (SSLError, requests.ConnectionError) as e:
         time.sleep(1)
-        slack_error(f'`slack`  *Error* (1): {e}', 'warning')
+        slack_alert(f'`slack`  *Error* (1): {e}', 'warning')
         time.sleep(1)
         try:
             requests.post(url, data=payload, headers=headers)
