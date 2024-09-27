@@ -16,6 +16,7 @@ class DbUsers:
     def all(self):
         return self.collection.find({
             'subreddit': {'$in': conf.subreddits_ids},
+            'group': 1,
             'ignored': False,
         }, batch_size=30)
 
