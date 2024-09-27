@@ -22,4 +22,4 @@ def sl(job, subreddit, conv_id, text):
 
 
 def subreddits():
-    return {", ".join(rlink(subreddit) for subreddit in conf.subreddits_ids)}
+    return ", ".join(rlink(subreddit) for subreddit in conf.subreddits_ids)
