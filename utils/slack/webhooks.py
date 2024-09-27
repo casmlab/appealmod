@@ -13,6 +13,7 @@ def slack_hook(chat, message, emoji=None):
 
     hooks = {
         'logging': conf.slack_hook_logging,
+        'steps': conf.slack_hook_steps,
         'status': conf.slack_hook_status,
         'alerts': conf.slack_hook_alerts,
         'errors': conf.slack_hook_errors,
@@ -53,7 +54,7 @@ def slack_logging(message, emoji=None):
 
 def slack_steps(message, emoji=None):
     slack_hook('logging', message, emoji)
-    slack_hook('status', message, emoji)
+    slack_hook('steps', message, emoji)
 
 
 def slack_alert(message, emoji=None, send_status=True):
