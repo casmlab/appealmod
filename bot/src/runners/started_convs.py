@@ -102,7 +102,7 @@ def run_started_convs():
                         updated_conversation = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
                         slack_steps(sl('S', L.subreddit, L.conv_id,
                                        ':speech_balloon: Running Dialog...'))
-                        dialogue_bot.run(updated_conversation, user)
+                        dialogue_bot.reply(updated_conversation, user)
 
                 except Exception as e:
                     # traceback.print_exc()

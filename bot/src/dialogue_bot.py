@@ -7,7 +7,7 @@ from utils.slack.webhooks import slack_steps, slack_error
 
 
 class DialogueBot:
-    def run(self, conv, user_model):
+    def reply(self, conv, user_model):
         username = conv.participant.name
         L.conv_id = conv.id
         L.subreddit = str(conv.owner)

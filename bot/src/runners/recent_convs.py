@@ -53,7 +53,7 @@ def run_recent_convs():
                         log_conv(L.subreddit, L.conv_id, "Running dialogue flow...")
                         slack_steps(sl('R', L.subreddit, L.conv_id,
                                        ':speech_balloon: Running Dialog...'))
-                        dialogue_bot.run(conv, user)
+                        dialogue_bot.reply(conv, user)
 
                     else:  # control condition
                         log_conv(L.subreddit, L.conv_id, "It's control group, IGNORED")
