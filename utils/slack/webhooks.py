@@ -4,7 +4,9 @@ import time
 import requests
 from requests.exceptions import SSLError
 
+from bot.src.logger import L
 from conf import conf
+from utils.slack.styling import sl
 
 
 def slack_hook(chat, message, emoji=None):
@@ -55,6 +57,10 @@ def slack_logging(message, emoji=None):
 def slack_steps(message, emoji=None):
     slack_hook('logging', message, emoji)
     slack_hook('steps', message, emoji)
+
+
+def slack_steps_conv(message):
+    slack_steps(sl(L.runner, L.subreddit, L.conv_id, message))
 
 
 def slack_status(message, emoji=None):
