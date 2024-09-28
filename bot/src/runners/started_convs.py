@@ -86,9 +86,9 @@ def run_started_convs():
                         slack_steps_conv(':heavy_multiplication_x: Too old → IGNORE')
                         continue
 
-                    updated_conversation = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
+                    conv = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
                     log_conv("Status update")
-                    update_flag = status_updates(user, updated_conversation)
+                    update_flag = status_updates(user, conv)
 
                     if user['group'] != 1:
                         log_conv("It's control group, IGNORED")
@@ -97,9 +97,9 @@ def run_started_convs():
                         slack_steps_conv(':x: User was deleted → IGNORE')
                     else:
                         log_conv("Running dialogue flow...")
-                        updated_conversation = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
+                        conv = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
                         slack_steps_conv(':speech_balloon: Running Dialog...')
-                        dialogue_bot.reply(updated_conversation, user)
+                        dialogue_bot.reply(conv, user)
 
                 except Exception as e:
                     # traceback.print_exc()
