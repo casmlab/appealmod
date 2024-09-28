@@ -48,8 +48,8 @@ def run_started_convs():
 
     L.runner = 'S'
     log('Processing already [S]tarted conversations...')
-    slack_steps(':sparkle: Processing '
-                ':arrows_counterclockwise: already *started* conversations for '
+    slack_steps(':sparkle: Run processing '
+                ':bust_in_silhouette: already *started* conversations for '
                 f'[{subreddits()}]')
 
     if not conf.subreddits_ids:

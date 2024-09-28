@@ -22,7 +22,7 @@ def run_recent_convs():
 
     L.runner = 'R'
     log('Processing [R]ecently created conversations...')
-    slack_steps(':sparkle: Processing '
+    slack_steps(':sparkle: Run processing '
                 ':arrow_forward: *recently* created conversations for '
                 f'[{subreddits()}]')
 
