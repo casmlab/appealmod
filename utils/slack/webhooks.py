@@ -4,7 +4,7 @@ import time
 import requests
 from requests.exceptions import SSLError
 
-from bot.src.logger import L
+from bot.src.logger.L import L
 from conf import conf
 from utils.slack.styling import sl
 

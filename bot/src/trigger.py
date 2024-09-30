@@ -1,7 +1,8 @@
 from bs4 import BeautifulSoup
 from prawcore.exceptions import Forbidden
 
-from bot.src.logger import log_conv, L, md_code
+from bot.src.logger.utils import md_code, log_conv
+from bot.src.logger.L import L
 from bot.src.reddit_bot import reddit_bot
 
 

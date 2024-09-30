@@ -8,7 +8,8 @@ from pymongo.errors import CursorNotFound
 from bot.conf import conf
 from bot.config import Config as config
 from bot.src.dialogue_bot import dialogue_bot
-from bot.src.logger import log, log_conv, L
+from bot.src.logger.utils import log, log_conv
+from bot.src.logger.L import L
 from bot.src.reddit_bot import reddit_bot
 from mongo_db.db import db
 from utils.slack.decorator import slack

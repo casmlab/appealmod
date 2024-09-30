@@ -2,7 +2,7 @@ from numpy.random import binomial
 
 from bot.conf import conf
 from bot.config import Config as config
-from bot.src.logger import log_conv
+from bot.src.logger.utils import log_conv
 
 
 class DbUsers:

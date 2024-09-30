@@ -5,7 +5,8 @@ from prawcore.exceptions import ServerError, RequestException
 
 from bot.conf import conf
 from bot.src.dialogue_bot import dialogue_bot
-from bot.src.logger import log, log_conv, L
+from bot.src.logger.utils import log, log_conv
+from bot.src.logger.L import L
 from bot.src.reddit_bot import reddit_bot
 from bot.src.trigger import should_trigger_reply
 from mongo_db.db import db

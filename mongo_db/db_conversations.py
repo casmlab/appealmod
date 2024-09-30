@@ -2,7 +2,6 @@ from datetime import datetime
 
 import pytz
 
-from bot.src.logger import log_conv
 from mongo_db.utils.sanitizer import sanitize
 
 EST = pytz.timezone('US/Eastern')

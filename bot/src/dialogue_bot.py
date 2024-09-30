@@ -1,5 +1,6 @@
 from bot.src.form import add_form_entry, get_form_response
-from bot.src.logger import log, log_conv, L, md_code
+from bot.src.logger.utils import log, md_code, log_conv
+from bot.src.logger.L import L
 from bot.src.reddit_bot import reddit_bot
 from mongo_db.db import db
 from utils.slack.styling import sl
