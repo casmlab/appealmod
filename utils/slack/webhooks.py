@@ -15,8 +15,8 @@ def slack_hook(chat, message, emoji=None):
 
     hooks = {
         'logging': conf.slack_hook_logging,
+        'main': conf.slack_hook_main,
         'steps': conf.slack_hook_steps,
-        'status': conf.slack_hook_status,
         'alerts': conf.slack_hook_alerts,
         'errors': conf.slack_hook_errors,
     }
@@ -63,9 +63,9 @@ def slack_steps_conv(message):
     slack_steps(sl(L.runner, L.subreddit, L.conv_id, message))
 
 
-def slack_status(message, emoji=None):
+def slack_main(message, emoji=None):
     slack_hook('logging', message, emoji)
-    slack_hook('status', message, emoji)
+    slack_hook('main', message, emoji)
 
 
 def slack_alert(message, emoji=None, send_status=True):
@@ -73,7 +73,7 @@ def slack_alert(message, emoji=None, send_status=True):
     slack_hook('alerts', message, emoji)
     if send_status:
         slack_steps(message, emoji)
-        slack_status(message, emoji)
+        slack_main(message, emoji)
 
 
 def slack_error(message, emoji=None, send_status=True):
@@ -81,4 +81,4 @@ def slack_error(message, emoji=None, send_status=True):
     slack_hook('errors', message, emoji)
     if send_status:
         slack_steps(message, emoji)
-        slack_status(message, emoji)
+        slack_main(message, emoji)

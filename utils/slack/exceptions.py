@@ -1,7 +1,7 @@
 import re
 import traceback
 
-from utils.slack.webhooks import slack_error, slack_steps, slack_alert, slack_status
+from utils.slack.webhooks import slack_error, slack_steps, slack_alert, slack_main
 
 
 def simplify_traceback(traceback_text):
@@ -40,4 +40,4 @@ def slack_exception(slug, e, message_suffix='', send_traceback=True,
     else:
         slack_error(full_message, 'warning', send_status=False)
     slack_steps(header, 'warning')
-    slack_status(header, 'warning')
+    slack_main(header, 'warning')
