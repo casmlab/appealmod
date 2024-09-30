@@ -4,7 +4,7 @@ from bot.src.logger.L import L
 from bot.src.reddit_bot import reddit_bot
 from mongo_db.db import db
 from utils.slack.styling import sl
-from utils.slack.webhooks import slack_steps_conv, slack_error
+from utils.slack.webhooks import slack_steps_conv, slack_error, slack_main_conv
 
 
 class DialogueBot:
@@ -20,6 +20,7 @@ class DialogueBot:
             # mod has been involved so ignore this conversation
             log_conv("Human mod involved, IGNORED")
             slack_steps_conv('✖️ Human involved → IGNORE')
+            slack_main_conv('✖️ Human involved → IGNORE')
             db.users.update(conv, 'mod_involved', True)
             db.users.update(conv, 'ignored', True)
         else:
@@ -45,6 +46,7 @@ class DialogueBot:
                 reddit_bot.archive_conversation(conv)
                 log_conv("Conversation ARCHIVED")
                 slack_steps_conv('✅ Archived')
+                slack_main_conv('✅ Form shared, Archived')
                 # db.users.update(conv, 'form_shared', True)
 
             else:
@@ -52,7 +54,8 @@ class DialogueBot:
 
                 if user['note_shared']:
                     log_conv("Note already shared with mods, IGNORE")
-                    slack_steps_conv(':heavy_multiplication_x: Note already shared → IGNORE')
+                    slack_steps_conv('✖️ Note already shared → IGNORE')
+                    slack_main_conv('✖️ Note already shared → IGNORE')
                     db.users.update(conv, 'ignored', True)
                     return
 
@@ -81,6 +84,7 @@ class DialogueBot:
                     reddit_bot.unarchive_conversation(conv)
                     log_conv("Conversation UNARCHIVED")
                     slack_steps_conv('✅ Unarchived')
+                    slack_main_conv('✅ Form filled, Note shared, Unarchived')
 
                 else:
                     slack_steps_conv('🔘 Form not filled yet')
@@ -94,6 +98,7 @@ class DialogueBot:
                         reddit_bot.archive_conversation(conv)
                         log_conv("Conversation ARCHIVED")
                         slack_steps_conv('✅ Archived')
+                        slack_main_conv('✅ Form not filled, User reminded, Archived')
                     else:
                         log_conv("No response from user yet, DONE")
                         slack_steps_conv('☑️ Do nothing')

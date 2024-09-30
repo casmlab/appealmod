@@ -65,6 +65,10 @@ def slack_steps_conv(message):
     slack_step(sl(L.runner, L.subreddit, L.conv_id, message))
 
 
+def slack_main_conv(message):
+    slack_main(sl(L.runner, L.subreddit, L.conv_id, message))
+
+
 def slack_alert(message, skip_other=False):
     slack_hook('alerts', message)
     slack_hook('logging', message)

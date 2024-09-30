@@ -13,7 +13,7 @@ from mongo_db.db import db
 from utils.slack.decorator import slack
 from utils.slack.exceptions import slack_exception
 from utils.slack.styling import sl, subreddits, clink
-from utils.slack.webhooks import slack_step, slack_steps_conv
+from utils.slack.webhooks import slack_step, slack_steps_conv, slack_main_conv
 
 
 @slack('recent_convs')
@@ -62,6 +62,7 @@ def run_recent_convs():
                     else:  # control condition
                         log_conv("It's control group, IGNORED")
                         slack_steps_conv('✖️ Control group → IGNORE')
+                        slack_main_conv('✖️ Control group → IGNORE')
                         # log_user_data(conv, group)
 
                     if not db.conversations.find(conv.id):
@@ -72,6 +73,7 @@ def run_recent_convs():
                 else:
                     log_conv("It's NOT a ban appeal, IGNORED")
                     slack_steps_conv('✖️ Not appeal → IGNORE')
+                    slack_main_conv('✖️ Not appeal → IGNORE')
 
         except (ServerError, RequestException) as e:
             error_message = traceback.format_exc()
