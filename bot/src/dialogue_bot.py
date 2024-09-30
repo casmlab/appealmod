@@ -19,7 +19,7 @@ class DialogueBot:
         if reddit_bot.has_mod_been_involved(conv):
             # mod has been involved so ignore this conversation
             log_conv("Human mod involved, IGNORED")
-            slack_steps_conv(':heavy_multiplication_x: Human involved → IGNORE')
+            slack_steps_conv('✖️ Human involved → IGNORE')
             db.users.update(conv, 'mod_involved', True)
             db.users.update(conv, 'ignored', True)
         else:
@@ -31,7 +31,7 @@ class DialogueBot:
                 if not entry:
                     log_conv(f"User `{username}`: Error creating form entry")
                     slack_error(sl('D', L.subreddit, L.conv_id,
-                                   ':name_badge: Creating Form → ERROR'))
+                                   '📛 Creating Form → ERROR'))
                     return
                 slack_steps_conv(':ballot_box_with_check: Form created')
                 # provide the first response, and share the form link
@@ -41,10 +41,10 @@ class DialogueBot:
                                                           form_shared=True)
                 log_conv(f"Replied with message: {md_code(bot_responses['initial'])}")
 
-                slack_steps_conv(':ballot_box_with_check: Form shared')
+                slack_steps_conv('☑️ Form shared')
                 reddit_bot.archive_conversation(conv)
                 log_conv("Conversation ARCHIVED")
-                slack_steps_conv(':white_check_mark: Archived')
+                slack_steps_conv('✅ Archived')
                 # db.users.update(conv, 'form_shared', True)
 
             else:
@@ -63,13 +63,13 @@ class DialogueBot:
                     # some error in collecting responses from qualtrics
                     log(f'Passing on the error via mod note', conv_id=L.conv_id)
                     slack_error(sl('D', L.subreddit, L.conv_id,
-                                   ':name_badge: Form not found → ERROR'))
+                                   '📛 Form not found → ERROR'))
                     self.create_mod_note(conv, "I'm having trouble accessing user form responses",
                                          error=True)
 
                 elif form_response.filled():
                     log_conv(f"User `{username}`: Form filled, OK")
-                    slack_steps_conv(':ballot_box_with_check: Form was filled')
+                    slack_steps_conv('☑️ Form was filled')
                     # user has submitted the form
                     db.users.update(conv, 'form_filled', True)
                     reddit_bot.reply_to_mod_mail_conversation(conv, bot_responses['final'])
@@ -77,26 +77,26 @@ class DialogueBot:
 
                     log_conv("Sending note for mods...")
                     self.create_mod_note(conv, form_response)
-                    slack_steps_conv(':ballot_box_with_check: Note shared')
+                    slack_steps_conv('☑️ Note shared')
                     reddit_bot.unarchive_conversation(conv)
                     log_conv("Conversation UNARCHIVED")
-                    slack_steps_conv(':white_check_mark: Unarchived')
+                    slack_steps_conv('✅ Unarchived')
 
                 else:
-                    slack_steps_conv(':radio_button: Form not filled yet')
+                    slack_steps_conv('🔘 Form not filled yet')
                     # user has not submitted any response yet
                     if reddit_bot.is_new_reply_from_user(conv):
                         log_conv("Form not filled, Reminding user...")
                         reddit_bot.reply_to_mod_mail_conversation(conv, bot_responses['reminder'])
                         log_conv(f"Replied with message: {md_code(bot_responses['reminder'])}")
 
-                        slack_steps_conv(':ballot_box_with_check: User reminded')
+                        slack_steps_conv('☑️ User reminded')
                         reddit_bot.archive_conversation(conv)
                         log_conv("Conversation ARCHIVED")
-                        slack_steps_conv(':white_check_mark: Archived')
+                        slack_steps_conv('✅ Archived')
                     else:
                         log_conv("No response from user yet, DONE")
-                        slack_steps_conv(':ballot_box_with_check: Do nothing')
+                        slack_steps_conv('☑️ Do nothing')
 
     def clean_user_text(self, user_response):
         pass

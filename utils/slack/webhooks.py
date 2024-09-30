@@ -36,13 +36,13 @@ def slack_hook(chat, message):
 
     except (SSLError, requests.ConnectionError) as e:
         time.sleep(1)
-        slack_alert(f':warning: `slack`  *Error* (1): {e}')
+        slack_alert(f'⚠️ `slack`  *Error* (1): {e}')
         time.sleep(1)
         try:
             requests.post(url, data=payload, headers=headers)
         except (SSLError, requests.ConnectionError) as e:
             time.sleep(1)
-            slack_error(f':no_entry: `slack`  *Error* (2): {e}')
+            slack_error(f'⛔ `slack`  *Error* (2): {e}')
             time.sleep(1)
             raise
 

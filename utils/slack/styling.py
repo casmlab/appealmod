@@ -12,10 +12,7 @@ def clink(conv_id):
 
 
 def conv_prefix(job, subreddit, conv_id):
-    job_icon = {
-        'R': ':arrow_forward:',
-        'S': ':bust_in_silhouette:',
-    }[job]
+    job_icon = {'R': '▶️', 'S': '👤'}[job]
 
     return f'{job_icon} [{rlink(subreddit)} / {clink(conv_id)}]:'
 

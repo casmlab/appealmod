@@ -49,13 +49,12 @@ def run_started_convs():
 
     L.runner = 'S'
     log('Processing already [S]tarted conversations...')
-    slack_step(':sparkle: Run processing '
-                ':bust_in_silhouette: already *started* conversations for '
-                f'[{subreddits()}]')
+    slack_step('❇️ Run processing 👤 already *started* conversations for '
+               f'[{subreddits()}]')
 
     if not conf.subreddits_ids:
         log('No subreddits configured, exiting...')
-        slack_step(':no_entry_sign: No subreddits configured, exiting...')
+        slack_step('🚫 No subreddits configured, exiting...')
         return
 
     while True:
@@ -66,7 +65,7 @@ def run_started_convs():
                 L.subreddit = user.get("subreddit")
 
                 log(f'*** `{L.subreddit}/{L.conv_id}` processing conversation... {"*" * 20}', L.conv_id)
-                slack_steps_conv(f':eight_pointed_black_star: *Start processing {clink(L.conv_id)}:*')
+                slack_steps_conv(f'✴️ *Start processing {clink(L.conv_id)}:*')
 
                 if not L.subreddit:
                     # fixme: perhaps we don't need it anymore
@@ -79,12 +78,12 @@ def run_started_convs():
                 try:
                     if 'user_deleted' in user.keys() and user['user_deleted']:
                         log_conv('User deleted account, IGNORED')
-                        slack_steps_conv(':x: User deleted → IGNORE')
+                        slack_steps_conv('❌ User deleted → IGNORE')
                         continue
 
                     if 'last_conv_update' in user.keys() and (datetime.now(timezone.utc) - parser.parse(user['last_conv_update'])).days > config.UPDATE_CUTOFF:
                         log_conv('Passed time cutoff, IGNORED')  # will no longer be updated
-                        slack_steps_conv(':heavy_multiplication_x: Too old → IGNORE')
+                        slack_steps_conv('✖️ Too old → IGNORE')
                         continue
 
                     conv = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
@@ -93,13 +92,13 @@ def run_started_convs():
 
                     if user['group'] != 1:
                         log_conv("It's control group, IGNORED")
-                        slack_steps_conv(':heavy_multiplication_x: Control group → IGNORE')
+                        slack_steps_conv('✖️ Control group → IGNORE')
                     elif not update_flag:  # fixme: Implement check in another way?
-                        slack_steps_conv(':x: User was deleted → IGNORE')
+                        slack_steps_conv('❌ User was deleted → IGNORE')
                     else:
                         log_conv("Running dialogue flow...")
                         conv = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
-                        slack_steps_conv(':speech_balloon: Running Dialog...')
+                        slack_steps_conv('💬 Running Dialog...')
                         dialogue_bot.reply(conv, user)
 
                 except Exception as e:

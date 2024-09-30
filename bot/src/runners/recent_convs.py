@@ -23,13 +23,12 @@ def run_recent_convs():
 
     L.runner = 'R'
     log('Processing [R]ecently created conversations...')
-    slack_step(':sparkle: Run processing '
-                ':arrow_forward: *recently* created conversations for '
-                f'[{subreddits()}]')
+    slack_step('❇️ Run processing ▶️ *[R]ecently* created conversations for '
+               f'[{subreddits()}]')
 
     if not conf.subreddits_ids:
         log('No subreddits configured, exiting...')
-        slack_step(':no_entry_sign: No subreddits configured, exiting...')
+        slack_step('🚫 No subreddits configured, exiting...')
         return
 
     # consider all msgs, not just appeals...
@@ -40,7 +39,7 @@ def run_recent_convs():
                 L.subreddit = str(conv.owner)
 
                 log(f'*** `{L.subreddit}/{L.conv_id}` processing conversation... {"*" * 20}', L.conv_id)
-                slack_steps_conv(f':eight_pointed_black_star: *Start processing {clink(L.conv_id)}:*')
+                slack_steps_conv(f'✴️ *Start processing {clink(L.conv_id)}:*')
 
                 if should_trigger_reply(conv):
                     log_conv("It's a ban appeal, OK")
@@ -57,12 +56,12 @@ def run_recent_convs():
                         log_conv("It's treatment group, OK")
                         # offense = bot.get_user_ban_information(conv.participant.name, L.subreddit)
                         log_conv("Running dialogue flow...")
-                        slack_steps_conv(':speech_balloon: Running Dialog...')
+                        slack_steps_conv('💬 Running Dialog...')
                         dialogue_bot.reply(conv, user)
 
                     else:  # control condition
                         log_conv("It's control group, IGNORED")
-                        slack_steps_conv(':heavy_multiplication_x: Control group → IGNORE')
+                        slack_steps_conv('✖️ Control group → IGNORE')
                         # log_user_data(conv, group)
 
                     if not db.conversations.find(conv.id):
@@ -72,7 +71,7 @@ def run_recent_convs():
                             log_conv("Conversation LOGGED (updated in DB)")
                 else:
                     log_conv("It's NOT a ban appeal, IGNORED")
-                    slack_steps_conv(':heavy_multiplication_x: Not appeal → IGNORE')
+                    slack_steps_conv('✖️ Not appeal → IGNORE')
 
         except (ServerError, RequestException) as e:
             error_message = traceback.format_exc()
