@@ -51,31 +51,37 @@ def slack_logging(message):
     slack_hook('logging', message)
 
 
-def slack_steps(message):
-    slack_hook('logging', message)
+def slack_steps(message, skip_logging=False):
     slack_hook('steps', message)
+
+    if not skip_logging:
+        slack_hook('logging', message)
 
 
 def slack_steps_conv(message):
     slack_steps(sl(L.runner, L.subreddit, L.conv_id, message))
 
 
-def slack_main(message):
-    slack_hook('logging', message)
+def slack_main(message, skip_logging=False):
     slack_hook('main', message)
 
+    if not skip_logging:
+        slack_hook('logging', message)
 
-def slack_alert(message, send_status=True):
-    slack_hook('logging', message)
+
+def slack_alert(message, skip_other=False):
     slack_hook('alerts', message)
-    if send_status:
-        slack_steps(message)
-        slack_main(message)
-
-
-def slack_error(message, send_status=True):
     slack_hook('logging', message)
+
+    if not skip_other:
+        slack_steps(message, skip_logging=True)
+        slack_main(message, skip_logging=True)
+
+
+def slack_error(message, skip_other=True):
     slack_hook('errors', message)
-    if send_status:
-        slack_steps(message)
-        slack_main(message)
+    slack_hook('logging', message)
+
+    if not skip_other:
+        slack_steps(message, skip_logging=True)
+        slack_main(message, skip_logging=True)

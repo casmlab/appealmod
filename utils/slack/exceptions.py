@@ -35,9 +35,11 @@ def slack_exception(slug, e, message_suffix='', send_traceback=True,
     traceback_text = simplify_traceback(traceback.format_exc().strip())
 
     full_message = f'{header}\n{traceback_text}' if send_traceback else header
+
     if only_alert:
-        slack_alert(full_message, send_status=False)
+        slack_alert(full_message, skip_other=True)
     else:
-        slack_error(full_message, send_status=False)
-    slack_steps(header)
-    slack_main(header)
+        slack_error(full_message, skip_other=True)
+
+    slack_steps(header, skip_logging=True)
+    slack_main(header, skip_logging=True)
