@@ -17,7 +17,7 @@ def sl(job, subreddit, conv_id, text):
         'S': ':bust_in_silhouette:',
     }[job]
 
-    return f'{job_icon} [{rlink(subreddit)} :: {clink(conv_id)}]: {text}'
+    return f'{job_icon} [{rlink(subreddit)} / {clink(conv_id)}]: {text}'
 
 
 def subreddits():
