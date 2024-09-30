@@ -5,7 +5,10 @@ from utils.slack.webhooks import slack_error, slack_steps, slack_alert, slack_ma
 
 
 def simplify_traceback(traceback_text):
-    # todo: replace paths
+    traceback_text = traceback_text.replace(
+        '  File "/usr/local/lib/python3.10/site-packages',
+        '  File "/🧩/<site-packages>/'
+    )
 
     traceback_text = traceback_text.replace(
         'Traceback (most recent call last):',
