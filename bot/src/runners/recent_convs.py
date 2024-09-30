@@ -13,7 +13,7 @@ from mongo_db.db import db
 from utils.slack.decorator import slack
 from utils.slack.exceptions import slack_exception
 from utils.slack.styling import sl, subreddits, clink
-from utils.slack.webhooks import slack_steps, slack_steps_conv
+from utils.slack.webhooks import slack_step, slack_steps_conv
 
 
 @slack('recent_convs')
@@ -23,13 +23,13 @@ def run_recent_convs():
 
     L.runner = 'R'
     log('Processing [R]ecently created conversations...')
-    slack_steps(':sparkle: Run processing '
+    slack_step(':sparkle: Run processing '
                 ':arrow_forward: *recently* created conversations for '
                 f'[{subreddits()}]')
 
     if not conf.subreddits_ids:
         log('No subreddits configured, exiting...')
-        slack_steps(':no_entry_sign: No subreddits configured, exiting...')
+        slack_step(':no_entry_sign: No subreddits configured, exiting...')
         return
 
     # consider all msgs, not just appeals...

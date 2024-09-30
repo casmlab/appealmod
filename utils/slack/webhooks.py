@@ -54,7 +54,7 @@ def slack_main(message, skip_logging=False):
         slack_hook('logging', message)
 
 
-def slack_steps(message, skip_logging=False):
+def slack_step(message, skip_logging=False):
     slack_hook('steps', message)
 
     if not skip_logging:
@@ -62,7 +62,7 @@ def slack_steps(message, skip_logging=False):
 
 
 def slack_steps_conv(message):
-    slack_steps(sl(L.runner, L.subreddit, L.conv_id, message))
+    slack_step(sl(L.runner, L.subreddit, L.conv_id, message))
 
 
 def slack_alert(message, skip_other=False):
@@ -70,7 +70,7 @@ def slack_alert(message, skip_other=False):
     slack_hook('logging', message)
 
     if not skip_other:
-        slack_steps(message, skip_logging=True)
+        slack_step(message, skip_logging=True)
         slack_main(message, skip_logging=True)
 
 
@@ -79,7 +79,7 @@ def slack_error(message, skip_other=True):
     slack_hook('logging', message)
 
     if not skip_other:
-        slack_steps(message, skip_logging=True)
+        slack_step(message, skip_logging=True)
         slack_main(message, skip_logging=True)
 
 
