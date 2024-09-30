@@ -14,11 +14,11 @@ def slack_hook(chat, message):
         return
 
     hooks = {
-        'logging': conf.slack_hook_logging,
         'main': conf.slack_hook_main,
         'steps': conf.slack_hook_steps,
         'alerts': conf.slack_hook_alerts,
         'errors': conf.slack_hook_errors,
+        'logging': conf.slack_hook_logging,
     }
     url = hooks[chat]
     if not url:
@@ -47,8 +47,11 @@ def slack_hook(chat, message):
             raise
 
 
-def slack_logging(message):
-    slack_hook('logging', message)
+def slack_main(message, skip_logging=False):
+    slack_hook('main', message)
+
+    if not skip_logging:
+        slack_hook('logging', message)
 
 
 def slack_steps(message, skip_logging=False):
@@ -60,13 +63,6 @@ def slack_steps(message, skip_logging=False):
 
 def slack_steps_conv(message):
     slack_steps(sl(L.runner, L.subreddit, L.conv_id, message))
-
-
-def slack_main(message, skip_logging=False):
-    slack_hook('main', message)
-
-    if not skip_logging:
-        slack_hook('logging', message)
 
 
 def slack_alert(message, skip_other=False):
@@ -85,3 +81,7 @@ def slack_error(message, skip_other=True):
     if not skip_other:
         slack_steps(message, skip_logging=True)
         slack_main(message, skip_logging=True)
+
+
+def slack_logging(message):
+    slack_hook('logging', message)
