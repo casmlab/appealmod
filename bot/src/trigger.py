@@ -23,14 +23,9 @@ def contains_reason(conv):
 
 
 def autoban_involved(author):
-    bans = list(reddit_bot.subreddit(L.subreddit).banned(user=author))
-    if not bans:
-        raise Exception(f'No ban found for "{author}" in "{L.subreddit}"')
-
-    ban_note = bans[0].note
-    if ban_note.startswith('Autoba'):
+    ban = reddit_bot.get_user_ban_information(author, L.subreddit)
+    if ban['note'].startswith('Autoba'):
         return True
-
     return False
 
 
