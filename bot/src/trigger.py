@@ -22,6 +22,18 @@ def contains_reason(conv):
         return True
 
 
+def autoban_involved(author):
+    bans = list(reddit_bot.subreddit(L.subreddit).banned(user=author))
+    if not bans:
+        raise Exception(f'No ban found for "{author}" in "{L.subreddit}"')
+
+    ban_note = bans[0].note
+    if ban_note.startswith('Autoba'):
+        return True
+
+    return False
+
+
 def should_trigger_reply(conv):
     """
     returns true if a conversation should trigger a reply
@@ -56,6 +68,17 @@ def should_trigger_reply(conv):
                     if not reddit_bot.have_we_replied(conv):
                         log_conv(f"Writing a mod note: ban reason is missing")
                         reply = 'Hi mods, it seems that the reason for ban is not available for this user so I will not engage with them.'
+                        reddit_bot.reply_to_mod_mail_conversation(
+                            conv, reply, mod_note=True, update=False
+                        )
+                        log_conv(f"Replied with message: {md_code(reply)}")
+                    return False
+
+                elif autoban_involved(author):
+                    log_conv(f'Ban note is "Autoban", IGNORED')
+                    if not reddit_bot.have_we_replied(conv):
+                        log_conv(f'Writing a mod note: ban note is "Autoban"')
+                        reply = 'Hi mods, it seems that the ban note contains "Autoban", so I will not participate further.'
                         reddit_bot.reply_to_mod_mail_conversation(
                             conv, reply, mod_note=True, update=False
                         )
