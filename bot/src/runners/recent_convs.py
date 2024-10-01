@@ -13,7 +13,7 @@ from mongo_db.db import db
 from utils.slack.decorator import slack
 from utils.slack.exceptions import slack_exception
 from utils.slack.styling import sl, subreddits, clink
-from utils.slack.webhooks import slack_step, slack_steps_conv, slack_main_conv
+from utils.slack.webhooks import slack_step, slack_steps_conv, slack_main
 
 
 @slack('recent_convs')
@@ -23,8 +23,10 @@ def run_recent_convs():
 
     L.runner = 'R'
     log('Processing [R]ecently created conversations...')
-    slack_step('❇️ Run processing ▶️ *[R]ecently* created conversations for '
-               f'[{subreddits()}]')
+    msg = '❇️ Run processing ▶️ *[R]ecently* created conversations for ' \
+          f'[{subreddits()}]'
+    slack_step(msg)
+    slack_main(msg)
 
     if not conf.subreddits_ids:
         log('No subreddits configured, exiting...')

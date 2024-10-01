@@ -15,7 +15,8 @@ from mongo_db.db import db
 from utils.slack.decorator import slack
 from utils.slack.exceptions import slack_exception
 from utils.slack.styling import subreddits, clink
-from utils.slack.webhooks import slack_step, slack_steps_conv, slack_main_conv
+from utils.slack.webhooks import slack_step, slack_steps_conv, slack_main_conv, \
+    slack_main
 
 
 def status_updates(user, conv):
@@ -49,8 +50,10 @@ def run_started_convs():
 
     L.runner = 'S'
     log('Processing already [S]tarted conversations...')
-    slack_step('❇️ Run processing 👤 already *started* conversations for '
-               f'[{subreddits()}]')
+    msg = '❇️ Run processing 👤 already *[S]tarted* conversations for ' \
+          f'[{subreddits()}]'
+    slack_step(msg)
+    slack_main(msg)
 
     if not conf.subreddits_ids:
         log('No subreddits configured, exiting...')
