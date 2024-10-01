@@ -55,7 +55,7 @@ class DialogueBot:
                 if user['note_shared']:
                     log_conv("Note already shared with mods, IGNORE")
                     slack_steps_conv('✖️ Note already shared → IGNORE')
-                    slack_main_conv('✖️ Note already shared → IGNORE')
+                    # slack_main_conv('✖️ Note already shared → IGNORE')
                     db.users.update(conv, 'ignored', True)
                     return
 

@@ -62,7 +62,7 @@ def run_recent_convs():
                     else:  # control condition
                         log_conv("It's control group, IGNORED")
                         slack_steps_conv('✖️ Control group → IGNORE')
-                        slack_main_conv('✖️ Control group → IGNORE')
+                        # slack_main_conv('✖️ Control group → IGNORE')  # todo: remove?
                         # log_user_data(conv, group)
 
                     if not db.conversations.find(conv.id):
@@ -73,7 +73,7 @@ def run_recent_convs():
                 else:
                     log_conv("It's NOT a ban appeal, IGNORED")
                     slack_steps_conv('✖️ Not appeal → IGNORE')
-                    slack_main_conv('✖️ Not appeal → IGNORE')
+                    # slack_main_conv('✖️ Not appeal → IGNORE')  # todo: remove?
 
         except (ServerError, RequestException) as e:
             error_message = traceback.format_exc()
