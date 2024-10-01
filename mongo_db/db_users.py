@@ -18,6 +18,7 @@ class DbUsers:
             'subreddit': {'$in': conf.subreddits_ids},
             'group': 1,
             'ignored': False,
+            'user_deleted': False,
         }, batch_size=30)
 
     def update_conv_ids(self, conv, user):

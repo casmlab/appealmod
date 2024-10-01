@@ -77,6 +77,7 @@ def run_started_convs():
                     continue
                 try:
                     if 'user_deleted' in user.keys() and user['user_deleted']:
+                        # fixme: this will never happen anymore (by filter out)
                         log_conv('User deleted account, IGNORED')
                         slack_steps_conv('❌ User deleted → IGNORE')
                         slack_main_conv('❌ User deleted → IGNORE')
