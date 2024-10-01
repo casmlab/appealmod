@@ -39,12 +39,12 @@ def should_trigger_reply(conv):
     # return conversation.num_messages < 2 and bot.isUserBannedFromSubreddit(conversation.author)
     if conv.authors[-1].name == 'ArchangelleN8theGr8':  # another bot used in reddit
         log_conv(f'Pre-emptive ban by an anti-brigade bot, IGNORED')
-        slack_steps_conv('✖️ Pre-emptive ban by an anti-brigade bot')
+        slack_steps_conv('❓ Pre-emptive ban by an anti-brigade bot')
         return False
 
     elif conv.authors[-1].name.lower() == 'saferbot':  # another bot used in reddit
         log_conv(f'Used saferbot already, IGNORED')
-        slack_steps_conv('✖️ Used saferbot already')
+        slack_steps_conv('❓ Used saferbot already')
         return False
 
     for author in conv.authors:
@@ -54,13 +54,13 @@ def should_trigger_reply(conv):
                 if 'temporarily banned' in conv.subject:
                     # ignore temp bans...
                     log_conv(f'Is a temp ban, IGNORED')
-                    slack_steps_conv('✖️ Temp ban')
+                    slack_steps_conv('❓ Temp ban')
                     return False
 
                 elif reddit_bot.has_mod_been_involved(conv):
                     # mod has been involved so ignore this conversation
                     log_conv(f"A human mod has been involved in this conversation {L.conv_id}, IGNORED")
-                    slack_steps_conv('✖️ Human involved')
+                    slack_steps_conv('❓ Human involved')
                     return False
 
                 elif not contains_reason(conv):
@@ -72,7 +72,7 @@ def should_trigger_reply(conv):
                             conv, reply, mod_note=True, update=False
                         )
                         log_conv(f"Replied with message: {md_code(reply)}")
-                    slack_steps_conv('✖️ Ban with no reason')
+                    slack_steps_conv('❓ Ban with no reason')
                     return False
 
                 elif autoban_involved(author):
@@ -84,7 +84,7 @@ def should_trigger_reply(conv):
                             conv, reply, mod_note=True, update=False
                         )
                         log_conv(f"Replied with message: {md_code(reply)}")
-                    slack_steps_conv('✖️ Ban note is "Autoban"')
+                    slack_steps_conv('❓ Ban note is "Autoban"')
                     return False
 
                 else:
@@ -93,6 +93,6 @@ def should_trigger_reply(conv):
 
         except Forbidden:
             log_conv(f'Unable to get user ban status {author}')
-            slack_alert_conv(f'✖️ Unable to get user ban status {author}')
+            slack_alert_conv(f'📛 Unable to get user ban status {author}')
 
     return False
