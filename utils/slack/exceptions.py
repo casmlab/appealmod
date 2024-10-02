@@ -32,13 +32,11 @@ def simplify_traceback(traceback_text):
     return traceback_text
 
 
-def slack_exception(slug, e, message_suffix='', send_traceback=True,
-                    only_alert=True):
+def slack_exception(slug, e, message_suffix='', only_alert=True):
     header = f'⚠️ `{slug}`  *{type(e).__name__}*: {e}  {message_suffix}'
     traceback_text = simplify_traceback(traceback.format_exc().strip())
 
-    full_message = f'{header}\n{traceback_text}' if send_traceback else header
-
+    full_message = f'{header}\n{traceback_text}'
     if only_alert:
         slack_alert(full_message, skip_other=True)
     else:
