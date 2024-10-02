@@ -2,7 +2,7 @@ from numpy.random import binomial
 
 from bot.conf import conf
 from bot.config import Config as config
-from bot.src.logger.utils import log_conv
+from bot.src.logger.L import L
 
 
 class DbUsers:
@@ -41,7 +41,7 @@ class DbUsers:
 
         update = {key: value}
 
-        log_conv(f"User `{username}`: Updating data {update}")
+        L.logging(f"User `{username}`: Updating data {update}")
         self.collection.update_one({'username': username, 'subreddit': subreddit},
                                    {'$set': update})
 

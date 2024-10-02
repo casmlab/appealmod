@@ -2,6 +2,7 @@ import praw
 
 from bot.conf import conf
 from bot.config import Config as config
+from bot.src.logger.L import L
 from mongo_db.db import db
 
 
@@ -63,6 +64,7 @@ class RedditBot:
             return
 
         conv.reply(reply, internal=mod_note)
+        L.logging(f"Replied with message:\n```\n{reply}\n```")
 
         if update and mod_note:
             db.users.update(conv, 'note_shared', True)
