@@ -114,8 +114,8 @@ Additionally, we have one Slack channel in the hidden CSMR (logging) workspace:
 ### Deployment to Production 
 
 There are two ways to deploy:
-* Push to the `main` branch
-* Manually run the script `restart_appealmod.sh` located in the root directory of our VM
+* Automatic: Push changes to the `main` branch that will trigger automated deployment
+* Manual: Run the script `restart_appealmod.sh` located in the root directory of our VM to run the deployment steps manually
 
 If something goes wrong during the deployment process, check the logfile at `/tmp/appealmod_build.log` 
 
