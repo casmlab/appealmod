@@ -11,14 +11,14 @@ def clink(conv_id):
     return f'<{conv_link}|{conv_id}>'
 
 
-def conv_prefix(job, subreddit, conv_id):
+def make_conv_prefix(job, subreddit, conv_id):
     job_icon = {'R': '▶️', 'S': '👤'}[job]
 
     return f'{job_icon} [{rlink(subreddit)} / {clink(conv_id)}]:'
 
 
 def sl(job, subreddit, conv_id, text):
-    return f'{conv_prefix(job, subreddit, conv_id)} {text}'
+    return f'{make_conv_prefix(job, subreddit, conv_id)} {text}'
 
 
 def subreddits():
