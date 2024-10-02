@@ -78,13 +78,14 @@ def run_started_convs():
                     raise Exception("Never should happen: we already excluded deleted")
 
                 try:
+                    conv = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
+
                     if 'last_conv_update' in user.keys() and (datetime.now(timezone.utc) - parser.parse(user['last_conv_update'])).days > config.UPDATE_CUTOFF:
                         log_conv('Passed time cutoff, IGNORED')  # will no longer be updated
                         slack_steps_conv('✖️ Too old → IGNORE')
                         slack_main_conv('✖️ Too old → IGNORE')
                         continue
 
-                    conv = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
                     log_conv("Status update")
                     update_flag = status_updates(user, conv)
 
