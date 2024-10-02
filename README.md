@@ -109,13 +109,22 @@ Additionally, we have one Slack channel in the hidden CSMR (logging) workspace:
 - **#ap-logging** — all logging messages
   - TODO: _not all logging is configured here yet_
 
+## Databases
+
+We use two databases: MongoDB (on cloud) and Postgres (local on VM). 
+
+MongoDB collections: TBD
+
+Postgres tables: TBD
+
+
 ## Prod Instance
 
 ### Deployment to Production 
 
 There are two ways to deploy:
-* Push to the `main` branch
-* Manually run the script `restart_appealmod.sh` located in the root directory of our VM
+* Automatic: Push changes to the `main` branch that will trigger automated deployment
+* Manual: Run the script `restart_appealmod.sh` located in the root directory of our VM to run the deployment steps manually
 
 If something goes wrong during the deployment process, check the logfile at `/tmp/appealmod_build.log` 
 
@@ -200,7 +209,7 @@ _(to be implemented in automated script later):_
    * Remove the user's form entry from PostgresDB
    * Authenticate as our bot and archive all conversations involving the testing user 
 2. Ensure the testing user has made a contribution to the testing subreddit
-3. Ban testing user (including a note/reason for the ban)
+3. Ban testing user (including a note/reason for the ban) -- you will need a second bot acount for this. 
 4. The testing user should reply to the "permanently banned" message
 5. Verify the bot processed the appeal correctly:
    * The user's entry was created in MongoDB
@@ -212,3 +221,5 @@ _(to be implemented in automated script later):_
    * The bot replied to the user
    * The bot sent a message to the moderators (including the user's form responses)
    * The bot unarchived the conversation
+
+For internal details on testing bots and subreddits, refer to this [link](https://docs.google.com/document/d/1Igjv3xUr1YVvtDiGQOg-1Ox0IdU5c9zJc-FgGSHPZvs/edit)
