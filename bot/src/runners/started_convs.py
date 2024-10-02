@@ -49,11 +49,7 @@ def run_started_convs():
     time.sleep(120)  # wait while [R]ecent conversation processed first
 
     L.runner = 'S'
-    log('Processing already [S]tarted conversations...')
-    msg = '❇️ Run processing 👤 already *[S]tarted* conversations for ' \
-          f'[{subreddits()}]'
-    slack_step(msg)
-    slack_main(msg)
+    L.run()
 
     if not conf.subreddits_ids:
         log('No subreddits configured, exiting...')

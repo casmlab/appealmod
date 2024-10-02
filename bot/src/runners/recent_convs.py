@@ -22,11 +22,7 @@ def run_recent_convs():
     # NOTE: Peripheral things such as logging the conversation should be a part of the driver class
 
     L.runner = 'R'
-    log('Processing [R]ecently created conversations...')
-    msg = '❇️ Run processing ▶️ *[R]ecently* created conversations for ' \
-          f'[{subreddits()}]'
-    slack_step(msg)
-    slack_main(msg)
+    L.run()
 
     if not conf.subreddits_ids:
         log('No subreddits configured, exiting...')
