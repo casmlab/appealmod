@@ -71,21 +71,13 @@ def run_started_convs():
                 slack_steps_conv(f'✴️ *Start processing {clink(L.conv_id)}:*')
 
                 if not L.subreddit:
-                    # fixme: perhaps we don't need it anymore
-                    log_conv('No subreddit field found')
-                    continue
+                    raise Exception("Never should happen: subreddit field is required")
                 if L.subreddit not in conf.subreddits_ids:
-                    # fixme: perhaps we don't need it anymore
-                    log_conv(f'Wrong subreddit (not in conf): "{L.subreddit}"')
-                    continue
-                try:
-                    if 'user_deleted' in user.keys() and user['user_deleted']:
-                        # fixme: this will never happen anymore (by filter out)
-                        log_conv('User deleted account, IGNORED')
-                        slack_steps_conv('❌ User deleted → IGNORE')
-                        slack_main_conv('❌ User deleted → IGNORE')
-                        continue
+                    raise Exception("Never should happen: we already filter by subreddit")
+                if 'user_deleted' in user.keys() and user['user_deleted']:
+                    raise Exception("Never should happen: we already excluded deleted")
 
+                try:
                     if 'last_conv_update' in user.keys() and (datetime.now(timezone.utc) - parser.parse(user['last_conv_update'])).days > config.UPDATE_CUTOFF:
                         log_conv('Passed time cutoff, IGNORED')  # will no longer be updated
                         slack_steps_conv('✖️ Too old → IGNORE')
