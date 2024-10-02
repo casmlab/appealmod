@@ -35,9 +35,7 @@ def run_recent_convs():
             for conv in reddit_bot.get_conversations():
                 L.conv_id = conv.id
                 L.subreddit = str(conv.owner)
-
-                log(f'*** `{L.subreddit}/{L.conv_id}` processing conversation... {"*" * 20}', L.conv_id)
-                slack_steps_conv(f'✴️ *Start processing {clink(L.conv_id)}:*')
+                L.conv()
 
                 if should_trigger_reply(conv):
                     log_conv("It's a ban appeal, OK")

@@ -62,9 +62,7 @@ def run_started_convs():
             for j, user in enumerate(users):
                 L.conv_id = user["conv_id"]
                 L.subreddit = user.get("subreddit")
-
-                log(f'*** `{L.subreddit}/{L.conv_id}` processing conversation... {"*" * 20}', L.conv_id)
-                slack_steps_conv(f'✴️ *Start processing {clink(L.conv_id)}:*')
+                L.conv()
 
                 if not L.subreddit:
                     raise Exception("Never should happen: subreddit field is required")
