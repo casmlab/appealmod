@@ -93,6 +93,8 @@ def run_started_convs():
                     L.logger(error_message)  # fixme: join with exception in L
                     slack_exception('started_convs', e)  # fixme
 
+                time.sleep(1)
+
         except CursorNotFound as e:
             error_message = traceback.format_exc()
             L.logger(error_message)  # fixme: join with exception in L

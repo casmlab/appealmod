@@ -62,6 +62,8 @@ def run_recent_convs():
                 else:
                     L.step('✖️ Not appeal → IGNORE')
 
+                time.sleep(1)
+
         except (ServerError, RequestException) as e:
             error_message = traceback.format_exc()
             L.logger(error_message)  # fixme: join with exception in L
