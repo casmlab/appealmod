@@ -4,9 +4,7 @@ import time
 import requests
 from requests.exceptions import SSLError
 
-from bot.src.logger.L import L
 from conf import conf
-from utils.slack.styling import sl
 
 
 def slack_hook(chat, message):
@@ -59,18 +57,6 @@ def slack_step(message, skip_logging=False):
 
     if not skip_logging:
         slack_hook('logging', message)
-
-
-def slack_steps_conv(message):
-    slack_step(sl(L.runner, L.subreddit, L.conv_id, message))
-
-
-def slack_main_conv(message):
-    slack_main(sl(L.runner, L.subreddit, L.conv_id, message))
-
-
-def slack_alert_conv(message):
-    slack_alert(sl(L.runner, L.subreddit, L.conv_id, message))
 
 
 def slack_alert(message, skip_other=False):
