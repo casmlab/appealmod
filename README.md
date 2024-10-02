@@ -109,6 +109,15 @@ Additionally, we have one Slack channel in the hidden CSMR (logging) workspace:
 - **#ap-logging** — all logging messages
   - TODO: _not all logging is configured here yet_
 
+## Databases
+
+We use two databases: MongoDB (on cloud) and Postgres (local on VM). 
+
+MongoDB collections: TBD
+
+Postgres tables: TBD
+
+
 ## Prod Instance
 
 ### Deployment to Production 
