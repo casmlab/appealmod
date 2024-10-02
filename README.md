@@ -113,9 +113,16 @@ Additionally, we have one Slack channel in the hidden CSMR (logging) workspace:
 
 We use two databases: MongoDB (on cloud) and Postgres (local on VM). 
 
-MongoDB collections: TBD
+MongoDB collections: 
+* `bot-responses` — Bot responses to send to the users
+* `conversation-logs` — All conversations that have been processed
+* `application-logs` — All logs from the bot
+* `subreddits_info` — All subreddits (never used)
+* `user-logs` — All users that have interacted with the bot
 
-Postgres tables: TBD
+Postgres tables: 
+* `main_sign_up_data` — Sign up form data
+* `main_ban_appeal_data` — Ban appeals form data
 
 
 ## Prod Instance
