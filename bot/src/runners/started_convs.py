@@ -12,7 +12,6 @@ from bot.src.logger.L import L
 from bot.src.reddit_bot import reddit_bot
 from mongo_db.db import db
 from utils.slack.decorator import slack
-from utils.slack.exceptions import slack_exception
 
 
 def status_updates(user, conv):
@@ -88,19 +87,14 @@ def run_started_convs():
                         dialogue_bot.reply(conv, user)
 
                 except Exception as e:
-                    # traceback.print_exc()
-                    error_message = traceback.format_exc()
-                    L.logger(error_message)  # fixme: join with exception in L
-                    slack_exception('started_convs', e)  # fixme
+                    L.exception(e)
 
                 time.sleep(1)
 
         except CursorNotFound as e:
-            error_message = traceback.format_exc()
-            L.logger(error_message)  # fixme: join with exception in L
-            L.logger(f'It appears that the cursor has expired after {j} records, '
-                     f'update will run again after the specified delay')
-            slack_exception('started_convs', e)  # fixme
+            L.alert(f'It appears that the cursor has expired after {j} records,'
+                    f' update will run again after the specified delay')
+            L.exception(e)
 
         time.sleep(config.DIALOGUE_UPDATE_INTERVAL)
 

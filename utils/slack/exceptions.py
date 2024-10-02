@@ -1,7 +1,4 @@
 import re
-import traceback
-
-from utils.slack.webhooks import slack_error, slack_step, slack_alert, slack_main
 
 
 def simplify_traceback(traceback_text):
@@ -30,17 +27,3 @@ def simplify_traceback(traceback_text):
     traceback_text = f'\n{traceback_text.strip()}'.replace('\n', '\n> ')
 
     return traceback_text
-
-
-def slack_exception(slug, e, message_suffix='', only_alert=True):
-    header = f'⚠️ `{slug}`  *{type(e).__name__}*: {e}  {message_suffix}'
-    traceback_text = simplify_traceback(traceback.format_exc().strip())
-
-    full_message = f'{header}\n{traceback_text}'
-    if only_alert:
-        slack_alert(full_message, skip_other=True)
-    else:
-        slack_error(full_message, skip_other=True)
-
-    slack_step(header, skip_logging=True)
-    slack_main(header, skip_logging=True)

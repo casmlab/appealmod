@@ -1,5 +1,8 @@
+import traceback
+
 from bot.conf import conf
 from bot.src.logger.logger import logger
+from utils.slack.exceptions import simplify_traceback
 from utils.slack.styling import make_conv_prefix, subreddits, clink
 from utils.slack.webhooks import slack_main, slack_step, slack_alert, \
     slack_error, slack_logging
@@ -72,6 +75,20 @@ class L:  # current logging "headers"
     @classmethod
     def logging(cls, message, conv_prefix=True, skip_logger=False):
         cls._log('logging', message, conv_prefix, skip_logger)
+
+    @classmethod
+    def exception(cls, e, message_suffix='', only_alert=True):
+        header = f'⚠️ {cls.job_icon()}  *{type(e).__name__}*: {e}  {message_suffix}'
+
+        traceback_text = simplify_traceback(traceback.format_exc().strip())
+        full_message = f'{header}\n{traceback_text}'
+        if only_alert:
+            slack_alert(full_message, skip_other=True)
+        else:
+            slack_error(full_message, skip_other=True)
+
+        slack_step(header, skip_logging=True)
+        slack_main(header, skip_logging=True)
 
     @classmethod
     def run(cls):
