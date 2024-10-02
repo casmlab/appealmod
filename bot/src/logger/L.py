@@ -15,7 +15,8 @@ class L:  # current logging "headers"
         return {'R': '▶️', 'S': '👤'}[cls.runner]
 
     @classmethod
-    def _log(cls, slack_channel, message, conv_prefix=True, skip_logger=False):
+    def _log(cls, slack_channel, message, conv_prefix=True, skip_logger=False,
+             skip_logging=False):
         if not skip_logger:
             cls.logger(message, conv_prefix)
 
@@ -25,13 +26,13 @@ class L:  # current logging "headers"
 
         match slack_channel:
             case 'main':
-                slack_main(message)
+                slack_main(message, skip_logging)
             case 'step':
-                slack_step(message)
+                slack_step(message, skip_logging)
             case 'alert':
-                slack_alert(message)
+                slack_alert(message, skip_logging)
             case 'error':
-                slack_error(message)
+                slack_error(message, skip_logging)
             case 'logging':
                 slack_logging(message)
             case _:
@@ -57,7 +58,8 @@ class L:  # current logging "headers"
         cls._log('step', message, conv_prefix, skip_logger)
 
         if main:
-            cls._log('main', message, conv_prefix, False)
+            cls._log('main', message, conv_prefix,
+                     skip_logger=True, skip_logging=True)
 
     @classmethod
     def alert(cls, message, conv_prefix=True, skip_logger=False):
