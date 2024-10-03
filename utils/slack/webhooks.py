@@ -79,3 +79,9 @@ def slack_error(message, skip_other=True):
 
 def slack_logging(message):
     slack_hook('logging', message)
+
+
+if __name__ == '__main__':
+    slack_step(""":no_entry_sign: I've *disabled* this channel for now because I've received such an error while sending a private message in Slack:
+> *Message not sent*
+> Your team isn't able to send messages right now. Review any apps or webhooks that may be sending a high-volume of messages. Learn more about message limits.""")

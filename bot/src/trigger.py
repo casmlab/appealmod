@@ -36,11 +36,11 @@ def should_trigger_reply(conv):
 
     # return conversation.num_messages < 2 and bot.isUserBannedFromSubreddit(conversation.author)
     if conv.authors[-1].name == 'ArchangelleN8theGr8':  # another bot used in reddit
-        L.step('🚫 Pre-emptive ban by an anti-brigade bot', main=True)
+        L.step('🚫 Pre-emptive ban by an anti-brigade bot')
         return False
 
     elif conv.authors[-1].name.lower() == 'saferbot':  # another bot used in reddit
-        L.step('🚫 Used saferbot already', main=True)
+        L.step('🚫 Used saferbot already')
         return False
 
     for author in conv.authors:
@@ -48,15 +48,15 @@ def should_trigger_reply(conv):
             if reddit_bot.is_user_banned_from_subreddit(author, L.subreddit):
 
                 if 'temporarily banned' in conv.subject:
-                    L.step('🚫 Temp ban', main=True)
+                    L.step('🚫 Temp ban')
                     return False
 
                 elif reddit_bot.has_mod_been_involved(conv):
-                    L.step('🚫 Human mod involved', main=True)
+                    L.step('🚫 Human mod involved')
                     return False
 
                 elif not contains_reason(conv):
-                    L.step('🚫 Ban with no reason', main=True)
+                    L.step('🚫 Ban with no reason')
 
                     if not reddit_bot.have_we_replied(conv):
                         L.logging(f"Writing a mod note: ban reason is missing")
@@ -68,7 +68,7 @@ def should_trigger_reply(conv):
                     return False
 
                 elif autoban_involved(author):
-                    L.step('🚫 Ban note is "Autoban"', main=True)
+                    L.step('🚫 Ban note is "Autoban"')
 
                     # if not reddit_bot.have_we_replied(conv):
                     #     L.logging(f'Writing a mod note: ban note is "Autoban"')
