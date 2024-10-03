@@ -70,13 +70,13 @@ def should_trigger_reply(conv):
                 elif autoban_involved(author):
                     L.step('🚫 Ban note is "Autoban"', main=True)
 
-                    if not reddit_bot.have_we_replied(conv):
-                        L.logging(f'Writing a mod note: ban note is "Autoban"')
-                        reply = 'Hi mods, it seems that the ban note contains "Autoban", ' \
-                                'so I will not participate further.'
-                        reddit_bot.reply_to_mod_mail_conversation(
-                            conv, reply, mod_note=True, update=False
-                        )
+                    # if not reddit_bot.have_we_replied(conv):
+                    #     L.logging(f'Writing a mod note: ban note is "Autoban"')
+                    #     reply = 'Hi mods, it seems that the ban note contains "Autoban", ' \
+                    #             'so I will not participate further.'
+                    #     reddit_bot.reply_to_mod_mail_conversation(
+                    #         conv, reply, mod_note=True, update=False
+                    #     )
 
                     return False
 
