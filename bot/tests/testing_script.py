@@ -7,17 +7,17 @@ from mongo_db.db import db
 
 def get_admin_reddit():
     return praw.Reddit(
-        client_id=config.CLIENT_ID,
-        client_secret=config.CLIENT_SECRET,
-        user_agent=config.USER_AGENT,
-        username=config.REDDIT_USERNAME,
-        password=config.REDDIT_PASSWORD,
+        client_id=config.TEST_ADMIN_CLIENT_ID,
+        client_secret=config.TEST_ADMIN_CLIENT_SECRET,
+        user_agent=config.TEST_ADMIN_USER_AGENT,
+        username=config.TEST_ADMIN_USERNAME,
+        password=config.TEST_ADMIN_PASSWORD,
     )
 
-# update username and subreddit accordingly.
-# TODO: create some config or console input to enter these values.
-username = 'TryOwn7908'
-subreddit = "umsiexperiments"
+
+username = config.TEST_USER_USERNAME
+# subreddit = "umsiexperiments"
+subreddit = "appealmodtest"
 
 
 def unban_user(username, subreddit):
@@ -40,13 +40,12 @@ def ban_user(username, subreddit):
 
 def get_user_reddit():
     # User details to send reply
-    # TODO: remove hardcoding
     return praw.Reddit(
-        username=username,
-        password='Sargam123',
-        client_id="dgvEH0n-lHFHvckN8d9JyQ",
-        client_secret="sLDy3I-F-ZaDDjtXpCzDwTUcKSYiVw",
-        user_agent=username,
+        username=config.TEST_USER_USERNAME,
+        password=config.TEST_USER_PASSWORD,
+        client_id=config.TEST_USER_CLIENT_ID,
+        client_secret=config.TEST_USER_CLIENT_SECRET,
+        user_agent=config.TEST_USER_USER_AGENT
     )
 
 
