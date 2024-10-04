@@ -27,7 +27,6 @@ class Config(object):
     BOT_CLIENT_SECRET = config['bot_client_secret']
     
     # Credentials for Test Admin Reddit user account
-    TEST_ADMIN_EMAIL = config['test_admin_email']
     TEST_ADMIN_USERNAME = config['test_admin_username']
     TEST_ADMIN_PASSWORD = config['test_admin_password']
     TEST_ADMIN_USER_AGENT = config['test_admin_user_agent']
@@ -35,7 +34,6 @@ class Config(object):
     TEST_ADMIN_CLIENT_SECRET = config['test_admin_client_secret']
 
     # Credentials for Test User Reddit user account
-    TEST_USER_EMAIL = config['test_user_email']
     TEST_USER_USERNAME = config['test_user_username']
     TEST_USER_PASSWORD = config['test_user_password']
     TEST_USER_USER_AGENT = config['test_user_user_agent']
