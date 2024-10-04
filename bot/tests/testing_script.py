@@ -1,7 +1,7 @@
 import praw
-from bot.config import Config as config
 import time
 
+from bot.config import Config as config
 from mongo_db.db import db
 
 
