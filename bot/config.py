@@ -19,12 +19,12 @@ class Config(object):
         config = yaml.load(y, Loader=yaml.FullLoader)
     
     # Credentials for Reddit user account
-    REDDIT_EMAIL = config['reddit_email']
-    REDDIT_USERNAME = config['reddit_username']
-    REDDIT_PASSWORD = config['reddit_password']
-    USER_AGENT = config['user_agent']
-    CLIENT_ID = config['client_id']
-    CLIENT_SECRET = config['client_secret']
+    BOT_EMAIL = config['bot_email']
+    BOT_USERNAME = config['bot_username']
+    BOT_PASSWORD = config['bot_password']
+    BOT_USER_AGENT = config['bot_user_agent']
+    BOT_CLIENT_ID = config['bot_client_id']
+    BOT_CLIENT_SECRET = config['bot_client_secret']
     
     # Credentials for Database connection
     # DB_USERNAME = config['db_username']

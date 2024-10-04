@@ -11,15 +11,15 @@ class RedditBot:
         """
         Authorize the reddit account with 'script' privileges
         """
-        # print(config.REDDIT_EMAIL)
+        # print(config.BOT_EMAIL)
         self.subreddits = subreddits
         self.last_read_conversation_id = None  # ToDo: read from database
         self.reddit = praw.Reddit(
-            client_id=config.CLIENT_ID,
-            client_secret=config.CLIENT_SECRET,
-            user_agent=config.USER_AGENT,
-            username=config.REDDIT_USERNAME,
-            password=config.REDDIT_PASSWORD,
+            client_id=config.BOT_CLIENT_ID,
+            client_secret=config.BOT_CLIENT_SECRET,
+            user_agent=config.BOT_USER_AGENT,
+            username=config.BOT_USERNAME,
+            password=config.BOT_PASSWORD,
         )
         self.DEBUG = debug
 
@@ -128,7 +128,7 @@ class RedditBot:
         check if our bot account has replied to this modmail conversation
         """
         authors_name_set = set([x.name for x in conversation.authors])
-        return config.REDDIT_USERNAME in authors_name_set
+        return config.BOT_USERNAME in authors_name_set
 
     def has_mod_been_involved(self, conversation):
         """
@@ -140,8 +140,8 @@ class RedditBot:
         participant_name = conversation.participant.name
         if participant_name in authors_name_set:
             authors_name_set.remove(participant_name)
-        if config.REDDIT_USERNAME in authors_name_set:
-            authors_name_set.remove(config.REDDIT_USERNAME)
+        if config.BOT_USERNAME in authors_name_set:
+            authors_name_set.remove(config.BOT_USERNAME)
         return len(authors_name_set) > 0
 
     def get_conversation_first_message_time(self, conversation):
@@ -149,7 +149,7 @@ class RedditBot:
         returns the timestamp of the first message in a conversation from our bot
         """
         for message in conversation.messages:
-            if message.author.name == config.REDDIT_USERNAME:
+            if message.author.name == config.BOT_USERNAME:
                 return message.date
         return None
 
