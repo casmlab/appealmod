@@ -60,11 +60,14 @@ def reply_on_ban_message(subreddit, messages):
     # Loop through messages
     for message in messages:
         # Check if the message is from a moderator and the message content matches what you're looking for
-        # print(message)
+        # print('#' * 80)
+        # print('-', message)
+        # print(message.body)
         # print(dir(message))
         # print(message.subreddit)
+        # print('*' * 80)
         if message.subreddit == subreddit and f"permanently banned from participating in r/{subreddit}" in message.body:
-            print(message)
+            print(message, 'ok')
             # Reply to the message
             reply_text = "Why i am Ban?."
             message.reply(reply_text)
