@@ -1,5 +1,4 @@
 import time
-import traceback
 from datetime import datetime, timezone
 
 from dateutil import parser
@@ -68,7 +67,10 @@ def run_started_convs():
                 try:
                     conv = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
 
-                    if 'last_conv_update' in user.keys() and (datetime.now(timezone.utc) - parser.parse(user['last_conv_update'])).days > config.UPDATE_CUTOFF:
+                    now = datetime.now(timezone.utc)
+                    last_updated = parser.parse(user['last_conv_update'])
+                    updated_delta = (now - last_updated).days
+                    if 'last_conv_update' in user.keys() and updated_delta > config.UPDATE_CUTOFF:
                         L.step('✖️ Too old → IGNORE', main=True)
                         db.users.update(conv, 'ignored', True)
                         continue
