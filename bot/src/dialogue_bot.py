@@ -15,7 +15,7 @@ class DialogueBot:
         # this logic has moved to the trigger class. so we only get triggered if no human mod is involved.
         if reddit_bot.has_mod_been_involved(conv):
             # mod has been involved so ignore this conversation
-            L.step('✖️ Human involved → IGNORE', main=True)
+            L.step('✖️ Human involved → IGNORE')
             db.users.update(conv, 'mod_involved', True)
             db.users.update(conv, 'ignored', True)
 
