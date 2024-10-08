@@ -119,6 +119,21 @@ class BanAppealData(models.Model):
             self.what_steps, self.allowed_comments,
         })
 
+    def to_json(self):
+        return {
+            'username': self.reddit_username,
+            'subreddit': self.subreddit,
+            'why_banned': self.why_banned,
+            'why_appealing': self.why_appealing,
+            'why_appealing_other': self.why_appealing_other,
+            'describe_rule': self.describe_rule,
+            'describe_actions': self.describe_actions,
+            'wrong_actions': self.wrong_actions,
+            'will_not_repeat': self.will_not_repeat,
+            'what_steps': self.what_steps,
+            'allowed_comments': self.allowed_comments,
+        }
+
     @classmethod
     def get_label(cls, name):
         return cls._meta.get_field(name).verbose_name
