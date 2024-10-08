@@ -53,6 +53,7 @@ def run_recent_convs():
                         L.step('✖️ Control group → IGNORE')
                         # log_user_data(conv, group)
 
+                    # fixme: Perhaps this `if` is redundant, because it avoids to run related `if` inside `.add()` func
                     if not db.conversations.find(conv.id):
                         if db.conversations.add(conv, reddit_bot):
                             L.logging("Conversation LOGGED (added to DB)")

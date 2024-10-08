@@ -93,6 +93,7 @@ class DialogueBot:
                         print_flag=False):
         # to pass on any kind of expected error to the mods, so they can report it to us.
         if error:
+            # todo: send "form_response.prettified" or ".json" instead?
             reddit_bot.reply_to_mod_mail_conversation(conv, form_response,
                                                       mod_note=True)
         else:
