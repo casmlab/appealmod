@@ -40,8 +40,8 @@ class BanAppealDataManager(models.Manager):
         if subreddit:
             subreddit = subreddit.lower()
         try:
-            return self.get(reddit_username=reddit_username,
-                            subreddit=subreddit)
+            return self.get(reddit_username__iexact=reddit_username,
+                            subreddit__iexact=subreddit)
         except self.model.DoesNotExist:
             return None
 
