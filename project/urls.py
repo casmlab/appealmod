@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from web.views.api.api_form import FormApiView
 from web.views.debug import DebugView
 from web.views.form import FormAuthView, FormAuthErrorView, MainFormView, \
     FormErrorView, FormThanksView
@@ -34,6 +35,8 @@ urlpatterns = [
     path('form/', MainFormView.as_view(), name='form'),
     path('form/error/', FormErrorView.as_view(), name='form-error'),
     path('form/thanks/', FormThanksView.as_view(), name='form-thanks'),
+
+    path('api/form/', FormApiView.as_view(), name='api-form'),
 
     path('debug/', DebugView.as_view(), name='debug'),
 ]
