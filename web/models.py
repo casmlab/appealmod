@@ -18,6 +18,8 @@ class SignUpData(models.Model):
 
 class BanAppealDataManager(models.Manager):
     def create(self, reddit_username, subreddit):
+        if not reddit_username or not subreddit:
+            return None
         if self.auth(reddit_username, subreddit):
             return None
         return super().create(reddit_username=reddit_username.lower(),
