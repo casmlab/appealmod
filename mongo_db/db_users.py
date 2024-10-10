@@ -13,7 +13,7 @@ class DbUsers:
         return self.collection.find_one({"username": username,
                                          "subreddit": subreddit})
 
-    def all(self):
+    def all(self):  # todo: rename this method? (because not all anymore)
         return self.collection.find({
             'subreddit': {'$in': conf.subreddits_ids},
             'group': 1,
