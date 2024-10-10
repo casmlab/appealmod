@@ -67,13 +67,15 @@ def run_started_convs():
                 try:
                     conv = reddit_bot.reddit.subreddit(L.subreddit).modmail(L.conv_id)
 
-                    now = datetime.now(timezone.utc)
-                    last_updated = parser.parse(user['last_conv_update'])
-                    updated_delta = (now - last_updated).days
-                    if 'last_conv_update' in user.keys() and updated_delta > config.UPDATE_CUTOFF:
-                        L.step('✖️ Too old → IGNORE', main=True)
-                        db.users.update(conv, 'ignored', True)
-                        continue
+                    if 'last_conv_update' in user.keys():
+                        now = datetime.now(timezone.utc)
+                        last_updated = parser.parse(user['last_conv_update'])
+                        updated_delta = (now - last_updated).days
+
+                        if updated_delta > config.UPDATE_CUTOFF:
+                            L.step('✖️ Too old → IGNORE', main=True)
+                            db.users.update(conv, 'ignored', True)
+                            continue
 
                     L.logging("Status update")
                     update_flag = status_updates(user, conv)
